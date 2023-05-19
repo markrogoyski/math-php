@@ -14,20 +14,20 @@ use MathPHP\Functions\Special;
  * part of the complex number.
  * https://en.wikipedia.org/wiki/Complex_number
  *
- * @property-read number $r
- * @property-read number $i
+ * @property-read int|float $r
+ * @property-read int|float $i
  */
 class Complex implements ObjectArithmetic
 {
     /**
      * Real part of the complex number
-     * @var number
+     * @var int|float
      */
     protected $r;
 
     /**
      * Imaginary part fo the complex number
-     * @var number
+     * @var int|float
      */
     protected $i;
 
@@ -84,7 +84,7 @@ class Complex implements ObjectArithmetic
      *
      * @param string $part
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\BadParameterException if something other than r or i is attempted
      */
@@ -124,7 +124,7 @@ class Complex implements ObjectArithmetic
      *        _______
      * |z| = √a² + b²
      *
-     * @return number
+     * @return int|float
      */
     public function abs()
     {
@@ -139,7 +139,7 @@ class Complex implements ObjectArithmetic
      * If z = a + bi
      * arg(z) = atan(b, a)
      *
-     * @return number
+     * @return int|float
      */
     public function arg()
     {
@@ -244,7 +244,7 @@ class Complex implements ObjectArithmetic
      *  r = |z|
      *  θ = arg(z) (in radians)
      *
-     * @return number[]
+     * @return int[]|float[]
      */
     public function polarForm(): array
     {
@@ -406,7 +406,6 @@ class Complex implements ObjectArithmetic
             return new Complex($new_r, $new_i);
         }
 
-        // @phpstan-ignore-next-line
         throw new Exception\IncorrectTypeException('Argument must be real or complex number');
     }
 

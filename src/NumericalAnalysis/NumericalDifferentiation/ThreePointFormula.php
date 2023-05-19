@@ -53,7 +53,7 @@ class ThreePointFormula extends NumericalDifferentiation
      *
      * @param float $target
      *      The value at which we are approximating the derivative
-     * @param callable|array<array{number, number}> $source
+     * @param callable|array<array{int|float, int|float}> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays. Each array
      *      (point) contains precisely two numbers, an x and y.

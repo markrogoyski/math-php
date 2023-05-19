@@ -120,7 +120,7 @@ class QR extends Decomposition
      *  - R⁻¹R = I, so we get x = R⁻¹Qᵀb
      * Solve x = R⁻¹Qᵀb
      *
-     * @param Vector|array<number> $b solution to Ax = b
+     * @param Vector|array<int|float> $b solution to Ax = b
      *
      * @return Vector x
      *
@@ -128,7 +128,7 @@ class QR extends Decomposition
      */
     public function solve($b): Vector
     {
-        // Input must be a Vector or array. @phpstan-ignore-next-line
+        // Input must be a Vector or array.
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }

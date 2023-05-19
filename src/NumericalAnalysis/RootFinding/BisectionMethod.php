@@ -31,7 +31,7 @@ class BisectionMethod
      * @param int|float $b        The end of the interval which contains a root
      * @param int|float $tol      Tolerance; How close to the actual solution we would like.
 
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadDataException

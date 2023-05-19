@@ -19,7 +19,7 @@ class LOESS extends NonParametricRegression
 
     /**
      * Smoothness parameter
-     * @var number
+     * @var int|float
      */
     protected $α;
 

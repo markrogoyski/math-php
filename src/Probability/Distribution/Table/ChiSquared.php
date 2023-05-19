@@ -312,7 +312,6 @@ class ChiSquared
      */
     public static function getChiSquareValue(int $df, float $p): float
     {
-        // @phpstan-ignore-next-line (Offset numeric-string on array<literal-string&non-falsy-string, float> in isset() does not exist.)
         if (isset(self::CHI_SQUARED_SCORES[$df][\sprintf('%1.3f', $p)])) {
             return self::CHI_SQUARED_SCORES[$df][\sprintf('%1.3f', $p)];
         }

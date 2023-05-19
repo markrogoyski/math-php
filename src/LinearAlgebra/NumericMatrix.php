@@ -10,7 +10,7 @@ use MathPHP\LinearAlgebra\Reduction;
 /**
  * m x n Matrix
  *
- * @extends Matrix<number>
+ * @extends Matrix<int|float>
  */
 class NumericMatrix extends Matrix
 {
@@ -34,7 +34,7 @@ class NumericMatrix extends Matrix
     /**
      * Constructor
      *
-     * @param array<array<number>> $A of arrays $A m x n matrix
+     * @param array<array<int|float>> $A of arrays $A m x n matrix
      *
      * @throws Exception\BadDataException if any rows have a different column count
      */
@@ -1266,7 +1266,6 @@ class NumericMatrix extends Matrix
      */
     public function multiply($B): NumericMatrix
     {
-        // @phpstan-ignore-next-line
         if ((!$B instanceof NumericMatrix) && (!$B instanceof Vector)) {
             throw new Exception\IncorrectTypeException('Can only do matrix multiplication with a Matrix or Vector');
         }
@@ -1281,15 +1280,16 @@ class NumericMatrix extends Matrix
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            /** @var array<number> $R */
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
+                    // @phpstan-ignore-next-line (Remove in PHP 8.0, no longer returns false)
                     $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
                 }
             }
         }
 
+        // @phpstan-ignore-next-line (Due to above false from array_fill)
         return MatrixFactory::createNumeric($R, $this->ε);
     }
 
@@ -2053,7 +2053,7 @@ class NumericMatrix extends Matrix
      *
      * tr(A) = a₁₁ + a₂₂ + ... ann
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if the matrix is not a square matrix
      */
@@ -2077,7 +2077,7 @@ class NumericMatrix extends Matrix
      * 1-norm (‖A‖₁)
      * Maximum absolute column sum of the matrix
      *
-     * @return number
+     * @return int|float
      */
     public function oneNorm()
     {
@@ -2102,7 +2102,7 @@ class NumericMatrix extends Matrix
      * ‖A‖F = √ Σ   Σ  |aᵢⱼ|²
      *         ᵢ₌₁ ᵢ₌₁
      *
-     * @return number
+     * @return int|float
      */
     public function frobeniusNorm()
     {
@@ -2123,7 +2123,7 @@ class NumericMatrix extends Matrix
      * Infinity norm (‖A‖∞)
      * Maximum absolute row sum of the matrix
      *
-     * @return number
+     * @return int|float
      */
     public function infinityNorm()
     {
@@ -2141,7 +2141,7 @@ class NumericMatrix extends Matrix
      * Max norm (‖A‖max)
      * Elementwise max
      *
-     * @return number
+     * @return int|float
      */
     public function maxNorm()
     {
@@ -2187,7 +2187,7 @@ class NumericMatrix extends Matrix
      *   │ref(A)│ = determinant of the row echelon form of A
      *   ⁿ        = number of row swaps when computing REF
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\IncorrectTypeException
@@ -2196,7 +2196,7 @@ class NumericMatrix extends Matrix
     public function det()
     {
         if ($this->catalog->hasDeterminant()) {
-            /** @var number */
+            /** @var int|float */
             return $this->catalog->getDeterminant();
         }
 
@@ -2316,7 +2316,7 @@ class NumericMatrix extends Matrix
      * @param int $mᵢ Row to exclude
      * @param int $nⱼ Column to exclude
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if matrix is not square
      * @throws Exception\MatrixException if row to exclude for cofactor does not exist
@@ -2893,8 +2893,8 @@ class NumericMatrix extends Matrix
      * Otherwise, it is more efficient to decompose and then solve.
      * Use LU Decomposition and solve Ax = b.
      *
-     * @param Vector|array<number> $b solution to Ax = b
-     * @param string               $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
+     * @param Vector|array<int|float> $b solution to Ax = b
+     * @param string                  $method (optional) Force a specific solve method - defaults to DEFAULT where various methods are tried
      *
      * @return Vector x
      *
@@ -2907,7 +2907,6 @@ class NumericMatrix extends Matrix
     public function solve($b, string $method = self::DEFAULT): Vector
     {
         // Input must be a Vector or array.
-        // @phpstan-ignore-next-line
         if (!($b instanceof Vector || \is_array($b))) {
             throw new Exception\IncorrectTypeException('b in Ax = b must be a Vector or array');
         }
@@ -3025,7 +3024,7 @@ class NumericMatrix extends Matrix
      *
      * @param string $method Algorithm used to compute the eigenvalues
      *
-     * @return array<number> of eigenvalues
+     * @return array<int|float> of eigenvalues
      *
      * @throws Exception\MatrixException if method is not a valid eigenvalue method
      * @throws Exception\MathException

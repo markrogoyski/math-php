@@ -9,7 +9,7 @@ use MathPHP\Exception;
  *
  * Tables for one sided and two sided,
  * Initial index is degrees of freedom (ν).
- * Second index is confidence level precentage, or alpha value (α).
+ * Second index is confidence level percentage, or alpha value (α).
  *
  * https://en.wikipedia.org/wiki/Student%27s_t-distribution#Table_of_selected_values
  *
@@ -21,8 +21,8 @@ class TDistribution
 {
     /**
      * One-sided t distribution table
-     * Confidence level percentaces
-     * @var array<int|string, array<numeric, int|float>>
+     * Confidence level percentages
+     * @var array<int|string, array<numeric|string, int|float>>
      */
     private const ONE_SIDED_CONFIDENCE_LEVEL = [
         1          => [ 0 => 0, 75 => 1.000, 80 => 1.376, 85 => 1.963, 90 => 3.078, 95 => 6.314, '97.5' => 12.71, 99 => 31.82, '99.5' => 63.66, '99.75' => 127.3, '99.9' => 318.3, '99.95' => 636.6 ],
@@ -112,7 +112,7 @@ class TDistribution
     /**
      * Two-sided t distribution table
      * Confidence level percentaces
-     * @var array<int|string, array<numeric, number>>
+     * @var array<int|string, array<numeric|string, int|float>>
      */
     private const TWO_SIDED_CONFIDENCE_LEVEL = [
         1          => [ 0 => 0, 50 => 1.000, 60 => 1.376, 70 => 1.963, 80 => 3.078, 90 => 6.314, 95 => 12.71, 98 => 31.82, 99 => 63.66, '99.5' => 127.3, '99.8' => 318.3, '99.9' => 636.6 ],
@@ -157,7 +157,7 @@ class TDistribution
     /**
      * Two-sided t distribution table
      * Alphas
-     * @var array<int|string, array<numeric|string, number>>
+     * @var array<int|string, array<numeric|string, int|float>>
      */
     private const TWO_SIDED_ALPHA = [
         1          => [ '1.00' => 0, '0.50' => 1.000, '0.40' => 1.376, '0.30' => 1.963, '0.20' => 3.078, '0.10' => 6.314, '0.05' => 12.71, '0.02' => 31.82, '0.01' => 63.66, '0.005' => 127.3, '0.002' => 318.3, '0.001' => 636.6 ],

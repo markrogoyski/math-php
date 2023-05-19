@@ -31,7 +31,7 @@ class Entropy
      *
      * H is in shannons, or bits.
      *
-     * @param  array<number> $p probability distribution
+     * @param  array<int|float> $p probability distribution
      *
      * @return float average minimum number of bits
      *
@@ -74,7 +74,7 @@ class Entropy
      * 1 nat = 1/ln(2) shannons or bits.
      * https://en.wikipedia.org/wiki/Nat_(unit)
      *
-     * @param  array<number> $p probability distribution
+     * @param  array<int|float> $p probability distribution
      *
      * @return float average minimum number of nats
      *
@@ -117,7 +117,7 @@ class Entropy
      * 1 hartley = log₂(10) bit = ln(10) nat, or approximately 3.322 Sh, or 2.303 nat.
      * https://en.wikipedia.org/wiki/Hartley_(unit)
      *
-     * @param  array<number> $p probability distribution
+     * @param  array<int|float> $p probability distribution
      *
      * @return float average minimum number of hartleys
      *
@@ -158,8 +158,8 @@ class Entropy
      *
      * H(p,q) = -∑ p(x) log₂ q(x)
      *
-     * @param array<number> $p distribution p
-     * @param array<number> $q distribution q
+     * @param array<int|float> $p distribution p
+     * @param array<int|float> $q distribution q
      *
      * @return float entropy between distributions
      *
@@ -213,7 +213,7 @@ class Entropy
      * Joint entropy is basically just shannonEntropy but the probability distribution input
      * represents the probability of two variables happening at the same time.
      *
-     * @param  array<number> $P⟮x、y⟯ probability distribution of x and y occuring together
+     * @param  array<int|float> $P⟮x、y⟯ probability distribution of x and y occuring together
      *
      * @return float uncertainty
      *
@@ -236,7 +236,7 @@ class Entropy
      *
      * H is in shannons, or bits.
      *
-     * @param  array<number> $p probability distribution
+     * @param  array<int|float> $p probability distribution
      * @param  int|float     $α order α
      *
      * @return float
@@ -274,7 +274,7 @@ class Entropy
      *
      * Perplexity is in shannons, or bits.
      *
-     * @param  array<number> $p probability distribution
+     * @param  array<int|float> $p probability distribution
      *
      * @return float perplexity
      *

@@ -29,7 +29,7 @@ class NevillesMethod extends Interpolation
      *
      * @param float          $target
      *      The point at which we are interpolation
-     * @param callable|array<array{number, number}> $source
+     * @param callable|array<array{int|float, int|float}> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays. Each array
      *      (point) contains precisely two numbers, an x and y.

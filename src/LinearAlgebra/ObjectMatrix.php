@@ -56,7 +56,6 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     {
         if ($this->A[0][0] instanceof ObjectArithmetic) {
             $this->object_type = \get_class($this->A[0][0]);
-            // @phpstan-ignore-next-line
         } else {
             throw new Exception\IncorrectTypeException("The object must implement the interface.");
         }
@@ -271,7 +270,7 @@ class ObjectMatrix extends Matrix implements ObjectArithmetic
     /**
      * {@inheritDoc}
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\MatrixException if the matrix is not a square matrix
      */

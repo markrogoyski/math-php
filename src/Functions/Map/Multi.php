@@ -14,9 +14,9 @@ class Multi
      *
      * [x₁ + y₁, x₂ + y₂, ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
-     * @return array<number>
+     * @return array<int|float>
      *
      * @throws Exception\BadDataException
      */
@@ -42,9 +42,9 @@ class Multi
      *
      * [x₁ - y₁, x₂ - y₂, ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
-     * @return array<number>
+     * @return array<int|float>
      *
      * @throws Exception\BadDataException
      */
@@ -75,9 +75,9 @@ class Multi
      *
      * [x₁ * y₁, x₂ * y₂, ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
-     * @return array<number>
+     * @return array<int|float>
      *
      * @throws Exception\BadDataException
      */
@@ -103,7 +103,7 @@ class Multi
      *
      * [x₁ / y₁, x₂ / y₂, ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
      * @return array<float>
      *
@@ -136,9 +136,9 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
-     * @return array<number>
+     * @return array<int|float>
      *
      * @throws Exception\BadDataException
      */
@@ -169,9 +169,9 @@ class Multi
      *
      * [max(x₁, y₁), max(x₂, y₂), ... ]
      *
-     * @param array<number> ...$arrays Two or more arrays of numbers
+     * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
-     * @return array<number>
+     * @return array<int|float>
      *
      * @throws Exception\BadDataException
      */

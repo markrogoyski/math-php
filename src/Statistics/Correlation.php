@@ -471,8 +471,8 @@ class Correlation
      *    cov(rgᵪ, rgᵧ): covariance of the rank variables
      *    σᵣᵪ and σᵣᵧ:   standard deviations of the rank variables
      *
-     * @param array<mixed> $X values for random variable X
-     * @param array<mixed> $Y values for random variable Y
+     * @param array<int|float> $X values for random variable X
+     * @param array<int|float> $Y values for random variable Y
      *
      * @return float
      *
@@ -538,7 +538,7 @@ class Correlation
      *                          will be one larger because the first point and last will be repeated
      *                          to ease display.
      *
-     * @return array<array<number>> paired x and y points on an ellipse aligned with the data provided
+     * @return array<array<float>> paired x and y points on an ellipse aligned with the data provided
      *
      * @throws Exception\BadDataException
      * @throws Exception\BadParameterException

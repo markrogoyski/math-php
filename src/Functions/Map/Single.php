@@ -12,7 +12,7 @@ class Single
     /**
      * Map addition
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $k Number to add to each element
      *
      * @return array<int|float>
@@ -30,7 +30,7 @@ class Single
     /**
      * Map subtract
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $k Number to subtract from each element
      *
      * @return array<int|float>
@@ -48,7 +48,7 @@ class Single
     /**
      * Map multiply
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $k Number to multiply to each element
      *
      * @return array<int|float>
@@ -66,7 +66,7 @@ class Single
     /**
      * Map Divide
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $k Number to divide each element by
      *
      * @return array<float>
@@ -84,7 +84,7 @@ class Single
     /**
      * Map square
      *
-     * @param  array<number>  $xs
+     * @param  array<int|float>  $xs
      *
      * @return array<int|float>
      */
@@ -101,7 +101,7 @@ class Single
     /**
      * Map cube
      *
-     * @param  array<number>  $xs
+     * @param  array<int|float>  $xs
      *
      * @return array<int|float>
      */
@@ -119,7 +119,7 @@ class Single
      * Map reciprocal
      * x := 1/x
      *
-     * @param  array<number>  $xs
+     * @param  array<int|float>  $xs
      *
      * @return array<float>
      *
@@ -148,7 +148,7 @@ class Single
     /**
      * Map raise to a power
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $n
      *
      * @return array<int|float>
@@ -166,7 +166,7 @@ class Single
     /**
      * Map square root
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      *
      * @return array<float>
      */
@@ -183,7 +183,7 @@ class Single
     /**
      * Map absolute value
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      *
      * @return array<int|float>
      */
@@ -202,10 +202,10 @@ class Single
      * Each element in array is compared against the value,
      * and the min of each is returned.
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $value
      *
-     * @return array<number>
+     * @return array<int|float>
      */
     public static function min(array $xs, $value): array
     {
@@ -222,10 +222,10 @@ class Single
      * Each element in the array is compared against the value,
      * and the max of each is returned.
      *
-     * @param  array<number> $xs
+     * @param  array<int|float> $xs
      * @param  int|float     $value
      *
-     * @return array<number>
+     * @return array<int|float>
      */
     public static function max(array $xs, $value): array
     {

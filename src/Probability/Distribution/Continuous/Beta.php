@@ -32,10 +32,10 @@ class Beta extends Continuous
         'x' => '[0,1]',
     ];
 
-    /** @var number Shape Parameter */
+    /** @var int|float Shape Parameter */
     protected $α;
 
-    /** @var number Shape Parameter */
+    /** @var int|float Shape Parameter */
     protected $β;
 
     /**

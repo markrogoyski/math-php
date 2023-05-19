@@ -188,7 +188,7 @@ trait LeastSquares
      * which is the i-th diagonal element of the project matrix H,
      * where H = X⟮XᵀX⟯⁻¹Xᵀ where X is the design matrix.
      *
-     * @return array<number>
+     * @return array<int|float>
      */
     public function leverages(): array
     {

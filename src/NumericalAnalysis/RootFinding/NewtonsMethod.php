@@ -25,7 +25,7 @@ class NewtonsMethod
      * @param int          $position     Which element in the $args array will be changed; also serves as initial guess
      * @param int          $iterations
      *
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException if the tolerance is not valid
      */

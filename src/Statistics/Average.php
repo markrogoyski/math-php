@@ -721,9 +721,9 @@ class Average
      *
      * Each weighted average = ∑(weighted values) / ∑(weights)
      *
-     * @param  array<number>  $numbers
-     * @param  int            $n       n-point moving average
-     * @param  array<number>  $weights Weights for each n points
+     * @param  array<int|float>  $numbers
+     * @param  int               $n       n-point moving average
+     * @param  array<int|float>  $weights Weights for each n points
      *
      * @return array<float> of averages
      *
@@ -757,8 +757,8 @@ class Average
      *   where
      *    α: coefficient that represents the degree of weighting decrease, a constant smoothing factor between 0 and 1.
      *
-     * @param array<number>  $numbers
-     * @param int            $n       Length of the EPA
+     * @param array<int|float>  $numbers
+     * @param int               $n       Length of the EPA
      *
      * @return array<float> of exponential moving averages
      */

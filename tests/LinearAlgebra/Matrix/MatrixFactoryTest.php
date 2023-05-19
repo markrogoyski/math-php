@@ -340,6 +340,22 @@ class MatrixFactoryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test   check params exception for single dimensional array
+     * @throws \Exception
+     */
+    public function testCheckParamsExceptionSingleDimensionalArray()
+    {
+        // Given
+        $A = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $M = MatrixFactory::create($A);
+    }
+
+    /**
      * @test   matrix unknown type exception
      * @throws \Exception
      */

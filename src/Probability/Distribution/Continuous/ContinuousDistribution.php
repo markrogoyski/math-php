@@ -21,14 +21,14 @@ interface ContinuousDistribution
      *
      * @param float $x
      *
-     * @return mixed
+     * @return int|float
      */
     public function cdf(float $x);
 
     /**
      * Mean average
      *
-     * @return number
+     * @return int|float
      */
     public function mean();
 }

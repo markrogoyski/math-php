@@ -111,7 +111,7 @@ class ToothGrowth
     /**
      * Tooth length observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getLen(): array
     {
@@ -131,7 +131,7 @@ class ToothGrowth
     /**
      * Dose in milligrams/day observations
      *
-     * @return number[]
+     * @return float[]
      */
     public function getDose(): array
     {

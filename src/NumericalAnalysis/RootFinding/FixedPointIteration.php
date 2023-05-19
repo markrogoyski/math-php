@@ -33,7 +33,7 @@ class FixedPointIteration
      * @param int|float $p        The initial guess of our root, in [$a, $b]
      * @param int|float $tol      Tolerance; How close to the actual solution we would like.
 
-     * @return number
+     * @return int|float
      *
      * @throws Exception\OutOfBoundsException
      * @throws Exception\BadDataException

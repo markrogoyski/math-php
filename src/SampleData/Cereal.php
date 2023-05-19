@@ -113,7 +113,7 @@ class Cereal
      * Raw data without labels
      * [[0.002682755, 0.003370673, 0.004085942, ... ], [0.002781597, 0.003474863, 0.004191472, ... ], ... ]
      *
-     * @return number[][]
+     * @return float[][]
      */
     public function getXData(): array
     {
@@ -124,11 +124,11 @@ class Cereal
      * Raw data with each observation labeled
      * ['B1' => ['X1126.0' => 0.002682755, 'X1134.0' => 0.003370673, 'X1142.0' => 0.004085942, ... ]]
      *
-     * @return array<string, array<string, number>>
+     * @return array<string, array<string, float>>
      */
     public function getLabeledXData(): array
     {
-        /** @var array<string, array<string, number>> */
+        /** @var array<string, array<string, float>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::X_LABELS, $data);
@@ -141,7 +141,7 @@ class Cereal
      * Raw data without labels
      * [[18373, 41.61500, 6.565000, ... ], [18536, 41.40500, 6.545000, ... ], ... ]
      *
-     * @return number[][]
+     * @return float[][]
      */
     public function getYData(): array
     {
@@ -152,11 +152,11 @@ class Cereal
      * Raw data with each observation labeled
      * ['B1' => ['Heating value' => 18373, 'C' => 41.61500, 'H' => 6.565000, ... ]]
      *
-     * @return array<string, array<string, number>>
+     * @return array<string, array<string, float>>
      */
     public function getLabeledYData(): array
     {
-        /** @var array<string, array<string, number>> */
+        /** @var array<string, array<string, float>> */
         return \array_map(
             function (array $data) {
                 return \array_combine(self::Y_LABELS, $data);
@@ -169,7 +169,7 @@ class Cereal
      * Raw data without labels
      * [[-0.1005049, 0.6265746, -1.1716630, ... ], [0.9233889, 0.1882929, -1.3185289, ... ], ... ]
      *
-     * @return number[][]
+     * @return float[][]
      */
     public function getYscData(): array
     {

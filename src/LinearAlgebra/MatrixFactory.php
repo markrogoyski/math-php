@@ -10,12 +10,14 @@ use MathPHP\Number\ObjectArithmetic;
  * Matrix factory to create matrices of all types.
  * Use factory instead of instantiating individual Matrix classes.
  *
- * @template T = int[][]|float[][]|Complex[][]|object[][]
+ * template T = int[][]|float[][]|Complex[][]|object[][]
  */
 class MatrixFactory
 {
     /**
      * Factory method
+     *
+     * @template T = int|float|Complex|object
      *
      * @param T[][]      $A 2-dimensional array of Matrix data
      * @param float|null $ε Optional error tolerance
@@ -36,7 +38,7 @@ class MatrixFactory
         switch ($matrix_type) {
             case 'numeric':
             case 'numeric_square':
-                /** @var array<array<number>> $A */
+                /** @var array<array<int|float>> $A */
                 return self::createNumeric($A, $ε);
             case 'complex':
                 /** @var array<array<Complex>> $A */
@@ -128,6 +130,8 @@ class MatrixFactory
      *     [⋮ ]
      *     [xm]
      *
+     * @template T = int|float|Complex|object
+     *
      * @param T[] $A m × 1 vector representing the matrix
      *
      * @return Matrix<T>|NumericMatrix|ComplexMatrix|ObjectMatrix|ObjectSquareMatrix
@@ -153,6 +157,8 @@ class MatrixFactory
      * 1 × n matrix consisting of a single row of n elements.
      *
      * x = [x₁ x₂ ⋯ xn]
+     *
+     * @template T = int|float|Complex|object
      *
      * @param T[] $A 1 × n vector representing the matrix
      *
@@ -301,7 +307,7 @@ class MatrixFactory
         $bottom_row = \array_pop($I);
         \array_unshift($I, $bottom_row);
 
-        /** @var array<array<number>> $I */
+        /** @var array<array<int|float>> $I */
         return new NumericSquareMatrix($I);
     }
 
@@ -451,7 +457,7 @@ class MatrixFactory
      * A = [0 2 0]
      *     [0 0 3]
      *
-     * @param array<number> $D elements of the diagonal
+     * @param array<int|float> $D elements of the diagonal
      *
      * @return NumericDiagonalMatrix
      *
@@ -518,7 +524,7 @@ class MatrixFactory
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param array<number> $M (α₁, α₂, α₃ ⋯ αm)
+     * @param array<int|float> $M (α₁, α₂, α₃ ⋯ αm)
      * @param int   $n
      *
      * @return NumericMatrix
@@ -610,7 +616,9 @@ class MatrixFactory
     /**
      * Check input parameters
      *
-     * @param  array<mixed> $A
+     * @template T = int|float|Complex|object
+     *
+     * @param  array<array<T>> $A
      *
      * @throws Exception\BadDataException if array data not provided for matrix creation
      * @throws Exception\MatrixException if any row has a different column count
@@ -620,13 +628,14 @@ class MatrixFactory
         if (empty($A)) {
             throw new Exception\BadDataException('Array data not provided for Matrix creation');
         }
+        if (!isset($A[0]) || !\is_array($A[0])) {
+            throw new Exception\BadDataException('Array of array data not provided for Matrix creation');
+        }
 
-        if (isset($A[0]) && \is_array($A[0])) {
-            $column_count = \count($A[0]);
-            foreach ($A as $i => $row) {
-                if (\count($row) !== $column_count) {
-                    throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
-                }
+        $column_count = \count($A[0]);
+        foreach ($A as $i => $row) {
+            if (\count($row) !== $column_count) {
+                throw new Exception\MatrixException("Row $i has a different column count: " . \count($row) . "; was expecting $column_count.");
             }
         }
     }

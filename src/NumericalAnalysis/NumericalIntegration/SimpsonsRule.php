@@ -62,7 +62,7 @@ class SimpsonsRule extends NumericalIntegration
      *           ⁱ⁼¹   3
      * where h = (xn - x₁) / (n - 1)
      *
-     * @param callable|array<array{number, number}> $source
+     * @param callable|array<array{int|float, int|float}> $source
      *      The source of our approximation. Should be either
      *      a callback function or a set of arrays. Each array
      *      (point) contains precisely two numbers, an x and y.

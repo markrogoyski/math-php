@@ -13,10 +13,10 @@ use MathPHP\LinearAlgebra\Vector;
  * The generalization of the eigendecomposition of a square matrix to an m x n matrix
  * https://en.wikipedia.org/wiki/Singular_value_decomposition
  *
- * @property-read NumericMatrix  $S m x n diagonal matrix
- * @property-read NumericMatrix  $V n x n orthogonal matrix
- * @property-read NumericMatrix  $U m x m orthogonal matrix
- * @property-read Vector<number> $D diagonal elements from S
+ * @property-read NumericMatrix $S m x n diagonal matrix
+ * @property-read NumericMatrix $V n x n orthogonal matrix
+ * @property-read NumericMatrix $U m x m orthogonal matrix
+ * @property-read Vector        $D diagonal elements from S
  */
 class SVD extends Decomposition
 {
@@ -29,7 +29,7 @@ class SVD extends Decomposition
     /** @var NumericMatrix m x n diagonal matrix containing the singular values  */
     private $S;
 
-    /** @var Vector<number> diagonal elements from S that are the singular values  */
+    /** @var Vector diagonal elements from S that are the singular values  */
     private $D;
 
     /**
@@ -78,7 +78,7 @@ class SVD extends Decomposition
     /**
      * Get D
      *
-     * @return Vector<number>
+     * @return Vector
      */
     public function getD(): Vector
     {
@@ -128,7 +128,7 @@ class SVD extends Decomposition
      *
      * @param string $name
      *
-     * @return NumericMatrix|Vector<number>
+     * @return NumericMatrix|Vector
      */
     public function __get(string $name)
     {

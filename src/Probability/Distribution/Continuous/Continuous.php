@@ -16,7 +16,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
      * @param float $target   The area for which we are trying to find the $x
      *
      * @todo check the parameter ranges.
-     * @return number
+     * @return int|float
      */
     public function inverse(float $target)
     {
@@ -109,7 +109,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     /**
      * Produce a random number with a particular distribution
      *
-     * @return number
+     * @return float
      *
      * @throws \Exception
      */
@@ -119,7 +119,7 @@ abstract class Continuous extends \MathPHP\Probability\Distribution\Distribution
     }
 
     /**
-     * @return number
+     * @return int|float
      */
     abstract public function median();
 }
