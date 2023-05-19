@@ -1280,10 +1280,10 @@ class NumericMatrix extends Matrix
         $Bᵀ = $B->transpose()->getMatrix();
 
         foreach ($this->A as $i => $Aʳᵒʷ⟦i⟧) {
-            // @phpstan-ignore-next-line (Remove in PHP 8.0, no longer returns false)
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
+                    // @phpstan-ignore-next-line (Remove in PHP 8.0, no longer returns false)
                     $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
                 }
             }
