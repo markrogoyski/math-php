@@ -59,7 +59,7 @@ class ClampedCubicSpline extends Interpolation
      */
     public static function interpolate($source, ...$args): Piecewise
     {
-        // Get an array of points from our $source argument
+        // Get an array of points from our $source argument @phpstan-ignore-next-line
         $points = self::getSplinePoints($source, $args);
 
         // Validate input and sort points

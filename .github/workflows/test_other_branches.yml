@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-lint:
-    name: Test and Static Analysis
+    name: Test and Lint
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -977,7 +977,7 @@ $f’⟮x⟯ = function ($x) {
 };
 [$start, $end, $n] = [0, 3, 4];
 
-$p = Interpolation\ClampedCubicSpline::interpolate($points);                // input as a set of points
+$p = Interpolation\ClampedCubicSpline::interpolate($points);                       // input as a set of points
 $p = Interpolation\ClampedCubicSpline::interpolate($f⟮x⟯, $f’⟮x⟯, $start, $end, $n); // input as a callback function
 
 $p(0); // 1
