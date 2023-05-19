@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-and-static-analysis:
-    name: Test and Static Analysis
+    name: Test and Lint
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
           node-version: '14.x'
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -58,6 +58,34 @@ jobs:
           ./vendor/bin/phpcs --version
           ./vendor/bin/phpcs --ignore=vendor --standard=tests/coding_standard.xml -s .
 
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['7.2']
+
+    steps:
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: xdebug
+          tools: composer:v2
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run Composer
+        run: composer install --no-interaction
+
       - name: Static analysis
         run: |
           ./vendor/bin/phpstan --version
@@ -84,7 +112,7 @@ jobs:
           node-version: '14.x'
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
