@@ -1,5 +1,10 @@
 # MathPHP Change Log
 
+## v2.8.1 - 2023-05-18
+
+### Improvements
+* Internal improvements to improve conformance with static analysis tools
+
 ## v2.8.0 - 2023-05-07
 
 ### New Features
