@@ -2,20 +2,24 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
 use MathPHP\Expression\Polynomial;
 use MathPHP\Functions\Support;
+use MathPHP\LinearAlgebra\Decomposition\QR;
 
 class Eigenvalue
 {
     public const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
     public const POWER_ITERATION                    = 'powerIteration';
     public const JACOBI_METHOD                      = 'jacobiMethod';
+    public const QR_ALGORITHM                       = 'qrAlgorithm';
 
     private const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
         self::POWER_ITERATION,
         self::JACOBI_METHOD,
+        self::QR_ALGORITHM,
     ];
 
     /**
@@ -260,5 +264,41 @@ class Eigenvalue
         }
 
         return [$max_ev];
+    }
+
+    public static function qrAlgorithm(NumericMatrix $A, array &$values = null): array
+    {
+        self::checkMatrix($A);
+
+        if ($A->getM() === 1) {
+            $values[] = $A[0][0];
+            return $values;
+        }
+
+        $values = $values ?? [];
+        $e = $A->getError();
+        $n = $A->getM();
+        $H = $A;
+        $ident = MatrixFactory::identity($n);
+        $iters = $A->getM() * $A->getN() * 2;
+
+        while (!Arithmetic::almostEqual($H[$n-1][$n-2], 0, $e))
+        {
+            $qr = QR::decompose($H);
+            $H = $qr->R->multiply($qr->Q);
+
+            // Check if we can shift by the last diagonal element
+            #$tail = $H[$n-1][$n-2];
+            #if (Arithmetic::almostEqual($tail, 0, $e)) {
+            #    $eig = $H[$n-1][$n-1];
+            #    $shift = $H[$n-2][$n-2];
+            #    $values[] = $eig;
+            #    $H = $H->add($ident->scalarMultiply($shift));
+            #    self::qrAlgorithm($H->submatrix(0, 0, $n-2, $n-2), $values);
+            #    break;
+            #}
+        }
+
+        return $H->getDiagonalElements();
     }
 }
