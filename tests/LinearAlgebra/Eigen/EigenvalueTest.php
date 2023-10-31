@@ -110,6 +110,31 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         qrAlgorithm returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @dataProvider dataProviderForLargeMatrixEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalues
+     * @param        array $A
+     * @param        array $S
+     * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
+     * @throws       \Exception
+     */
+    public function testQRAlgorithm(array $A, array $S)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = Eigenvalue::qrAlgorithm($A);
+
+        sort($S);
+        sort($eigenvalues);
+
+        // Then
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);
+    }
+
+    /**
      * @test         Matrix eigenvalues using powerIterationMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
      * @dataProvider dataProviderForLargeMatrixEigenvalues
