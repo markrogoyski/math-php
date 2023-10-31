@@ -266,39 +266,68 @@ class Eigenvalue
         return [$max_ev];
     }
 
-    public static function qrAlgorithm(NumericMatrix $A, array &$values = null): array
+    public static function qrAlgorithm(NumericMatrix $A): array
     {
         self::checkMatrix($A);
 
+        if ($A->isUpperHessenberg()) {
+            $H = $A;
+        } else {
+            $H = $A->upperHessenberg();
+        }
+
+        return self::qrIteration($H);
+    }
+
+    private static function qrIteration(NumericMatrix $A, array &$values = null): array
+    {
+        $values = $values ?? [];
+        $e = $A->getError();
+        $n = $A->getM();
+        
         if ($A->getM() === 1) {
             $values[] = $A[0][0];
             return $values;
         }
 
-        $values = $values ?? [];
-        $e = $A->getError();
-        $n = $A->getM();
-        $H = $A;
         $ident = MatrixFactory::identity($n);
-        $iters = $A->getM() * $A->getN() * 2;
 
-        while (!Arithmetic::almostEqual($H[$n-1][$n-2], 0, $e))
-        {
-            $qr = QR::decompose($H);
-            $H = $qr->R->multiply($qr->Q);
+        do {
+            // Pick shift
+            $shift = self::calcShift($A);
+            $A = $A->subtract($ident->scalarMultiply($shift));
 
-            // Check if we can shift by the last diagonal element
-            #$tail = $H[$n-1][$n-2];
-            #if (Arithmetic::almostEqual($tail, 0, $e)) {
-            #    $eig = $H[$n-1][$n-1];
-            #    $shift = $H[$n-2][$n-2];
-            #    $values[] = $eig;
-            #    $H = $H->add($ident->scalarMultiply($shift));
-            #    self::qrAlgorithm($H->submatrix(0, 0, $n-2, $n-2), $values);
-            #    break;
-            #}
+            // decompose
+            $qr = QR::decompose($A);
+            $A = $qr->R->multiply($qr->Q);
+
+            // shift back
+            $A = $A->add($ident->scalarMultiply($shift));
+        } while (!Arithmetic::almostEqual($A[$n-1][$n-2], 0, $e)); // subdiagonal entry needs to be 0
+
+        // Check if we can deflate
+        $eig = $A[$n-1][$n-1];
+        $values[] = $eig;
+        self::qrIteration($A->submatrix(0, 0, $n-2, $n-2), $values);
+
+        return array_reverse($values);
+    }
+
+    private static function calcShift(NumericMatrix $A): float
+    {
+        $n = $A->getM() - 1;
+        $sigma = .5 * ($A[$n-1][$n-1] - $A[$n][$n]);
+        $sign = $sigma >= 0 ? 1 : -1;
+
+        $numerator = ($sign * ($A[$n][$n-1])**2);
+        $denominator = abs($sigma) + sqrt($sigma**2 + ($A[$n-1][$n-1])**2);
+
+        try {
+            $fraction = $numerator / $denominator;
+        } catch (\DivisionByZeroError $error) {
+            $fraction = 0;
         }
 
-        return $H->getDiagonalElements();
+        return $A[$n][$n] - $fraction;
     }
 }
