@@ -234,4 +234,25 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
         // When
         $A->eigenvectors($invalidMethod);
     }
+
+    /**
+     * @test         qrAlgorithm
+     * @dataProvider dataProviderForEigenvector
+     * @param        array $A
+     * @param        array $B
+     */
+    public function testQRAlgorithm(array $A, array $S): void
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $S = MatrixFactory::create($S);
+
+        // When
+        $eigenvectors = Eigenvector::qrAlgorithm($A);
+
+        // Then
+        $this->assertEqualsWithDelta($S, $eigenvectors, 0.0001, sprintf(
+            "Eigenvectors unequal:\nExpected:\n" . (string) $S . "\nActual:\n" . (string) $eigenvectors
+        ));
+    }
 }
