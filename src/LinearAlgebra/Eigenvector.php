@@ -10,6 +10,13 @@ use MathPHP\Functions\Special;
 
 class Eigenvector
 {
+    public static function qrAlgorithm(NumericMatrix $A)
+    {
+        $eigenvalues = Eigenvalue::qrAlgorithm($A);
+
+        return self::eigenvectors($A, $eigenvalues);
+    }
+
     /**
      * Calculate the Eigenvectors for a matrix
      *
