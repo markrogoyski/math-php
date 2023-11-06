@@ -68,8 +68,7 @@ class Eigenvector
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
             $key = false;
-            foreach (\array_column($solution_array, 'eigenvalue') as $i => $v)
-            {
+            foreach (\array_column($solution_array, 'eigenvalue') as $i => $v) {
                 if (Arithmetic::almostEqual($v, $eigenvalue, $A->getError())) {
                     $key = $i;
                     break;
