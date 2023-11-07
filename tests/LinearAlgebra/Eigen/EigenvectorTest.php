@@ -132,6 +132,63 @@ class EigenvectorTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         eigenvector can handle numerical precision errors
+     * @dataProvider dataProviderForPerturbedEigenvalues
+     * @param        array $A
+     * @param        array $E
+     * @param        array $S
+     */
+    public function testEigenvectorsPerturbedEigenvalues(array $A, array $E, array $S)
+    {
+        // Perturb E
+        foreach ($E as $i => $component) {
+            $E[$i] = $component + (random_int(-1, 1) * 10**-12);
+        }
+
+        // Given
+        $A = MatrixFactory::create($A);
+        $S = MatrixFactory::create($S);
+
+        // When
+        $eigenvectors = Eigenvector::eigenvectors($A, $E);
+
+        // Then
+        $this->assertEqualsWithDelta($S, $eigenvectors, 0.0001);
+    }
+
+    public function dataProviderForPerturbedEigenvalues(): array
+    {
+        return [
+            [ // Matrix has duplicate eigenvalues. One vector is on an axis.
+                [
+                    [2, 0, 1],
+                    [2, 1, 2],
+                    [3, 0, 4],
+                ],
+                [5, 1, 1],
+                [
+                    [1 / \sqrt(14), 0, \M_SQRT1_2],
+                    [2 / \sqrt(14), 1, 0],
+                    [3 / \sqrt(14), 0, -1 * \M_SQRT1_2],
+                ]
+            ],
+            [ // Matrix has duplicate eigenvalues. no solution on the axis
+                [
+                    [2, 2, -3],
+                    [2, 5, -6],
+                    [3, 6, -8],
+                ],
+                [-3, 1, 1],
+                [
+                    [1 / \sqrt(14), 1 / \M_SQRT3, 5 / \sqrt(42)],
+                    [2 / \sqrt(14), 1 / \M_SQRT3, -4 / \sqrt(42)],
+                    [3 / \sqrt(14), 1 / \M_SQRT3, -1 / \sqrt(42)],
+                ]
+            ],
+        ];
+    }
+
+    /**
      * @test eigenvectors throws a BadDataException when the matrix is not square
      */
     public function testEigenvectorMatrixNotCorrectSize()
