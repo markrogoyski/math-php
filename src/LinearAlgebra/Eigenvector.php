@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
 use MathPHP\Exception\MatrixException;
 use MathPHP\Functions\Map\Single;
@@ -66,8 +67,14 @@ class Eigenvector
         foreach ($eigenvalues as $eigenvalue) {
             // If this is a duplicate eigenvalue, and this is the second instance, the first
             // pass already found all the vectors.
-            $key = \array_search($eigenvalue, \array_column($solution_array, 'eigenvalue'));
-            if (!$key) {
+            $key = false;
+            foreach (\array_column($solution_array, 'eigenvalue') as $i => $v) {
+                if (Arithmetic::almostEqual($v, $eigenvalue, $A->getError())) {
+                    $key = $i;
+                    break;
+                }
+            }
+            if ($key === false) {
                 $Iλ = MatrixFactory::identity($number)->scalarMultiply($eigenvalue);
                 $T = $A->subtract($Iλ);
 
