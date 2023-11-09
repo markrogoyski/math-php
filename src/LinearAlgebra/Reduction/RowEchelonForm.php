@@ -127,6 +127,19 @@ class RowEchelonForm extends NumericMatrix
         $swaps = 0;
         $ε     = $A->getError();
 
+        // Scale the matrix by its smallest non-zero element
+        $min = PHP_INT_MAX;
+        for ($i = 0; $i < $m; $i++) {
+            for ($j = 0; $j < $n; $j++) {
+                $elem = \abs($A[$i][$j]);
+                if (Support::isNotZero($elem, $ε) and $elem < $min) {
+                    $min = $elem;
+                }
+            }
+        }
+
+        $R = $A->scalarMultiply(1/$min)->getMatrix();
+
         for ($k = 0; $k < $size; $k++) {
             // Find column max
             $i_max = $k;
