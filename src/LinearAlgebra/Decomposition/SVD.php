@@ -221,7 +221,7 @@ class SVD extends Decomposition
             if (Arithmetic::almostEqual($vector->l2Norm(), 0, $ε)) {
                 $j = $i;
             } else {
-                $j = self::getStandardBasisIndex($vector);
+                $j = self::getStandardBasisIndex($vector, $ε);
             }
 
             if ($j === -1) {
@@ -274,7 +274,7 @@ class SVD extends Decomposition
      *      1. There are multiple non-zero entries
      *      2. The vector is a zero vector 
      */
-    private static function getStandardBasisIndex(Vector $v): int
+    private static function getStandardBasisIndex(Vector $v, float $ε): int
     {
         if ($v->l2Norm() === 0) {
             return false;
@@ -285,7 +285,7 @@ class SVD extends Decomposition
     
         foreach ($v->getVector() as $i => $component)
         {
-            if (!Arithmetic::almostEqual($component, 0)) {
+            if (!Arithmetic::almostEqual($component, 0, $ε)) {
                 if ($index === -1) {
                     $index = $i;
                 } else { // If we already found a non-zero component, then return -1
