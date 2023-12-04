@@ -215,8 +215,14 @@ class SVD extends Decomposition
         /** @var Vector */
         foreach ($vectors as $i => $vector)
         {
-            // Each column should contain 1 non-zero element
-            $j = self::getStandardBasisIndex($vector);
+            $ε = $S->getError();
+
+            // Each column should contain up to 1 non-zero element
+            if (Arithmetic::almostEqual($vector->l2Norm(), 0, $ε)) {
+                $j = $i;
+            } else {
+                $j = self::getStandardBasisIndex($vector);
+            }
 
             if ($j === -1) {
                 throw new MatrixException("S Matrix in SVD is not orthogonal:\n" . (string) $S);
