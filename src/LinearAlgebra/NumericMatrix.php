@@ -542,7 +542,7 @@ class NumericMatrix extends Matrix
         $n = $this->n;
         for ($i = 0; $i < $m; $i++) {
             for ($j = 0; $j < $n; $j++) {
-                if ($i !== $j && !Support::isZero($this->A[$i][$j])) {
+                if ($i !== $j && !Support::isZero($this->A[$i][$j], $this->getError())) {
                     return false;
                 }
             }
