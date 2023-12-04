@@ -344,7 +344,15 @@ class SVD extends Decomposition
         $diagonal = $S->getDiagonalElements();
         $sorted = array_values($diagonal); rsort($sorted, SORT_NUMERIC);
 
-        return $diagonal === $sorted;
+        // Compare sorted using matrix error (in case duplicate, floating-point eigenvalues) 
+        $n = count($diagonal);
+        for ($i = 0; $i < $n; $i++) {
+            if (!Arithmetic::almostEqual($diagonal[$i], $sorted[$i], $S->getError())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
