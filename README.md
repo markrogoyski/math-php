@@ -2266,6 +2266,7 @@ $d⟮X、Y⟯    = Distance::canberra($X, Y);
 brayCurtis = Distance::brayCurtis($X, $Y);
 $cosine    = Distance::cosine($X, $Y);
 $cos⟮α⟯     = Distance::cosineSimilarity($X, $Y);
+$D⟮X、Y⟯    = Distance::chebyshev($X, $Y);
 
 // Mahalanobis distance
 $x    = new Matrix([[6], [5]]);
