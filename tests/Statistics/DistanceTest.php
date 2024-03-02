@@ -1252,4 +1252,98 @@ class DistanceTest extends \PHPUnit\Framework\TestCase
         // When
         $distance = Distance::canberra($p, $q);
     }
+
+    /**
+     * @test chebyshev
+     * @dataProvider dataProviderForChebyshev
+     * @param        array $x
+     * @param        array $y
+     * @param        float $expected
+     */
+    public function testChebyshev(array $x, array $y, float $expected): void
+    {
+        // When
+        $distance = Distance::chebyshev($x, $y);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $distance, 0.0001);
+    }
+
+    public function dataProviderForChebyshev(): array
+    {
+        return [
+            [
+                [0],
+                [0],
+                0
+            ],
+            [
+                [1],
+                [1],
+                0
+            ],
+            [
+                [1],
+                [0],
+                1
+            ],
+            [
+                [0],
+                [1],
+                1
+            ],
+            [
+                [1, 2],
+                [2, 4],
+                2
+            ],
+            [
+                [1, 2, 3],
+                [2, 4, 6],
+                3
+            ],
+            [
+                [0, 3, 4, 5],
+                [7, 6, 3, -1],
+                7
+            ],
+            [
+                [1, 2, 3, 4],
+                [-5, -6, 7, 8],
+                8
+            ],
+            [
+                [1, 5, 2, 3, 10],
+                [4, 15, 20, 5, 5],
+                18
+            ],
+            [
+                [1, 5, 2, 3, 10],
+                [1, 5, 2, 3, 10],
+                0
+            ],
+            [
+                [4, 15, 20, 5, 5],
+                [4, 15, 20, 5, 5],
+                0
+            ],
+        ];
+    }
+
+    /**
+     * @test   chebyshev exception when inputs are different lengths
+     * @throws Exception\BadDataException
+     */
+    public function testChebyshevExceptionDifferentNumberElements()
+    {
+        // Given
+        $xs = [1, 2, 3];
+        $ys = [2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Distance::chebyshev($xs, $ys);
+    }
 }

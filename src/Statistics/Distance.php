@@ -470,4 +470,35 @@ class Distance
             $｜p｜ ＋ ｜q｜
         ));
     }
+
+    /**
+     * Chebyshev Distance
+     * A metric defined on a real coordinate space where the distance between two points
+     * is the greatest of their differences along any coordinate dimension.
+     *
+     * D(x, y) = max(｜xᵢ − yᵢ｜)
+     *
+     * https://en.wikipedia.org/wiki/Chebyshev_distance
+     *
+     * @param array<float> $xs
+     * @param array<float> $ys
+     *
+     * @return float
+     *
+     * @throws Exception\BadDataException
+     */
+    public static function chebyshev(array $xs, array $ys): float
+    {
+        if (\count($xs) !== \count($ys)) {
+            throw new Exception\BadDataException('xs and ys must have the same number of elements');
+        }
+
+        return \max(\array_map(
+            function (float $xᵢ, $yᵢ) {
+                return \abs($xᵢ - $yᵢ);
+            },
+            $xs,
+            $ys
+        ));
+    }
 }
