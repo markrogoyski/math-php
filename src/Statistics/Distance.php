@@ -493,7 +493,7 @@ class Distance
             throw new Exception\BadDataException('xs and ys must have the same number of elements');
         }
 
-        return \max(\array_map(
+        return (float) \max(\array_map(
             function (float $xᵢ, $yᵢ) {
                 return \abs($xᵢ - $yᵢ);
             },
