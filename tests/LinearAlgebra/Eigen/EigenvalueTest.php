@@ -110,6 +110,31 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         qrAlgorithm returns the expected eigenvalues
+     * @dataProvider dataProviderForEigenvalues
+     * @dataProvider dataProviderForLargeMatrixEigenvalues
+     * @dataProvider dataProviderForSymmetricEigenvalues
+     * @param        array $A
+     * @param        array $S
+     * @param        float $max_abs_eigenvalue maximum absolute eigenvalue
+     * @throws       \Exception
+     */
+    public function testQRAlgorithm(array $A, array $S)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = Eigenvalue::qrAlgorithm($A);
+
+        sort($S);
+        sort($eigenvalues);
+
+        // Then
+        $this->assertEqualsWithDelta($S, $eigenvalues, 0.0001);
+    }
+
+    /**
      * @test         Matrix eigenvalues using powerIterationMethod returns the expected eigenvalues
      * @dataProvider dataProviderForEigenvalues
      * @dataProvider dataProviderForLargeMatrixEigenvalues
@@ -197,6 +222,24 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [
+                    [2, 0, 1],
+                    [2, 1, 2],
+                    [3, 0, 4]
+                ],
+                [5, 1, 1],
+                5,
+            ],
+            [ // Matrix has duplicate eigenvalues. no solution on the axis
+                [
+                    [2, 2, -3],
+                    [2, 5, -6],
+                    [3, 6, -8],
+                ],
+                [-3, 1, 1],
+                -3
+            ],
+            [
+                [
                     [1, 2, 1],
                     [6, -1, 0],
                     [-1, -2, -1],
@@ -251,6 +294,18 @@ class EigenvalueTest extends \PHPUnit\Framework\TestCase
                 ],
                 [4, 3, 2, -2, 1, -1],
                 4,
+            ], 
+            [ // Failing case
+                [
+                    [2,0,0,0,0,0],
+                    [0,2,0,0,0,1729.7],
+                    [0,0,2,0,-1729.7,0],
+                    [0,0,0,0,0,0],
+                    [0,0,-1729.7,0,2.82879*10**6,0],
+                    [0,1729.7,0,0,0,2.82879*10**6]
+                ],
+                [2828791.05765, 0.94235235527, 0.94235235527, 2828791.05765, 2, 0],
+                2828791.05765
             ]
         ];
     }
