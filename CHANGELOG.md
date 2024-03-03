@@ -1,5 +1,13 @@
 # MathPHP Change Log
 
+## v2.9.0 - 2024-03-02
+
+### New Features
+* Distance `chebyshev`
+
+### Improvements
+* Internal build CI/CD improvements
+
 ## v2.8.1 - 2023-05-18
 
 ### Improvements
