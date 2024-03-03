@@ -23,6 +23,7 @@ use MathPHP\LinearAlgebra\Vector;
  *   - Cosine similarity
  *   - Bray Curtis
  *   - Canberra
+ *   - Chebyshev
  *
  * In statistics, probability theory, and information theory, a statistical distance quantifies the distance between
  * two statistical objects, which can be two random variables, or two probability distributions or samples, or the
