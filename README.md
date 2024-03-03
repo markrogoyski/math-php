@@ -1868,6 +1868,7 @@ $bool = $A->isProperSuperset($B); // A ⊇ B & A ≠ B
 // Set operations with other sets - return a new Set
 $A∪B  = $A->union($B);
 $A∩B  = $A->intersect($B);
+$A∩B  = $A->intersectPartial(2, $B); // M-partial intersection
 $A＼B = $A->difference($B);          // relative complement
 $AΔB  = $A->symmetricDifference($B);
 $A×B  = $A->cartesianProduct($B);
