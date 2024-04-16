@@ -865,7 +865,8 @@ use MathPHP\NumberTheory\Integer;
 
 $n = 225;
 
-// Prime factorization
+// Prime numbers
+$bool    = Integer::isPrime($n);
 $factors = Integer::primeFactorization($n);
 
 // Divisor function
