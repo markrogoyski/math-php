@@ -15,6 +15,8 @@ use MathPHP\Algebra;
  * Axioms tested:
  *  - Coprime
  *    - lcm(a, b) = ab
+ *  - Prime factorization
+ *    - All primes
  */
 class IntegerAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -108,5 +110,19 @@ class IntegerAxiomsTest extends \PHPUnit\Framework\TestCase
             [28, 29],
             [29, 30],
         ];
+    }
+
+    /**
+     * Axiom: Prime factorization produces only primes
+     * @return void
+     */
+    public function testPrimeFactorizationAllPrimes(): void
+    {
+        for ($i = 2; $i < 10000; $i++) {
+            $primes = Integer::primeFactorization($i);
+            foreach ($primes as $prime) {
+                $this->assertTrue(Integer::isPrime($prime));
+            }
+        }
     }
 }
