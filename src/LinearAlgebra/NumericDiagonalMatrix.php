@@ -80,4 +80,14 @@ class NumericDiagonalMatrix extends NumericSquareMatrix
     {
         return MatrixFactory::diagonal(Single::reciprocal($this->getDiagonalElements()));
     }
+
+    /**
+     * pseudoInverse identical to inverse
+     *
+     * @return NumericMatrix
+     */
+    public function pseudoInverse(): NumericMatrix
+    {
+        return $this->inverse();
+    }
 }
