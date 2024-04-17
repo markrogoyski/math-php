@@ -1,5 +1,10 @@
 # MathPHP Change Log
 
+## v2.10.0 - 2024-04-16
+
+### New Features
+* NumberTheory\Integer `isPrime`
+
 ## v2.9.0 - 2024-03-02
 
 ### New Features
