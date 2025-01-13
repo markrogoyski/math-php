@@ -425,7 +425,7 @@ class MatrixFactory
      * @throws Exception\MathException
      * @throws Exception\OutOfBoundsException if m, n, or k are < 0; if k >= n
      */
-    public static function eye(int $m, int $n, int $k, float $x = null): NumericMatrix
+    public static function eye(int $m, int $n, int $k, ?float $x = null): NumericMatrix
     {
         if ($n < 0 || $m < 0 || $k < 0) {
             throw new Exception\OutOfBoundsException("m, n and k must be ≥ 0. m = $m, n = $n, k = $k");

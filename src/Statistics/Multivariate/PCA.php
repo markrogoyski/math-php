@@ -106,7 +106,7 @@ class PCA
      *
      * @throws Exception\MathException
      */
-    public function standardizeData(NumericMatrix $new_data = null): NumericMatrix
+    public function standardizeData(?NumericMatrix $new_data = null): NumericMatrix
     {
         if ($new_data === null) {
             $X = $this->data;
@@ -164,7 +164,7 @@ class PCA
      *
      * @throws Exception\MathException
      */
-    public function getScores(NumericMatrix $new_data = null): NumericMatrix
+    public function getScores(?NumericMatrix $new_data = null): NumericMatrix
     {
         if ($new_data === null) {
             $scaled_data = $this->data;
@@ -220,7 +220,7 @@ class PCA
      *
      * @throws Exception\MathException
      */
-    public function getQResiduals(NumericMatrix $new_data = null): NumericMatrix
+    public function getQResiduals(?NumericMatrix $new_data = null): NumericMatrix
     {
         $vars = $this->data->getN();
 
@@ -265,7 +265,7 @@ class PCA
      *
      * @throws Exception\MathException
      */
-    public function getT2Distances(NumericMatrix $new_data = null): NumericMatrix
+    public function getT2Distances(?NumericMatrix $new_data = null): NumericMatrix
     {
         $vars = $this->data->getN();
 
