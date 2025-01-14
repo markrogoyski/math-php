@@ -228,7 +228,7 @@ class Combinatorics
      *
      * @throws Exception\OutOfBoundsException if n is negative or k is larger than n
      */
-    public static function permutations(int $n, int $k = null): float
+    public static function permutations(int $n, ?int $k = null): float
     {
         if ($n < 0) {
             throw new Exception\OutOfBoundsException('Cannot compute negative permutations.');

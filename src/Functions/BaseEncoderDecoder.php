@@ -91,7 +91,7 @@ class BaseEncoderDecoder
      *
      * @throws Exception\BadParameterException if the string is empty or base is greater than 256
      */
-    public static function createArbitraryInteger(string $number, int $base, string $offset = null): ArbitraryInteger
+    public static function createArbitraryInteger(string $number, int $base, ?string $offset = null): ArbitraryInteger
     {
         if ($number == '') {
             throw new Exception\BadParameterException("String cannot be empty.");

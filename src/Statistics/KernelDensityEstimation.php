@@ -49,7 +49,7 @@ class KernelDensityEstimation
      * @throws Exception\OutOfBoundsException h ≤ 0
      * @throws Exception\BadParameterException
      */
-    public function __construct(array $data, float $h = null, $kernel = null)
+    public function __construct(array $data, ?float $h = null, $kernel = null)
     {
         $this->n = \count($data);
         if ($this->n === 0) {
@@ -68,7 +68,7 @@ class KernelDensityEstimation
      *
      * @throws Exception\OutOfBoundsException if h ≤ 0
      */
-    public function setBandwidth(float $h = null): void
+    public function setBandwidth(?float $h = null): void
     {
         if ($h === null) {
             $this->h = $this->getDefaultBandwidth();
