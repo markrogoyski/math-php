@@ -1283,13 +1283,11 @@ class NumericMatrix extends Matrix
             $R[$i] = \array_fill(0, $B->n, 0);
             foreach ($Bᵀ as $j => $Bᶜᵒˡ⟦j⟧) {
                 foreach ($Aʳᵒʷ⟦i⟧ as $k => $A⟦i⟧⟦k⟧) {
-                    // @phpstan-ignore-next-line (Remove in PHP 8.0, no longer returns false)
                     $R[$i][$j] += $A⟦i⟧⟦k⟧ * $Bᶜᵒˡ⟦j⟧[$k];
                 }
             }
         }
 
-        // @phpstan-ignore-next-line (Due to above false from array_fill)
         return MatrixFactory::createNumeric($R, $this->ε);
     }
 

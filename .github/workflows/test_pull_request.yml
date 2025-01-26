@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: ['7.2']
+        php: ['8.4']
 
     steps:
       - name: Set up PHP

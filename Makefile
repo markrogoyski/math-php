@@ -12,7 +12,7 @@ style :
 	vendor/bin/phpcs --standard=tests/coding_standard.xml --ignore=vendor -s .
 
 phpstan :
-	vendor/bin/phpstan analyze -c tests/phpstan.neon
+	vendor/bin/phpstan analyze -c tests/phpstan.neon --memory-limit 1G
 
 phpmd :
 	vendor/bin/phpmd src/ ansi cleancode,codesize,design,unusedcode,naming
