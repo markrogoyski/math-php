@@ -1,5 +1,10 @@
 # MathPHP Change Log
 
+## v2.11.0 - 2025-01-26
+
+### Improvements
+* Minor changes for PHP 8.4 compatibility
+
 ## v2.10.0 - 2024-04-16
 
 ### New Features
