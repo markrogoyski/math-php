@@ -237,4 +237,39 @@ class CategoricalTest extends \PHPUnit\Framework\TestCase
         // When
         $does_not_exist = $categorical->does_not_exist;
     }
+
+
+    /**
+     * @test rand
+     */
+    public function testRand()
+    {
+        // Given
+        $k             = 3;
+        $probabilities = ['a' => 0.2, 'b' => 0.5, 'c' => 0.3];
+        $categorical   = new Categorical($k, $probabilities);
+
+        // When
+        $rand = $categorical->rand();
+
+        // Then
+        $this->assertContains($rand, ['a', 'b', 'c']);
+    }
+
+    /**
+     * @test rand with certainty
+     */
+    public function testRandCertain()
+    {
+        // Given
+        $k             = 3;
+        $probabilities = ['a' => 0.0, 'b' => 1.0, 'c' => 0.0];
+        $categorical   = new Categorical($k, $probabilities);
+
+        // When
+        $rand = $categorical->rand();
+
+        // Then
+        $this->assertEquals('b', $rand);
+    }
 }

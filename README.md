@@ -1471,6 +1471,7 @@ $probabilities = ['a' => 0.3, 'b' => 0.2, 'c' => 0.5]; // probabilities for cate
 $categorical   = new Discrete\Categorical($k, $probabilities);
 $pmf_a         = $categorical->pmf('a');
 $mode          = $categorical->mode();
+$random        = $categorical->rand(); // returns 'a' or 'b' or 'c'
 
 // Geometric distribution (failures before the first success)
 $p         = 0.5; // success probability
@@ -1549,6 +1550,7 @@ $cdf     = $uniform->cdf($k);
 $μ       = $uniform->mean();
 $median  = $uniform->median();
 $σ²      = $uniform->variance();
+$random  = $uniform->rand();
 
 // Zipf distribution
 $k    = 2;   // rank

@@ -175,4 +175,23 @@ class UniformTest extends \PHPUnit\Framework\TestCase
             [2, 4, 0.66666666666667],
         ];
     }
+
+    /**
+     * @test rand
+     */
+    public function testRand()
+    {
+        // Given
+        $a = 10;
+        $b = 11;
+        $uniform = new Uniform($a, $b);
+
+        // When
+        $random = $uniform->rand();
+
+        // Then
+        $this->assertTrue(\is_numeric($random));
+        $this->assertTrue($a <= $random);
+        $this->assertTrue($random <= $b);
+    }
 }

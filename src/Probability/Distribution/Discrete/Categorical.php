@@ -28,6 +28,14 @@ class Categorical extends Discrete
     private $probabilities;
 
     /**
+     * @var array<int|string, int|float>|null
+     * Cached CDF when pmf sorted from most probable category
+     * to least probable category.
+     * This is only useful for repeated sampling using Categorical::rand()
+     */
+    private $sorted_cdf = null;
+
+    /**
      * Distribution constructor
      *
      * @param  int                       $k             number of categories
@@ -122,5 +130,46 @@ class Categorical extends Discrete
             default:
                 throw new Exception\BadDataException("$name is not a valid gettable parameter");
         }
+    }
+
+    /**
+     * Sample a random category and return its key
+     *
+     * @return int|string
+     */
+    public function rand()
+    {
+        // calculate sorted cdf or use cached array
+        if (is_null($this->sorted_cdf)) {
+            // sort probabilities in descending order
+            $sorted_probabilities = $this->probabilities; // copy as arsort works in place
+            arsort($sorted_probabilities, SORT_NUMERIC);
+
+            // calculate cdf
+            $cdf = [];
+            $sum = 0.0;
+            foreach ($sorted_probabilities as $category => $pᵢ) {
+                $sum += $pᵢ;
+                $cdf[$category] = $sum;
+            }
+
+            $this->sorted_cdf = $cdf;
+        }
+
+        $rand = \random_int(0, \PHP_INT_MAX) / \PHP_INT_MAX; // [0, 1]
+
+        // find first element in sorted cdf that is larger than $rand
+        // for large arrays, performance could be improved by using binary search instead
+        // also possible with array_find_key in PHP >=8.4
+        foreach ($this->sorted_cdf as $category => $v) {
+            if ($v >= $rand) {
+                return $category;
+            }
+        }
+
+        // should only end up here if due to rounding errors the sum of probabilities
+        // is less than 1.0 and the generated random value is larger than the sum
+        // should be very unlikely, but possible
+        return array_key_last($this->sorted_cdf);
     }
 }
