@@ -31,6 +31,7 @@ use MathPHP\Tests;
  *    - AA⁻¹ = I = A⁻¹A
  *    - (A⁻¹)⁻¹ = A
  *    - (AB)⁻¹ = B⁻¹A⁻¹
+ *    - (A + B)⁻¹ ≠ A⁻¹ + B⁻¹
  *    - A is invertible, Aᵀ is inveritble
  *    - A is invertible, AAᵀ is inveritble
  *    - A is invertible, AᵀA is inveritble
@@ -836,6 +837,33 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEqualsWithDelta($⟮AB⟯⁻¹->getMatrix(), $B⁻¹A⁻¹->getMatrix(), 0.00001);
+    }
+
+    /**
+     * (A + B)⁻¹ ≠ A⁻¹ + B⁻¹
+     * The inverse of a sum is not equal to the sum of inverses.
+     *
+     * @dataProvider dataProviderForInverse
+     * @param        array $A
+     * @param        array $B
+     * @throws       \Exception
+     */
+    public function testInverseSumIsNotTheSumOfInverses(array $A, array $B)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+
+        // When
+        $⟮A＋B⟯⁻¹ = $A->add($B)->inverse();
+
+        // And
+        $A⁻¹ = $A->inverse();
+        $B⁻¹ = $B->inverse();
+        $⟮A⁻¹＋B⁻¹⟯ = $A⁻¹->add($B⁻¹);
+
+        // Then
+        $this->assertNotEqualsWithDelta($⟮A＋B⟯⁻¹->getMatrix(), $⟮A⁻¹＋B⁻¹⟯ ->getMatrix(), 0.00001);
     }
 
     /**
