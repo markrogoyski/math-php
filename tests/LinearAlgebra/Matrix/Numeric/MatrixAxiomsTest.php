@@ -24,6 +24,7 @@ use MathPHP\Tests;
  *    - A(B + C) = AB + BC
  *    - (A + B)C = AC + BC
  *    - r(AB) = (rA)B = A(rB)
+ *    - (λ + ψ)A = λA + ψA
  *  - Identity
  *    - AI = A = IA
  *    - I is involutory
@@ -272,7 +273,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test Axiom: A + (−A) = 0
-     * Adding the negate of a matrix is a zero matrix.
+     * Adding the negation of a matrix is a zero matrix.
      *
      * @dataProvider dataProviderForNegateAdditionZeroMatrix
      * @param        array $A
@@ -543,7 +544,7 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
      * @param        int $r
      * @throws       \Exception
      */
-    public function testScalarMultiplcationOrder(array $A, array $B, int $r)
+    public function testScalarMultiplicationOrder(array $A, array $B, int $r)
     {
         // Given
         $A = MatrixFactory::create($A);
@@ -565,6 +566,35 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($r⟮AB⟯->getMatrix(), $⟮rA⟯B->getMatrix());
         $this->assertEquals($⟮rA⟯B->getMatrix(), $A⟮rB⟯->getMatrix());
         $this->assertEquals($r⟮AB⟯->getMatrix(), $A⟮rB⟯->getMatrix());
+    }
+
+    /**
+     * @test Axiom: (λ + ψ)A = λA + ψA
+     * Scalar multiplication is distributive
+     *
+     * @dataProvider dataProviderForSingleMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testScalarDistributivity(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // And
+        $λ = 5;
+        $ψ = 3;
+
+        // When (λ + ψ)A
+        $⟮λ＋ψ⟯A = $A->scalarMultiply($λ + $ψ);
+
+        // And λA + ψA
+        $λA     = $A->scalarMultiply($λ);
+        $ψA     = $A->scalarMultiply($ψ);
+        $⟮λA＋ψA⟯ = $λA->add($ψA);
+
+        // Then (λ + ψ)A = λA + ψA
+        $this->assertEquals($⟮λ＋ψ⟯A->getMatrix(), $⟮λA＋ψA⟯->getMatrix());
     }
 
     /**
