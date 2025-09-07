@@ -22,6 +22,7 @@ use MathPHP\Tests;
  *  - Multiplication
  *    - (AB)C = A(BC)
  *    - A(B + C) = AB + BC
+ *    - (A + B)C = AC + BC
  *    - r(AB) = (rA)B = A(rB)
  *  - Identity
  *    - AI = A = IA
@@ -442,6 +443,36 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEquals($A⟮B＋C⟯->getMatrix(), $AB＋AC->getMatrix());
+    }
+
+    /**
+     * @test Axiom: (A + B)C = AC + BC
+     * Matrix multiplication is distributive
+     *
+     * @dataProvider dataProviderForMultiplicationIsDistributive
+     * @param        array $A
+     * @param        array $B
+     * @param        array $C
+     * @throws       \Exception
+     */
+    public function testMultiplicationIsDistributive2(array $A, array $B, array $C)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $B = MatrixFactory::create($B);
+        $C = MatrixFactory::create($C);
+
+        // When (A + B)C
+        $⟮A＋B⟯  = $A->add($B);
+        $⟮A＋B⟯C = $⟮A＋B⟯->multiply($C);
+
+        // And AC + BC
+        $AC     = $A->multiply($C);
+        $BC     = $B->multiply($C);
+        $AC＋BC = $AC->add($BC);
+
+        // Then
+        $this->assertEquals($⟮A＋B⟯C->getMatrix(), $AC＋BC->getMatrix());
     }
 
     /**
