@@ -180,6 +180,12 @@ use MathPHP\Tests;
  *    - tr(Aᵏ) = 0 for all k > 0
  *    - det(A) = 0
  *    - Cannot be invertible
+ *  - Matrix norms
+ *    - ‖A‖ ≥ 0 (non-negativity)
+ *    - ‖A‖ = 0 ⟺ A = 0 (definiteness)
+ *    - ‖kA‖ = |k| ‖A‖ (homogeneity)
+ *    - ‖A + B‖ ≤ ‖A‖ + ‖B‖ (triangle inequality)
+ *    - ‖AB‖F ≤ ‖A‖F ‖B‖F (submultiplicativity for Frobenius norm)
  */
 class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 {
@@ -3779,5 +3785,316 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertFalse($isInvertible);
+    }
+
+    /**************************************************************************
+     * MATRIX NORM AXIOMS
+     **************************************************************************/
+
+    /**
+     * @test Axiom: ‖A‖ ≥ 0 (non-negativity)
+     * Matrix norms are always non-negative
+     *
+     * @dataProvider dataProviderForSingleMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testMatrixNormNonNegativity(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $oneNorm       = $A->oneNorm();
+        $frobeniusNorm = $A->frobeniusNorm();
+        $infinityNorm  = $A->infinityNorm();
+        $maxNorm       = $A->maxNorm();
+
+        // Then
+        $this->assertGreaterThanOrEqual(0, $oneNorm);
+        $this->assertGreaterThanOrEqual(0, $frobeniusNorm);
+        $this->assertGreaterThanOrEqual(0, $infinityNorm);
+        $this->assertGreaterThanOrEqual(0, $maxNorm);
+    }
+
+    /**
+     * @test Axiom: ‖A‖ = 0 ⟺ A = 0 (definiteness)
+     * Matrix norm is zero if and only if the matrix is the zero matrix
+     *
+     * @dataProvider dataProviderForZeroMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testMatrixNormZeroDefiniteness(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $oneNorm       = $A->oneNorm();
+        $frobeniusNorm = $A->frobeniusNorm();
+        $infinityNorm  = $A->infinityNorm();
+        $maxNorm       = $A->maxNorm();
+
+        // Then
+        $this->assertEquals(0, $oneNorm);
+        $this->assertEquals(0, $frobeniusNorm);
+        $this->assertEquals(0, $infinityNorm);
+        $this->assertEquals(0, $maxNorm);
+    }
+
+    /**
+     * @test Axiom: ‖kA‖ = |k| ‖A‖ (homogeneity)
+     * Scaling a matrix by a scalar k scales all norms by |k|
+     *
+     * @dataProvider dataProviderForMatrixNormHomogeneity
+     * @param        array $A
+     * @param        float $k
+     * @throws       \Exception
+     */
+    public function testMatrixNormHomogeneity(array $A, float $k)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $kA = $A->scalarMultiply($k);
+
+        // And
+        $‖A‖oneNorm       = $A->oneNorm();
+        $‖A‖frobeniusNorm = $A->frobeniusNorm();
+        $‖A‖infinityNorm  = $A->infinityNorm();
+        $‖A‖maxNorm       = $A->maxNorm();
+
+        // When
+        $‖kA‖oneNorm       = $kA->oneNorm();
+        $‖kA‖frobeniusNorm = $kA->frobeniusNorm();
+        $‖kA‖infinityNorm  = $kA->infinityNorm();
+        $‖kA‖maxNorm       = $kA->maxNorm();
+
+        // Then
+        $this->assertEqualsWithDelta(abs($k) * $‖A‖oneNorm, $‖kA‖oneNorm, 1e-8);
+        $this->assertEqualsWithDelta(abs($k) * $‖A‖frobeniusNorm, $‖kA‖frobeniusNorm, 1e-8);
+        $this->assertEqualsWithDelta(abs($k) * $‖A‖infinityNorm, $‖kA‖infinityNorm, 1e-8);
+        $this->assertEqualsWithDelta(abs($k) * $‖A‖maxNorm, $‖kA‖maxNorm, 1e-8);
+    }
+
+    /**
+     * @test Axiom: ‖A + B‖ ≤ ‖A‖ + ‖B‖ (triangle inequality)
+     * The norm of a sum is at most the sum of the norms
+     *
+     * @dataProvider dataProviderForTwoMatricesOfSameSize
+     * @param        array $A
+     * @param        array $B
+     * @throws       \Exception
+     */
+    public function testMatrixNormTriangleInequality(array $A, array $B)
+    {
+        // Given
+        $A   = MatrixFactory::create($A);
+        $B   = MatrixFactory::create($B);
+        $A_B = $A->add($B);
+
+        // When
+        $A_oneNorm      = $A->oneNorm();
+        $A_frobeniusNorm = $A->frobeniusNorm();
+        $A_infinityNorm = $A->infinityNorm();
+        $A_maxNorm      = $A->maxNorm();
+
+        $B_oneNorm      = $B->oneNorm();
+        $B_frobeniusNorm = $B->frobeniusNorm();
+        $B_infinityNorm = $B->infinityNorm();
+        $B_maxNorm      = $B->maxNorm();
+
+        $A_B_oneNorm      = $A_B->oneNorm();
+        $A_B_frobeniusNorm = $A_B->frobeniusNorm();
+        $A_B_infinityNorm = $A_B->infinityNorm();
+        $A_B_maxNorm      = $A_B->maxNorm();
+
+        // Then
+        $this->assertLessThanOrEqual($A_oneNorm + $B_oneNorm, $A_B_oneNorm);
+        $this->assertLessThanOrEqual($A_frobeniusNorm + $B_frobeniusNorm, $A_B_frobeniusNorm);
+        $this->assertLessThanOrEqual($A_infinityNorm + $B_infinityNorm, $A_B_infinityNorm);
+        $this->assertLessThanOrEqual($A_maxNorm + $B_maxNorm, $A_B_maxNorm);
+    }
+
+    /**
+     * @test Axiom: ‖AB‖F ≤ ‖A‖F ‖B‖F (submultiplicativity for Frobenius norm)
+     * The Frobenius norm is submultiplicative
+     *
+     * @dataProvider dataProviderForTwoMatricesOfSameSize
+     * @param        array $A
+     * @param        array $B
+     * @throws       \Exception
+     */
+    public function testFrobeniusNormSubmultiplicativity(array $A, array $B)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $B  = MatrixFactory::create($B);
+        $AB = $A->multiply($B);
+
+        // When
+        $A_frobeniusNorm  = $A->frobeniusNorm();
+        $B_frobeniusNorm  = $B->frobeniusNorm();
+        $AB_frobeniusNorm = $AB->frobeniusNorm();
+
+        // Then
+        $this->assertLessThanOrEqual($A_frobeniusNorm * $B_frobeniusNorm, $AB_frobeniusNorm);
+    }
+
+    /**************************************************************************
+     * DATA PROVIDERS FOR MATRIX NORM TESTS
+     **************************************************************************/
+
+    /**
+     * Data provider for matrix norm homogeneity tests
+     * @return array
+     */
+    public function dataProviderForMatrixNormHomogeneity(): array
+    {
+        return [
+            // 2x2 matrix with positive scalar
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                2.5,
+            ],
+            // 2x2 matrix with negative scalar
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                -3.0,
+            ],
+            // 3x3 matrix with positive scalar
+            [
+                [
+                    [1, 0, 0],
+                    [0, 2, 0],
+                    [0, 0, 3],
+                ],
+                1.5,
+            ],
+            // 3x3 matrix with negative scalar
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                -0.5,
+            ],
+            // 4x4 matrix with positive scalar
+            [
+                [
+                    [1, 0, 0, 0],
+                    [0, 2, 0, 0],
+                    [0, 0, 3, 0],
+                    [0, 0, 0, 4],
+                ],
+                3.2,
+            ],
+            // 5x5 matrix with negative scalar
+            [
+                [
+                    [1, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 1],
+                ],
+                -2.7,
+            ],
+        ];
+    }
+
+    /**
+     * Data provider for two matrices of the same size for triangle inequality tests
+     * @return array
+     */
+    public function dataProviderForTwoMatricesOfSameSize(): array
+    {
+        return [
+            // 2x2 matrices
+            [
+                [
+                    [1, 2],
+                    [3, 4],
+                ],
+                [
+                    [5, 6],
+                    [7, 8],
+                ],
+            ],
+            [
+                [
+                    [-1, 2],
+                    [0, -3],
+                ],
+                [
+                    [2, -1],
+                    [1, 4],
+                ],
+            ],
+            // 3x3 matrices
+            [
+                [
+                    [1, 0, 0],
+                    [0, 2, 0],
+                    [0, 0, 3],
+                ],
+                [
+                    [2, 1, 0],
+                    [1, 3, 1],
+                    [0, 1, 4],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [4, 5, 6],
+                    [7, 8, 9],
+                ],
+                [
+                    [9, 8, 7],
+                    [6, 5, 4],
+                    [3, 2, 1],
+                ],
+            ],
+            // 4x4 matrices
+            [
+                [
+                    [1, 0, 0, 0],
+                    [0, 2, 0, 0],
+                    [0, 0, 3, 0],
+                    [0, 0, 0, 4],
+                ],
+                [
+                    [4, 3, 2, 1],
+                    [3, 4, 3, 2],
+                    [2, 3, 4, 3],
+                    [1, 2, 3, 4],
+                ],
+            ],
+            // 5x5 matrices
+            [
+                [
+                    [1, 0, 0, 0, 0],
+                    [0, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 0],
+                    [0, 0, 0, 0, 1],
+                ],
+                [
+                    [2, 1, 0, 0, 0],
+                    [1, 2, 1, 0, 0],
+                    [0, 1, 2, 1, 0],
+                    [0, 0, 1, 2, 1],
+                    [0, 0, 0, 1, 2],
+                ],
+            ],
+        ];
     }
 }

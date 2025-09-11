@@ -73,6 +73,7 @@ trait MatrixDataProvider
      *  - dataProviderForObjectSquareMatrix
      *  - dataProviderForComplexObjectMatrix
      *  - dataProviderForComplexSquareObjectMatrix
+     *  - dataProviderForZeroMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -7435,6 +7436,56 @@ trait MatrixDataProvider
         ];
     }
 
+    /**
+     * Data provider for zero matrices of various sizes
+     * @return array
+     */
+    public function dataProviderForZeroMatrix(): array
+    {
+        return [
+            // 1x1 zero matrix
+            [
+                [
+                    [0]
+                ]
+            ],
+            // 2x2 zero matrix
+            [
+                [
+                    [0, 0],
+                    [0, 0],
+                ],
+            ],
+            // 3x3 zero matrix
+            [
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0],
+                ],
+            ],
+            // 4x4 zero matrix
+            [
+                [
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                ],
+            ],
+            // 5x5 zero matrix
+            [
+                [
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                    [0, 0, 0, 0, 0],
+                ],
+            ],
+        ];
+    }
+
     public function dataProviderForBidiagonalMatrix(): \Generator
     {
         foreach ($this->dataProviderForUpperBidiagonalMatrix() as $matrix) {
@@ -7502,6 +7553,9 @@ trait MatrixDataProvider
             yield $matrix;
         }
         foreach ($this->dataProviderForMatrixWithWeirdNumbers() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForZeroMatrix() as $matrix) {
             yield $matrix;
         }
     }
