@@ -48,6 +48,9 @@ use MathPHP\Tests;
  *  - Determinant
  *    - det(A) = det(Aᵀ)
  *    - det(AB) = det(A)det(B)
+ *    - A is invertible if and only if det A ≠ 0
+ *    - A is not invertible if det A = 0
+ *    - A is triangular, det(A) is product of entries on main diagonal
  *  - LU Decomposition (PA = LU)
  *    - PA = LU
  *    - A = P⁻¹LU
@@ -1238,6 +1241,74 @@ class MatrixAxiomsTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEqualsWithDelta($det⟮AB⟯, $det⟮A⟯det⟮B⟯, 0.000001);
+    }
+
+
+    /**
+     * @test Axiom: A is invertible if and only if det A ≠ 0
+     *
+     * @dataProvider dataProviderForNonsingularMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testMatrixInvertibleIfAndOnlyIfDetANotEqualsZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det⟮A⟯ = $A->det();
+        $isInvertible = $A->isInvertible();
+
+        // Then
+        $this->assertNotEquals(0, $det⟮A⟯);
+        $this->assertTrue($isInvertible);
+    }
+
+    /**
+     * @test Axiom: A is not invertible if det A = 0
+     *
+     * @dataProvider dataProviderForSingularMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testMatrixNotInvertibleIfDetEqualsZero(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det⟮A⟯ = $A->det();
+        $isInvertible = $A->isInvertible();
+
+        // Then
+        $this->assertEquals(0, $det⟮A⟯);
+        $this->assertFalse($isInvertible);
+    }
+
+    /**
+     * @test Axiom: A is triangular, det(A) is product of entries on main diagonal
+     *
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testAIsTriangularDetAIsProductOfEntriesOnMainDiagonal(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $det⟮A⟯ = $A->det();
+
+        // And
+        $product = 1;
+        for ($i = 0; $i < $A->getM(); $i++) {
+            $product *= $A[$i][$i];
+        }
+
+        // Then
+        $this->assertEquals($det⟮A⟯, $product);
     }
 
     /**
