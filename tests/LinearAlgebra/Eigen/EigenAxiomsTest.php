@@ -24,6 +24,7 @@ class EigenAxiomsTest extends \PHPUnit\Framework\TestCase
      *    - tr(A) = Σλᵢ (trace equals sum of eigenvalues)
      *    - det(A) = Πλᵢ (determinant equals product of eigenvalues)
      *    - Aⁿv = λⁿv (matrix power property)
+     *    - Eigenvalues of a triangular matrix are its diagonal entries
      */
 
     /**************************************************************************
@@ -168,6 +169,32 @@ class EigenAxiomsTest extends \PHPUnit\Framework\TestCase
                 $this->assertEqualsWithDelta($λⁿv->get($j), $Aⁿv->get($j), 1e-5);
             }
         }
+    }
+
+    /**
+     * @test Axiom: Eigenvalues of a triangular matrix are its diagonal entries
+     * For a triangular matrix (upper or lower), its eigenvalues are simply the entries on its main diagonal.
+     *
+     * @dataProvider dataProviderForUpperTriangularMatrix
+     * @dataProvider dataProviderForLowerTriangularMatrix
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testEigenvaluesOfTriangularMatrixAreDiagonalEntries(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $eigenvalues = $A->eigenvalues();
+        $diagonal    = $A->getDiagonalElements();
+
+        // And
+        sort($eigenvalues);
+        sort($diagonal);
+
+        // Then
+        $this->assertEqualsWithDelta($diagonal, $eigenvalues, 1e-6);
     }
 
     /**************************************************************************
