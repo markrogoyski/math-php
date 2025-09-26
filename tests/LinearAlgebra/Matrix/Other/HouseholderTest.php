@@ -222,4 +222,36 @@ class HouseholderTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test   Householder large value, potential for cancellation
+     * @throws \Exception
+     */
+    public function testHouseholderDirectCancellationBug()
+    {
+        // Given a column vector that triggers cancellation: [large_positive, small, small]
+        $x = MatrixFactory::create([
+            [1e16],
+            [1],
+            [1]
+        ]);
+
+        // When
+        $H = Householder::transform($x);
+
+        // Then the transformation should zero out all elements below the first
+        $Hx = $H->multiply($x);
+
+        // First element should equal -||x|| (negative due to sign choice)
+        // Other elements should be effectively zero
+        $norm = $x->frobeniusNorm();
+        $this->assertEqualsWithDelta(-$norm, $Hx->get(0, 0), 1e-14 * $norm);
+        $this->assertEqualsWithDelta(0, $Hx->get(1, 0), 1e-14 * $norm);
+        $this->assertEqualsWithDelta(0, $Hx->get(2, 0), 1e-14 * $norm);
+
+        // H should be orthogonal: H^T * H = I
+        $I = MatrixFactory::identity(3);
+        $HH = $H->transpose()->multiply($H);
+        $this->assertEqualsWithDelta($I->getMatrix(), $HH->getMatrix(), 1e-14);
+    }
 }

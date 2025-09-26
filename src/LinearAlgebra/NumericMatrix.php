@@ -886,7 +886,7 @@ class NumericMatrix extends Matrix
         // Elements below lower diagonal are zero
         for ($i = 2; $i < $this->m; $i++) {
             for ($j = 0; $j < $i - 1; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (Support::isNotZero($this->A[$i][$j], $this->ε)) {
                     return false;
                 }
             }
@@ -913,7 +913,7 @@ class NumericMatrix extends Matrix
         // Elements above upper diagonal are zero
         for ($i = 0; $i < $this->m; $i++) {
             for ($j = $i + 2; $j < $this->n; $j++) {
-                if ($this->A[$i][$j] != 0) {
+                if (Support::isNotZero($this->A[$i][$j], $this->ε)) {
                     return false;
                 }
             }
@@ -2741,6 +2741,7 @@ class NumericMatrix extends Matrix
      *  - Cholesky decomposition
      *  - Crout decomposition
      *  - SVD (Singular Value Decomposition)
+     *  - Hessenberg decomposition
      ********************************************************************************/
 
     /**
@@ -2862,6 +2863,30 @@ class NumericMatrix extends Matrix
         }
 
         return $this->catalog->getSVD();
+    }
+
+    /**
+     * Hessenberg Decomposition
+     *
+     * A = QHQ*
+     *
+     * Where:
+     *  Q is an orthogonal matrix
+     *  H is an upper Hessenberg matrix (zeros below the first subdiagonal)
+     *  Q* is the conjugate transpose of Q
+     *
+     * @return Decomposition\Hessenberg
+     *
+     * @throws Exception\MatrixException if matrix is not square
+     * @throws Exception\MathException
+     */
+    public function hessenbergDecomposition(): Decomposition\Hessenberg
+    {
+        if (!$this->catalog->hasHessenbergDecomposition()) {
+            $this->catalog->addHessenbergDecomposition(Decomposition\Hessenberg::decompose($this));
+        }
+
+        return $this->catalog->getHessenbergDecomposition();
     }
 
     /**************************************************************************

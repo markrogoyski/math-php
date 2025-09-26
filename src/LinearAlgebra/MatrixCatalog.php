@@ -36,6 +36,9 @@ class MatrixCatalog
     /** @var Decomposition\SVD */
     private $SVD;
 
+    /** @var Decomposition\Hessenberg */
+    private $hessenberg;
+
     /** @var int|float|ObjectArithmetic determinant */
     private $det;
 
@@ -166,6 +169,7 @@ class MatrixCatalog
      *  - Cholesky decomposition
      *  - Crout decomposition
      *  - SVD
+     *  - Hessenberg decomposition
      **************************************************************************/
 
 
@@ -302,6 +306,33 @@ class MatrixCatalog
     public function getSVD(): Decomposition\SVD
     {
         return $this->SVD;
+    }
+
+    // HESSENBERG DECOMPOSITION
+
+    /**
+     * @param Decomposition\Hessenberg $hessenberg
+     */
+    public function addHessenbergDecomposition(Decomposition\Hessenberg $hessenberg): void
+    {
+        $this->hessenberg = $hessenberg;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasHessenbergDecomposition(): bool
+    {
+        // @phpstan-ignore-next-line
+        return isset($this->hessenberg);
+    }
+
+    /**
+     * @return Decomposition\Hessenberg
+     */
+    public function getHessenbergDecomposition(): Decomposition\Hessenberg
+    {
+        return $this->hessenberg;
     }
     /**************************************************************************
      * DERIVED DATA

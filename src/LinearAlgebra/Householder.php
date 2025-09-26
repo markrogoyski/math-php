@@ -3,6 +3,7 @@
 namespace MathPHP\LinearAlgebra;
 
 use MathPHP\Exception;
+use MathPHP\Functions\Support;
 
 /**
  *  A Householder transformation (also known as a Householder reflection or elementary reflector) is a linear
@@ -22,12 +23,13 @@ class Householder
      * https://en.wikipedia.org/wiki/Householder_transformation
      *
      * @param NumericMatrix $A source Matrix
+     * @param float         $ε optional tolerance for zero checking (defaults to PHP_FLOAT_EPSILON)
      *
      * @return NumericMatrix
      *
      * @throws Exception\MathException
      */
-    public static function transform(NumericMatrix $A): NumericMatrix
+    public static function transform(NumericMatrix $A, float $ε = \PHP_FLOAT_EPSILON): NumericMatrix
     {
         $m = $A->getM();
         $I = MatrixFactory::identity($m);
@@ -47,7 +49,7 @@ class Householder
         $uᵀ  = $u->transpose();
         $uᵀu = $uᵀ->multiply($u)->get(0, 0);
         $uuᵀ = $u->multiply($uᵀ);
-        if ($uᵀu == 0) {
+        if (Support::isZero($uᵀu, $ε)) {
             return $I;
         }
 

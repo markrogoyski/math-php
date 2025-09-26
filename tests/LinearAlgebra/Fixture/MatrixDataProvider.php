@@ -74,6 +74,7 @@ trait MatrixDataProvider
      *  - dataProviderForComplexObjectMatrix
      *  - dataProviderForComplexSquareObjectMatrix
      *  - dataProviderForZeroMatrix
+     *  - dataProviderForLargeSquareMatrix
      **************************************************************************/
 
     public function dataProviderForSquareMatrix(): array
@@ -6734,6 +6735,14 @@ trait MatrixDataProvider
             ],
             [
                 [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [0, 9, 10, 11],
+                    [0, 0, 12, 13],
+                ]
+            ],
+            [
+                [
                     [1, 0, 0, 0, 0],
                     [1, 1, 0, 0, 0],
                     [0, 1, 1, 0, 0],
@@ -7486,6 +7495,40 @@ trait MatrixDataProvider
         ];
     }
 
+    public function dataProviderForLargeSquareMatrix(): array
+    {
+        return [
+            // 8x8
+            [
+                [
+                    [8, 1, 6, 7, 2, 3, 4, 5],
+                    [3, 5, 7, 4, 1, 8, 6, 2],
+                    [4, 9, 2, 8, 5, 1, 7, 3],
+                    [1, 6, 8, 2, 7, 4, 3, 9],
+                    [5, 2, 4, 3, 9, 6, 1, 8],
+                    [9, 7, 3, 1, 4, 2, 8, 6],
+                    [6, 4, 1, 9, 3, 7, 2, 5],
+                    [2, 8, 5, 6, 8, 9, 5, 1]
+                ]
+            ],
+            // 10x10
+            [
+                [
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    [2, 3, 4, 5, 6, 7, 8, 9, 10, 1],
+                    [3, 4, 5, 6, 7, 8, 9, 10, 1, 2],
+                    [4, 5, 6, 7, 8, 9, 10, 1, 2, 3],
+                    [5, 6, 7, 8, 9, 10, 1, 2, 3, 4],
+                    [6, 7, 8, 9, 10, 1, 2, 3, 4, 5],
+                    [7, 8, 9, 10, 1, 2, 3, 4, 5, 6],
+                    [8, 9, 10, 1, 2, 3, 4, 5, 6, 7],
+                    [9, 10, 1, 2, 3, 4, 5, 6, 7, 8],
+                    [10, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                ]
+            ]
+        ];
+    }
+
     public function dataProviderForBidiagonalMatrix(): \Generator
     {
         foreach ($this->dataProviderForUpperBidiagonalMatrix() as $matrix) {
@@ -7556,6 +7599,9 @@ trait MatrixDataProvider
             yield $matrix;
         }
         foreach ($this->dataProviderForZeroMatrix() as $matrix) {
+            yield $matrix;
+        }
+        foreach ($this->dataProviderForLargeSquareMatrix() as $matrix) {
             yield $matrix;
         }
     }
