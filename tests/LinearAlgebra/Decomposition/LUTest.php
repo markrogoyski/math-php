@@ -494,6 +494,167 @@ class LUTest extends \PHPUnit\Framework\TestCase
                     [0, 1, 0, 0],
                 ],
             ],
+            // Near-singular matrix with very small determinant
+            [
+                [
+                    [1.0, 2.0, 3.0],
+                    [4.0, 5.0, 6.0],
+                    [7.0, 8.0, 9.00001]
+                ],
+                [
+                    [1, 0, 0],
+                    [0.14285714, 1, 0],
+                    [0.57142857, 0.5, 1]
+                ],
+                [
+                    [7.0, 8.0, 9.00001],
+                    [0, 0.857142857, 1.71428429],
+                    [0, 0, -5.0e-6]
+                ],
+                [
+                    [0, 0, 1],
+                    [1, 0, 0],
+                    [0, 1, 0]
+                ]
+            ],
+            // Near-singular 2x2 matrix
+            [
+                [
+                    [2.0, 4.0],
+                    [1.0, 2.00001]
+                ],
+                [
+                    [1, 0],
+                    [0.5, 1]
+                ],
+                [
+                    [2, 4],
+                    [0, 1.0E-5]
+                ],
+                [
+                    [1, 0],
+                    [0, 1]
+                ]
+            ],
+            // Hilbert matrix (ill-conditioned)
+            [
+                [
+                    [1.0, 0.5, 0.3333333333],
+                    [0.5, 0.3333333333, 0.25],
+                    [0.3333333333, 0.25, 0.2]
+                ],
+                [
+                    [1.0, 0, 0],
+                    [0.5, 1.0, 0],
+                    [0.3333333333, 1, 1]
+                ],
+                [
+                    [1.0, 0.5, 0.3333333333],
+                    [0, 0.08333333, 0.08333333335],
+                    [0, 0, 0.00555556]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ]
+            ],
+            // Diagonally dominant 3x3
+            [
+                [
+                    [10.0, 1.0, 2.0],
+                    [1.0, 15.0, 3.0],
+                    [2.0, 1.0, 20.0]
+                ],
+                [
+                    [1, 0, 0],
+                    [0.1, 1, 0],
+                    [0.2, 0.05369128, 1]
+                ],
+                [
+                    [10.0, 1, 2],
+                    [0, 14.9, 2.8],
+                    [0, 0, 19.44966443]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ]
+            ],
+            // Diagonally dominant 4x4
+            [
+                [
+                    [20.0, 1.0, 2.0, 3.0],
+                    [1.0, 25.0, 2.0, 1.0],
+                    [2.0, 1.0, 30.0, 2.0],
+                    [3.0, 1.0, 2.0, 35.0]
+                ],
+                [
+                    [1, 0, 0, 0],
+                    [0.05, 1, 0, 0],
+                    [0.1, 0.03607214, 1, 0],
+                    [0.15, 0.03406814, 0.05500135, 1]
+                ],
+                [
+                    [20, 1, 2, 3],
+                    [0, 24.95, 1.9, 0.85],
+                    [0, 0, 29.73146293, 1.66933868],
+                    [0, 0, 0, 34.42922621]
+                ],
+                [
+                    [1, 0, 0, 0],
+                    [0, 1, 0, 0],
+                    [0, 0, 1, 0],
+                    [0, 0, 0, 1]
+                ]
+            ],
+            // Numerical stability test - large and small numbers
+            [
+                [
+                    [1000000.0, 0.000001, 1.0],
+                    [0.000001, 1000000.0, 1.0],
+                    [1.0, 1.0, 1000000.0]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0.000001, 1.e-06, 1]
+                ],
+                [
+                    [1000000, 0.000001, 1],
+                    [0, 1000000, 1],
+                    [0, 0, 1.e+06]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ]
+            ],
+            // Numerical stability test - moderate scaling
+            [
+                [
+                    [100.0, 0.01, 1.0],
+                    [0.01, 100.0, 1.0],
+                    [1.0, 1.0, 100.0]
+                ],
+                [
+                    [1, 0, 0],
+                    [0.0001, 1.0, 0],
+                    [0.01, 0.0099990001, 1]
+                ],
+                [
+                    [100, 0.01, 1],
+                    [0, 99.999999, 0.9999],
+                    [0, 0, 99.980002]
+                ],
+                [
+                    [1, 0, 0],
+                    [0, 1, 0],
+                    [0, 0, 1]
+                ]
+            ],
         ];
     }
 
@@ -561,5 +722,54 @@ class LUTest extends \PHPUnit\Framework\TestCase
 
         // When
         $LU->solve($b);
+    }
+
+    /**
+     * @test         Permutation matrix verification - P should be orthogonal
+     * @dataProvider dataProviderForLUDecomposition
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testPermutationMatrixProperties(array $A)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+
+        // When
+        $LU = $A->luDecomposition();
+
+        // Then - P should be orthogonal (P * P^T = I)
+        $P = $LU->P;
+        $PT = $P->transpose();
+        $PxPT = $P->multiply($PT);
+        $I = MatrixFactory::identity($A->getN());
+
+        $this->assertEqualsWithDelta($I->getMatrix(), $PxPT->getMatrix(), 0.0001);
+
+        // And - determinant should be ±1
+        $det = abs($P->det());
+        $this->assertEqualsWithDelta(1.0, $det, 0.0001);
+    }
+
+    /**
+     * @test         Round-trip accuracy test - solve Ax=b, then verify A*x ≈ b
+     * @dataProvider dataProviderForSolve
+     * @param        array $A
+     * @param        array $b
+     * @throws       \Exception
+     */
+    public function testRoundTripAccuracy(array $A, array $b)
+    {
+        // Given
+        $A  = MatrixFactory::create($A);
+        $b_vec = new Vector($b);
+        $LU = $A->luDecomposition();
+
+        // When
+        $x = $LU->solve($b);
+
+        // Then - A*x should equal b
+        $A_times_x = $A->multiply($x);
+        $this->assertEqualsWithDelta($b_vec->getVector(), $A_times_x->getColumn(0), 0.0001);
     }
 }
