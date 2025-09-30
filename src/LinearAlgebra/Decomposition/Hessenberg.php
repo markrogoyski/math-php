@@ -21,6 +21,8 @@ use MathPHP\LinearAlgebra\MatrixFactory;
  * The Hessenberg decomposition is useful as a preprocessing step for eigenvalue algorithms,
  * as it preserves eigenvalues while reducing the matrix to a form that is easier to work with.
  *
+ * https://en.wikipedia.org/wiki/Hessenberg_matrix
+ *
  * @property-read NumericMatrix $Q Orthogonal transformation matrix
  * @property-read NumericMatrix $H Upper Hessenberg matrix
  */
