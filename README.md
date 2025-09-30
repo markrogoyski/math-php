@@ -546,6 +546,11 @@ $LLᵀ = $A->choleskyDecomposition();
 $L   = $LLᵀ->L;   // lower triangular matrix
 $LT  = $LLᵀ->LT;  // transpose of lower triangular matrix
 
+// Hessenberg decomposition
+$QHQᵀ = $A->hessenbergDecomposition();
+$Q    = $QHQᵀ->Q;  // orthogonal transformation matrix
+$H    = $QHQᵀ->H;  // upper Hessenberg matrix (zeros below first subdiagonal)
+
 // Eigenvalues and eigenvectors
 $eigenvalues   = $A->eigenvalues();   // array of eigenvalues
 $eigenvecetors = $A->eigenvectors();  // Matrix of eigenvectors
