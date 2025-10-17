@@ -365,6 +365,49 @@ $pFq = Special::generalizedHypergeometric($p, $q, $a, $b, $c, $z);
 $₁F₁ = Special::confluentHypergeometric($a, $b, $z);
 $₂F₁ = Special::hypergeometric($a, $b, $c, $z);
 
+// Bessel functions
+// Bessel functions of the first kind J₀(x), J₁(x), Jₙ(x)
+$J₀ = Special::besselJ0($x);
+$J₁ = Special::besselJ1($x);
+$Jₙ = Special::besselJn($n, $x);
+
+// Bessel functions of the second kind Y₀(x), Y₁(x), Yₙ(x)
+$Y₀ = Special::besselY0($x);
+$Y₁ = Special::besselY1($x);
+$Yₙ = Special::besselYn($n, $x);
+
+// Modified Bessel functions of the first kind I₀(x), I₁(x), Iᵥ(x)
+$I₀ = Special::besselI0($x);
+$I₁ = Special::besselI1($x);
+$Iᵥ = Special::besselIv($v, $x);
+
+// Modified Bessel functions of the second kind K₀(x), K₁(x), Kᵥ(x)
+$K₀ = Special::besselK0($x);
+$K₁ = Special::besselK1($x);
+$Kᵥ = Special::besselKv($v, $x);
+
+// Airy functions Ai(x), Bi(x) and their derivatives Ai'(x), Bi'(x)
+$Ai  = Special::airyAi($x);
+$Bi  = Special::airyBi($x);
+$Aip = Special::airyAip($x);  // Ai'(x)
+$Bip = Special::airyBip($x);  // Bi'(x)
+
+// Orthogonal polynomials
+// Legendre polynomials Pₙ(x)
+$Pₙ = Special::legendreP($n, $x);
+
+// Chebyshev polynomials of the first kind Tₙ(x)
+$Tₙ = Special::chebyshevT($n, $x);
+
+// Chebyshev polynomials of the second kind Uₙ(x)
+$Uₙ = Special::chebyshevU($n, $x);
+
+// Hermite polynomials Hₙ(x) (physicist's form)
+$Hₙ = Special::hermiteH($n, $x);
+
+// Hermite polynomials Heₙ(x) (probabilist's form)
+$Heₙ = Special::hermiteHe($n, $x);
+
 // Sign function (also known as signum or sgn)
 $x    = 4;
 $sign = Special::signum($x); // same as sgn
