@@ -701,4 +701,74 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
         // Then t-test completed without division-by-zero error
         $this->expectNotToPerformAssertions();
     }
+
+    /**
+     * @test tTestTwoSample throws BadDataException when both samples have zero variance
+     */
+    public function testTTestTwoSampleZeroVarianceBothSamples(): void
+    {
+        // Given
+        $a = [0, 0];
+        $b = [0, 0];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Significance::tTest($a, $b);
+    }
+
+    /**
+     * @test tTestOneSample throws BadDataException when sample has zero variance
+     */
+    public function testTTestOneSampleZeroVariance(): void
+    {
+        // Given
+        $a = [5, 5, 5, 5];
+        $H₀ = 3;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Significance::tTest($a, $H₀);
+    }
+
+    /**
+     * @test tTestTwoSampleFromSummaryData throws BadDataException when both standard deviations are zero
+     */
+    public function testTTestTwoSampleFromSummaryDataZeroVariance(): void
+    {
+        // Given
+        $μ₁ = 0;
+        $μ₂ = 0;
+        $n₁ = 2;
+        $n₂ = 2;
+        $σ₁ = 0;
+        $σ₂ = 0;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Significance::tTestTwoSampleFromSummaryData($μ₁, $μ₂, $n₁, $n₂, $σ₁, $σ₂);
+    }
+
+    /**
+     * @test tTestOneSampleFromSummaryData throws BadDataException when standard deviation is zero
+     */
+    public function testTTestOneSampleFromSummaryDataZeroVariance(): void
+    {
+        // Given
+        $Hₐ = 5;
+        $s = 0;
+        $n = 4;
+        $H₀ = 3;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Significance::tTestOneSampleFromSummaryData($Hₐ, $s, $n, $H₀);
+    }
 }
