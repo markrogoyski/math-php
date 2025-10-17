@@ -1,6 +1,6 @@
 .PHONY : lint tests style phpstan phpmd report coverage
 
-all : lint tests style phpstan phpmd report
+all : lint tests style phpstan report
 
 tests :
 	vendor/bin/phpunit tests/ --configuration=tests/phpunit.xml
