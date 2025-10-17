@@ -366,10 +366,11 @@ $₁F₁ = Special::confluentHypergeometric($a, $b, $z);
 $₂F₁ = Special::hypergeometric($a, $b, $c, $z);
 
 // Bessel functions
-// Bessel functions of the first kind J₀(x), J₁(x), Jₙ(x)
+// Bessel functions of the first kind J₀(x), J₁(x), Jₙ(x), Jᵥ(x)
 $J₀ = Special::besselJ0($x);
 $J₁ = Special::besselJ1($x);
 $Jₙ = Special::besselJn($n, $x);
+$Jᵥ = Special::besselJv($v, $x);
 
 // Bessel functions of the second kind Y₀(x), Y₁(x), Yₙ(x)
 $Y₀ = Special::besselY0($x);
@@ -407,6 +408,9 @@ $Hₙ = Special::hermiteH($n, $x);
 
 // Hermite polynomials Heₙ(x) (probabilist's form)
 $Heₙ = Special::hermiteHe($n, $x);
+
+// Laguerre polynomials Lₙ(x)
+$Lₙ = Special::laguerreL($n, $x);
 
 // Sign function (also known as signum or sgn)
 $x    = 4;
