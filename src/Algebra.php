@@ -242,6 +242,7 @@ class Algebra
      *      [NAN, NAN]         if discriminant is negative, or
      *      [Complex, Complex] if discriminant is negative and complex option is on or
      *      [x]                if a = 0 and formula isn't quadratics
+     *      []                 if a = 0 and b = 0 (degenerate case)
      *
      * @throws Exception\IncorrectTypeException
      */
@@ -249,6 +250,9 @@ class Algebra
     {
         // Formula not quadratic (a = 0)
         if ($a == 0) {
+            if ($b == 0) {
+                return [];
+            }
             return [-$c / $b];
         }
 

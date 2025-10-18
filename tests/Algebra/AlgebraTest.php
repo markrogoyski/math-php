@@ -819,4 +819,46 @@ class AlgebraTest extends \PHPUnit\Framework\TestCase
             [1, 0, 13, 0, 36, [['r' => 0, 'i' => 2], ['r' => 0, 'i' => -2], ['r' => 0, 'i' => 3], ['r' => 0, 'i' => -3]]],
          ];
     }
+
+    /**
+     * @test quadratic throws DivisionByZeroError when both a=0 and b=0
+     *
+     * The equation 0x² + 0x + c = 0 is mathematically invalid:
+     * - If c = 0, then 0 = 0 (infinitely many solutions)
+     * - If c ≠ 0, then 0 = c (no solution, contradiction)
+     */
+    public function testQuadraticDivisionByZeroWhenBothAAndBAreZero()
+    {
+        // Given
+        $a = 0;
+        $b = 0;
+        $c = 5;
+
+        // When
+        $roots = Algebra::quadratic($a, $b, $c);
+
+        // Then
+        $this->assertEmpty($roots);
+    }
+
+    /**
+     * @test quadratic throws DivisionByZeroError when both a=0 and b=0 and c=0
+     *
+     * The equation 0x² + 0x + c = 0 is mathematically invalid:
+     * - If c = 0, then 0 = 0 (infinitely many solutions)
+     * - If c ≠ 0, then 0 = c (no solution, contradiction)
+     */
+    public function testQuadraticDivisionByZeroWhenBothAAndBAreZeroAndCIsZero()
+    {
+        // Given
+        $a = 0;
+        $b = 0;
+        $c = 0;
+
+        // When
+        $roots = Algebra::quadratic($a, $b, $c);
+
+        // Then
+        $this->assertEmpty($roots);
+    }
 }

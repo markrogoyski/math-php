@@ -8,6 +8,9 @@
 * Matrix `columnSubtractScalar`
 * Matrix `columnDivide`
 
+### Bug Fixes
+* Algebra::quadratic returns empty array when a=0 and b=0 (Previously would divide by zero)
+
 ## v2.12.0 - 2025-10-17
 
 ### New Features

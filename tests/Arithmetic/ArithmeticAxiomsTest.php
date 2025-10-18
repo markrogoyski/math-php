@@ -17,7 +17,7 @@ use MathPHP\Arithmetic;
  *    - dr(n) < n ⇔ n ≥ 10
  *    - dr(a+b) = dr(dr(a) + dr(b))
  *    - dr(a×b) = dr(dr(a) × dr(b))
- *    - dr(n) = 0 ⇔ n = 9m for m = 1, 2, 3 ⋯
+ *    - dr(n) = 9 ⇔ n = 9m for m = 1, 2, 3 ⋯
  *  - Modulo
  *    - Identity: (a mod n) mod n = a mod n
  *    - Identity: nˣ mod n = 0 for all positive integer values of x
@@ -121,7 +121,7 @@ class ArithmeticAxiomsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test Axiom: dr(n) = 0 ⇔ n = 9m for m = 1, 2, 3 ⋯
+     * @test Axiom: dr(n) = 9 ⇔ n = 9m for m = 1, 2, 3 ⋯
      * The digital root of a nonzero number is 9 if and only if the number is itself a multiple of 9.
      */
     public function testDigitalRootMultipleOfNine()
