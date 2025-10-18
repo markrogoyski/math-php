@@ -2594,6 +2594,7 @@ class NumericMatrix extends Matrix
      * COLUMN OPERATIONS - Return a Matrix
      *  - columnMultiply
      *  - columnAdd
+     *  - columnAddScalar
      *  - columnAddVector
      **************************************************************************/
 
@@ -2653,6 +2654,33 @@ class NumericMatrix extends Matrix
 
         for ($i = 0; $i < $m; $i++) {
             $R[$i][$nⱼ] += $R[$i][$nᵢ] * $k;
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
+     * Add a scalar k to each element of column nᵢ
+     *
+     * @param int   $nᵢ Column to add scalar to
+     * @param float $k Scalar to add to each element
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if column to add does not exist
+     * @throws Exception\IncorrectTypeException
+     */
+    public function columnAddScalar(int $nᵢ, float $k): NumericMatrix
+    {
+        if ($nᵢ >= $this->n) {
+            throw new Exception\MatrixException('Column to add does not exist');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nᵢ] += $k;
         }
 
         return MatrixFactory::createNumeric($R, $this->ε);

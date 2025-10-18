@@ -506,6 +506,7 @@ $R = $A->columnInterchange($nᵢ, $nⱼ);
 $R = $A->columnExclude($nᵢ);          // Exclude column $nᵢ
 $R = $A->columnMultiply($nᵢ, $k);     // Multiply column nᵢ by k
 $R = $A->columnAdd($nᵢ, $nⱼ, $k);     // Add k * column nᵢ to column nⱼ
+$R = $A->columnAddScalar($n, $k);     // Add k to each item in column nⱼ
 $R = $A->columnAddVector($nᵢ, $V);    // Add Vector V to column nᵢ
 
 // Matrix augmentations - return a new Matrix

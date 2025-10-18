@@ -416,4 +416,103 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         // When
         $A->columnAddVector(1, $b);
     }
+
+    /**
+     * @test         columnAddScalar
+     * @dataProvider dataProviderForColumnAddScalar
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws      \Exception
+     */
+    public function testColumnAddScalar(array $A, int $nᵢ, float $k, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnAddScalar($nᵢ, $k);
+
+        // Then
+        $this->assertEquals($expectedMatrix, $R);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnAddScalar(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 5,
+                [
+                    [6, 2, 3],
+                    [7, 3, 4],
+                    [8, 4, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1, 5,
+                [
+                    [1, 7, 3],
+                    [2, 8, 4],
+                    [3, 9, 5],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 2, 5,
+                [
+                    [1, 2, 8],
+                    [2, 3, 9],
+                    [3, 4, 10],
+                ],
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 5.3,
+                [
+                    [6.3, 2, 3],
+                    [7.3, 3, 4],
+                    [8.3, 4, 5],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test  columnAddScalar column greater than n
+     * @throws \Exception
+     */
+    public function testColumnAddScalarExceptionColumnGreaterThanN()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // Then
+        $A->columnAddScalar(4, 5);
+    }
 }
