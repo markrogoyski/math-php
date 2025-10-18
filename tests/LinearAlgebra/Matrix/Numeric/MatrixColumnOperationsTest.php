@@ -515,4 +515,104 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         // Then
         $A->columnAddScalar(4, 5);
     }
+
+    /**
+     * @test         columnSubtract
+     * @dataProvider dataProviderForColumnSubtract
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        int   $nⱼ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws       \Exception
+     */
+    public function testColumnSubtract(array $A, int $nᵢ, int $nⱼ, float $k, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnSubtract($nᵢ, $nⱼ, $k);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnSubtract(): array
+    {
+        return [
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 1, 2,
+                [
+                    [1, 0, 3],
+                    [2, -1, 4],
+                    [3, -2, 5],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 1, 2, 3,
+                [
+                    [1, 2, -3],
+                    [2, 3, -5],
+                    [3, 4, -7],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 2, 4,
+                [
+                    [1, 2, -1],
+                    [2, 3, -4],
+                    [3, 4, -7],
+                ]
+            ],
+            [
+                [
+                    [1, 2, 3],
+                    [2, 3, 4],
+                    [3, 4, 5],
+                ], 0, 1, 2.6,
+                [
+                    [1, -0.6, 3],
+                    [2, -2.2, 4],
+                    [3, -3.8, 5],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test   columnSubtract column greater than n
+     * @throws \Exception
+     */
+    public function testColumnSubtractExceptionColumnGreaterThanN()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->columnSubtract(4, 5, 2);
+    }
 }
