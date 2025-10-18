@@ -1,5 +1,25 @@
 # MathPHP Change Log
 
+## v2.12.0 - 2025-10-17
+
+### New Features
+* Matrix Hessenberg decomposition
+* New special functions
+  * Bessel functions
+  * Airy functions
+  * Legendre polynomials
+  * Chebyshev polynomials
+  * Hermite polynomials
+  * Laguerre polynomials
+
+### Bug Fixes
+* Fixed issue 487 in t-test with data with no variance: throws proper exception
+* Fixed issue with Set `isProperSubset` where it didn't take into account identical sets
+
+### Improvements
+* Numerical precision improvements to numerous special functions
+* Documentation improvements and fixes
+
 ## v2.11.0 - 2025-01-26
 
 ### Improvements
