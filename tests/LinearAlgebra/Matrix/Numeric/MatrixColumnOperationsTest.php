@@ -120,6 +120,101 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test         columnDivide
+     * @dataProvider dataProviderForColumnDivide
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws       \Exception
+     */
+    public function testColumnDivide(array $A, int $nᵢ, float $k, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnDivide($nᵢ, $k);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnDivide(): array
+    {
+        return [
+            [
+                [
+                    [2, 3, 4],
+                    [4, 6, 8],
+                    [8, 9, 10],
+                ], 0, 2,
+                [
+                    [1, 3, 4],
+                    [2, 6, 8],
+                    [4, 9, 10],
+                ]
+            ],
+            [
+                [
+                    [2, 3, 4],
+                    [4, 6, 8],
+                    [8, 9, 10],
+                ], 0, 2.1,
+                [
+                    [0.952380952380952, 3, 4],
+                    [1.904761904761905, 6, 8],
+                    [3.80952380952381, 9, 10],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @test  columnDivide column greater than n
+     * @throws \Exception
+     */
+    public function testColumnDivideExceptionColumnGreaterThanN()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->columnDivide(4, 5);
+    }
+
+    /**
+     * @test   columnDivide K is zero
+     * @throws \Exception
+     */
+    public function testColumnDivideExceptionKIsZero()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // Then
+        $this->expectException(Exception\BadParameterException::class);
+
+        // When
+        $A->columnDivide(2, 0);
+    }
+
+    /**
      * @test         columnAdd
      * @dataProvider dataProviderForColumnAdd
      * @param        array $A

@@ -2593,6 +2593,7 @@ class NumericMatrix extends Matrix
     /**************************************************************************
      * COLUMN OPERATIONS - Return a Matrix
      *  - columnMultiply
+     *  - columnDivide
      *  - columnAdd
      *  - columnAddScalar
      *  - columnAddVector
@@ -2624,6 +2625,39 @@ class NumericMatrix extends Matrix
 
         for ($i = 0; $i < $m; $i++) {
             $R[$i][$nᵢ] *= $k;
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
+     * Divide a column by a divisor k
+     *
+     * Each element of Column nᵢ will be divided by k
+     *
+     * @param int   $nᵢ Column to divide
+     * @param float $k divisor
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if column to divide does not exist
+     * @throws Exception\BadParameterException if k is 0
+     * @throws Exception\IncorrectTypeException
+     */
+    public function columnDivide(int $nᵢ, float $k): NumericMatrix
+    {
+        if ($nᵢ >= $this->n) {
+            throw new Exception\MatrixException('Column to divide does not exist');
+        }
+        if ($k == 0) {
+            throw new Exception\BadParameterException('Divisor k must not be 0');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nᵢ] /= $k;
         }
 
         return MatrixFactory::createNumeric($R, $this->ε);

@@ -6,6 +6,7 @@
 * Matrix `columnAddScalar`
 * Matrix `columnSubtract`
 * Matrix `columnSubtractScalar`
+* Matrix `columnDivide`
 
 ## v2.12.0 - 2025-10-17
 
