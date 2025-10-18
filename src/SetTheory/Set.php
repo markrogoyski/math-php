@@ -37,7 +37,7 @@ namespace MathPHP\SetTheory;
  * $set = new Set([$array1, $array2]);
  *
  * The set will have only one element, because the arrays are equal.
- * $array2 === $array2 evaluates to true.
+ * $array1 === $array2 evaluates to true.
  *
  * Example (different objects):
  * $object1 = new \StdClass();
@@ -333,7 +333,7 @@ class Set implements \Countable, \Iterator
         $A∩B = \array_intersect_key($this->A, $B_array);
         $A∖B = \array_diff_key($this->A, $B_array);
 
-        return (\count($A∩B) === \count($this->A)) && (empty($A∖B)) && (\count($this->A) === \count($B));
+        return (\count($A∩B) === \count($this->A)) && (empty($A∖B)) && ($this != $B);
     }
 
     /**
@@ -358,7 +358,7 @@ class Set implements \Countable, \Iterator
     /**
      * Superset (A ⊇ B & A ≠ B)
      * Is the set a superset of the other set?
-     * In other words, does the the set contain all the elements of the other set,
+     * In other words, does the set contain all the elements of the other set,
      * and the set is not the same set as the other set?
      *
      * @param  Set $B
@@ -469,10 +469,10 @@ class Set implements \Countable, \Iterator
     {
         $B_array = $B->asArray();
 
-        $A∪B = \array_intersect_key($this->A, $B_array);
+        $A∩B = \array_intersect_key($this->A, $B_array);
 
-        $A∖B = \array_diff_key($this->A, $A∪B);
-        $B∖A = \array_diff_key($B_array, $A∪B);
+        $A∖B = \array_diff_key($this->A, $A∩B);
+        $B∖A = \array_diff_key($B_array, $A∩B);
 
         return new Set($A∖B + $B∖A);
     }

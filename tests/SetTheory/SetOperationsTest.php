@@ -958,7 +958,7 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test
-     * @dataProvider dataProviderForIsProperSet
+     * @dataProvider dataProviderForIsProperSubset
      */
     public function testIsProperSubset(array $A, array $B)
     {
@@ -970,21 +970,121 @@ class SetOperationsTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($setA->isProperSubset($setB));
     }
 
+    public function dataProviderForIsProperSubset(): array
+    {
+        return [
+            [
+                [],
+                [1],
+            ],
+            [
+                [1],
+                [1, 2],
+            ],
+            [
+                [1, 2],
+                [1, 2, 3],
+            ],
+            [
+                [1, 3, 2],
+                [1, 2, 3, 4],
+            ],
+            [
+                [1, 2,'a', 4.5, new Set([1, 2])],
+                [1, 2, 3, 'a', 4.5, new Set([1, 2])],
+            ],
+            [
+                [1, 3, 'a', 4.5, new Set([1, 2])],
+                [1, 2, 3, 'a', 4.5, new Set([1, 2])],
+            ],
+            [
+                [1, 2, 3, 'a', 4.5, new Set([1, 2]), -1, -2, 3.5],
+                [1, 2, 3, 'a', 4.5, new Set([1, 2]), -1, -2, 2.4, 3.5],
+            ],
+        ];
+    }
+
+
     /**
      * @test
-     * @dataProvider dataProviderForIsProperSet
+     * @dataProvider dataProviderForIsSameSets
+     * @dataProvider dataProviderForIsProperSuperset
+     */
+    public function testIsNotProperSubset(array $A, array $B)
+    {
+        // Given
+        $setA = new Set($A);
+        $setB = new Set($B);
+
+        // Then
+        $this->assertFalse($setA->isProperSubset($setB));
+    }
+
+    /**
+     * @test
+     * @dataProvider dataProviderForIsProperSuperset
      */
     public function testIsProperSuperset(array $A, array $B)
     {
         // Given
-        $setA = new Set($B);
-        $setB = new Set($A);
+        $setA = new Set($A);
+        $setB = new Set($B);
+
+        // Then
+        $this->assertTrue($setA->isProperSuperset($setB));
+    }
+
+    public function dataProviderForIsProperSuperset(): array
+    {
+        return [
+            [
+                [1],
+                [],
+            ],
+            [
+                [1, 2],
+                [1],
+            ],
+            [
+                [1, 2, 3],
+                [1, 2],
+            ],
+            [
+                [1, 2, 3, 4],
+                [1, 3, 2],
+            ],
+            [
+                [1, 2, 3, 'a', 4.5, new Set([1, 2])],
+                [1, 2,'a', 4.5, new Set([1, 2])],
+            ],
+            [
+                [1, 2, 3, 'a', 4.5, new Set([1, 2])],
+                [1, 3, 'a', 4.5, new Set([1, 2])],
+            ],
+            [
+                [1, 2, 3, 'a', 4.5, new Set([1, 2]), -1, -2, 2.4, 3.5],
+                [1, 2, 3, 'a', 4.5, new Set([1, 2]), -1, -2, 3.5],
+            ],
+        ];
+    }
+
+
+    /**
+     * @test
+     * @dataProvider dataProviderForIsSameSets
+     * @dataProvider dataProviderForIsProperSubset
+     */
+    public function testIsNotProperSuperset(array $A, array $B)
+    {
+        // Given
+        $setA = new Set($A);
+        $setB = new Set($B);
 
         // Then
         $this->assertFalse($setA->isProperSuperset($setB));
     }
 
-    public function dataProviderForIsProperSet(): array
+    public function dataProviderForIsSameSets(): array
     {
         return [
             [
