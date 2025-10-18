@@ -503,12 +503,13 @@ $R = $A->rowSubtractScalar($mᵢ, $k);  // Subtract k from each item of row mᵢ
 // Column operations
 [$nᵢ, $nⱼ, $k] = [1, 2, 5];
 $R = $A->columnInterchange($nᵢ, $nⱼ);
-$R = $A->columnExclude($nᵢ);            // Exclude column $nᵢ
-$R = $A->columnMultiply($nᵢ, $k);       // Multiply column nᵢ by k
-$R = $A->columnAdd($nᵢ, $nⱼ, $k);       // Add k * column nᵢ to column nⱼ
-$R = $A->columnAddScalar($n, $k);       // Add k to each item in column nⱼ
-$R = $A->columnAddVector($nᵢ, $V);      // Add Vector V to column nᵢ
-$R = $A->columnSubtract($nᵢ, $nⱼ, $k);  // Subtract k * column nᵢ from row nⱼ
+$R = $A->columnExclude($nᵢ);             // Exclude column $nᵢ
+$R = $A->columnMultiply($nᵢ, $k);        // Multiply column nᵢ by k
+$R = $A->columnAdd($nᵢ, $nⱼ, $k);        // Add k * column nᵢ to column nⱼ
+$R = $A->columnAddScalar($n, $k);        // Add k to each item in column nⱼ
+$R = $A->columnAddVector($nᵢ, $V);       // Add Vector V to column nᵢ
+$R = $A->columnSubtract($nᵢ, $nⱼ, $k);   // Subtract k * column nᵢ from row nⱼ
+$R = $A->columnSubtractScalar($nᵢ, $k);  // Subtract k from each item of column nᵢ
 
 // Matrix augmentations - return a new Matrix
 $⟮A∣B⟯ = $A->augment($B);        // Augment on the right - standard augmentation

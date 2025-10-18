@@ -2597,6 +2597,7 @@ class NumericMatrix extends Matrix
      *  - columnAddScalar
      *  - columnAddVector
      *  - columnSubtract
+     *  - columnSubtractScalar
      **************************************************************************/
 
     /**
@@ -2741,6 +2742,35 @@ class NumericMatrix extends Matrix
 
         for ($i = 0; $i < $m; $i++) {
             $R[$i][$nⱼ] -= $R[$i][$nᵢ] * $k;
+        }
+
+        return MatrixFactory::createNumeric($R, $this->ε);
+    }
+
+    /**
+     * Subtract a scalar k to each item of a column
+     *
+     * Each element of Column nᵢ will have k subtracted from it
+     *
+     * @param int   $nᵢ Column to subtract k from
+     * @param float $k scalar
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MatrixException if column to subtract does not exist
+     * @throws Exception\IncorrectTypeException
+     */
+    public function columnSubtractScalar(int $nᵢ, float $k): NumericMatrix
+    {
+        if ($nᵢ >= $this->n) {
+            throw new Exception\MatrixException('Column to subtract does not exist');
+        }
+
+        $m = $this->m;
+        $R = $this->A;
+
+        for ($i = 0; $i < $m; $i++) {
+            $R[$i][$nᵢ] -= $k;
         }
 
         return MatrixFactory::createNumeric($R, $this->ε);

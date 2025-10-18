@@ -615,4 +615,79 @@ class MatrixColumnOperationsTest extends \PHPUnit\Framework\TestCase
         // When
         $A->columnSubtract(4, 5, 2);
     }
+
+    /**
+     * @test         columnSubtractScalar
+     * @dataProvider dataProviderForColumnSubtractScalar
+     * @param        array $A
+     * @param        int   $nᵢ
+     * @param        float $k
+     * @param        array $expectedMatrix
+     * @throws      \Exception
+     */
+    public function testColumnSubtractScalar(array $A, int $nᵢ, float $k, array $expectedMatrix)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $expectedMatrix = MatrixFactory::create($expectedMatrix);
+
+        // When
+        $R = $A->columnSubtractScalar($nᵢ, $k);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedMatrix, $R, 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForColumnSubtractScalar(): array
+    {
+        return [
+            [
+                [
+                    [6, 7, 8],
+                    [7, 8, 9],
+                    [8, 9, 10],
+                ], 0, 5,
+                [
+                    [1, 7, 8],
+                    [2, 8, 9],
+                    [3, 9, 10],
+                ],
+            ],
+            [
+                [
+                    [6, 7, 8],
+                    [7, 8, 9],
+                    [8, 9, 10],
+                ], 0, 5.2,
+                [
+                    [0.8, 7, 8],
+                    [1.8, 8, 9],
+                    [2.8, 9, 10],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test   columnSubtractScalar column greater than n
+     * @throws \Exception
+     */
+    public function testColumnSubtractScalarExceptionColumnGreaterThanN()
+    {
+        // Given
+        $A = MatrixFactory::create([
+            [1, 2, 3],
+            [2, 3, 4],
+            [3, 4, 5],
+        ]);
+
+        // Then
+        $this->expectException(Exception\MatrixException::class);
+
+        // When
+        $A->columnSubtractScalar(4, 5);
+    }
 }

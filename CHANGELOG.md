@@ -5,6 +5,7 @@
 ### New Features
 * Matrix `columnAddScalar`
 * Matrix `columnSubtract`
+* Matrix `columnSubtractScalar`
 
 ## v2.12.0 - 2025-10-17
 
