@@ -263,10 +263,8 @@ class EntropyTest extends \PHPUnit\Framework\TestCase
     public function dataProviderForRenyiEntropy(): array
     {
         return [
-            [
-                [[0.4, 0.6], 0.5, 0.985352],
-                [[0.2, 0.3, 0.5], 0.8, 1.504855],
-            ],
+            [[0.4, 0.6], 0.5, 0.985352],
+            [[0.2, 0.3, 0.5], 0.8, 1.504855],
         ];
     }
 
