@@ -27,6 +27,7 @@
 ### Bug Fixes
 * Fixed issue 487 in t-test with data with no variance: throws proper exception
 * Fixed issue with Set `isProperSubset` where it didn't take into account identical sets
+* Fixed exception message for Functions\Support::checkLimits where invalid endpoint character did not display the endpoint character in the exception message
 
 ### Improvements
 * Numerical precision improvements to numerous special functions

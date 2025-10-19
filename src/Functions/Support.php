@@ -62,7 +62,7 @@ class Support
                         }
                         break;
                     default:
-                        throw new Exception\BadDataException("Unknown lower endpoint character: {$lower_limit}");
+                        throw new Exception\BadDataException("Unknown lower endpoint character: {$lower_endpoint}");
                 }
             }
 
