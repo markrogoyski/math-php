@@ -390,7 +390,7 @@ class Combinatorics
     public static function lahNumber(int $n, int $k): float
     {
         if ($n < 1 || $k < 1) {
-            throw new Exception\OutOfBoundsException("n and k must be < 1 for Lah Numbers");
+            throw new Exception\OutOfBoundsException("n and k must be >= 1 for Lah Numbers");
         }
         if ($n < $k) {
             throw new Exception\OutOfBoundsException("n must be >= k for Lah Numbers");
