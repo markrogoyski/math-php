@@ -150,7 +150,7 @@ class People
     /**
      * @return array<string, int>
      */
-    public function getShowSize(): array
+    public function getShoeSize(): array
     {
         /** @var array<string, int> */
         return \array_combine($this->getNames(), \array_column(self::DATA, 3));
