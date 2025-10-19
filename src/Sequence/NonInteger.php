@@ -82,7 +82,7 @@ class NonInteger
      *
      * @throws Exception\OutOfBoundsException
      */
-    public static function hyperharmonic(int $n, int $r, $rational = false): array
+    public static function hyperharmonic(int $n, int $r, bool $rational = false): array
     {
         if ($r < 0) {
             throw new Exception\OutOfBoundsException('Recursion depth cannot be less than 0');
@@ -110,7 +110,7 @@ class NonInteger
             throw new Exception\OutOfBoundsException("Numbers too large to maintain integer precision for hyperharmonic, or recursion depth level exceeded (n:$n, r:$r): " . $e->getMessage(), -1, $e);
         }
 
-        if ($rational == true) {
+        if ($rational === true) {
             return $sequence;
         }
 
