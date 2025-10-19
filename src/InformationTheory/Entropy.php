@@ -6,7 +6,7 @@ use MathPHP\Functions\Map;
 use MathPHP\Exception;
 
 /**
- * Functions dealing with information entropy in the field of statistical field of information thoery.
+ * Functions dealing with information entropy in the field of statistical field of information theory.
  *
  * - Entropy:
  *   - Shannon entropy (bits)
@@ -80,7 +80,7 @@ class Entropy
      *
      * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
-    public static function shannonNatEntropy(array $p)
+    public static function shannonNatEntropy(array $p): float
     {
         // Probability distribution must add up to 1.0
         if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
@@ -123,7 +123,7 @@ class Entropy
      *
      * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
-    public static function shannonHartleyEntropy(array $p)
+    public static function shannonHartleyEntropy(array $p): float
     {
         // Probability distribution must add up to 1.0
         if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
@@ -166,7 +166,7 @@ class Entropy
      * @throws Exception\BadDataException if p and q do not have the same number of elements
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
-    public static function crossEntropy(array $p, array $q)
+    public static function crossEntropy(array $p, array $q): float
     {
         // Arrays must have the same number of elements
         if (\count($p) !== \count($q)) {
@@ -219,7 +219,7 @@ class Entropy
      *
      * @throws Exception\BadDataException if probability distribution $P⟮x、y⟯ does not add up to 1
      */
-    public static function jointEntropy(array $P⟮x、y⟯)
+    public static function jointEntropy(array $P⟮x、y⟯): float
     {
         return self::shannonEntropy($P⟮x、y⟯);
     }
@@ -244,7 +244,7 @@ class Entropy
      * @throws Exception\BadDataException if probability distribution p does not add up to 1
      * @throws Exception\OutOfBoundsException if α < 0 or α = 1
      */
-    public static function renyiEntropy(array $p, $α)
+    public static function renyiEntropy(array $p, $α): float
     {
         // Probability distribution must add up to 1.0
         if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
@@ -280,7 +280,7 @@ class Entropy
      *
      * @throws Exception\BadDataException if probability distribution p does not add up to 1
      */
-    public static function perplexity(array $p)
+    public static function perplexity(array $p): float
     {
         // Probability distribution must add up to 1.0
         if (\abs(\array_sum($p) - 1) > self::ONE_TOLERANCE) {
