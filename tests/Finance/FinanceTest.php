@@ -778,7 +778,7 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
     public function testRate(float $periods, float $payment, float $present_value, float $future_value, bool $beginning, float $initial_guess, float $expected)
     {
         // When
-        $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess, $expected);
+        $rate = Finance::rate($periods, $payment, $present_value, $future_value, $beginning, $initial_guess);
 
         // Then
         $this->assertEqualsWithDelta($expected, $rate, Finance::EPSILON);
