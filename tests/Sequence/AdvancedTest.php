@@ -425,7 +425,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test     perfectNumbers exceptionis n is too large
+     * @test     perfectNumbers exception if n is too large
      * @throws   \Exception
      */
     public function testPerfectNumberException()
@@ -499,7 +499,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         primesUpTo returns an array of all prime numbers up to n.
-     * @dataProvider dataProviderForPimesUpTo
+     * @dataProvider dataProviderForPrimesUpTo
      * @param        int   $n
      * @param        array $expected_primes
      */
@@ -515,7 +515,7 @@ class AdvancedTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function dataProviderForPimesUpTo(): array
+    public function dataProviderForPrimesUpTo(): array
     {
         return [
             [-1, []],

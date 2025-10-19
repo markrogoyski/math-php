@@ -106,7 +106,7 @@ class Advanced
             return $lucas;
         }
 
-        // Base case (n = 2): , L₀ = 2L₁ = 1
+        // Base case (n = 2): , L₀ = 2, L₁ = 1
         $lucas[] = 1;
         if ($n === 2) {
             return $lucas;
