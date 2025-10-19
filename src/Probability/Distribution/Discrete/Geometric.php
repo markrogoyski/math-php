@@ -7,6 +7,9 @@ use MathPHP\Functions\Support;
 /**
  * Geometric distribution
  *
+ * The probability distribution of the number Y = X - 1 of failures
+ * before the first success, supported on the set { 0, 1, 2, 3, ...}
+ *
  * https://en.wikipedia.org/wiki/Geometric_distribution
  */
 class Geometric extends Discrete
