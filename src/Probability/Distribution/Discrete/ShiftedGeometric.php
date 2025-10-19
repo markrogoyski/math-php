@@ -72,7 +72,7 @@ class ShiftedGeometric extends Discrete
      *
      * k trials where k ∈ {0, 1, 2, 3, ...}
      *
-     * pmf = 1 - (1 - p)ᵏ
+     * cdf = 1 - (1 - p)ᵏ
      *
      * @param  int   $k number of trials     k ≥ 0
      *

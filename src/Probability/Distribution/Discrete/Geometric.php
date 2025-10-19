@@ -76,7 +76,7 @@ class Geometric extends Discrete
      *
      * k failures where k ∈ {0, 1, 2, 3, ...}
      *
-     * pmf = 1 - (1 - p)ᵏ⁺¹
+     * cdf = 1 - (1 - p)ᵏ⁺¹
      *
      * @param  int   $k number of trials     k ≥ 0
      *
