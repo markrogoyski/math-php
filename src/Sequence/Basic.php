@@ -78,13 +78,13 @@ class Basic
      */
     public static function geometricProgression(int $n, $a, $r): array
     {
-        if ($r === 0) {
-            throw new Exception\BadParameterException('Common ratio r cannot be 0');
+        $progression = [];
+        if ($n <= 0) {
+            return $progression;
         }
 
-        $progression = [];
-        if ($n < 0) {
-            return $progression;
+        if ($r === 0) {
+            throw new Exception\BadParameterException('Common ratio r cannot be 0');
         }
 
         for ($i = 0; $i < $n; $i++) {
@@ -224,7 +224,7 @@ class Basic
      *
      * @param  int $n How many numbers in the sequence
      *
-     * @return array<int> Indexed from 0 (indexes are the n!)
+     * @return array<int> Indexed from 0, where index i represents i!
      */
     public static function factorial(int $n): array
     {
