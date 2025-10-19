@@ -167,7 +167,7 @@ class Multi
     /**
      * Map min against multiple arrays
      *
-     * [max(x₁, y₁), max(x₂, y₂), ... ]
+     * [min(x₁, y₁), min(x₂, y₂), ... ]
      *
      * @param array<int|float> ...$arrays Two or more arrays of numbers
      *
