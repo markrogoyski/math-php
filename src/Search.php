@@ -173,7 +173,7 @@ class Search
             }
         }
 
-        // Standard case: Find max and return index
+        // Standard case: Find min and return index
         return self::baseArgMin($values);
     }
 
@@ -205,7 +205,7 @@ class Search
             }
         );
         if (\count($valuesWithoutNans) === 0) {
-            throw new Exception\BadDataException('Array of all NANs has no nanArgMax');
+            throw new Exception\BadDataException('Array of all NANs has no nanArgMin');
         }
 
         return self::baseArgMin($valuesWithoutNans);
@@ -215,7 +215,7 @@ class Search
      * Base argMin calculation
      * Find the array index of the minimum value.
      *
-     * In case of the maximum value appearing multiple times, the index of the first occurrence is returned.
+     * In case of the minimum value appearing multiple times, the index of the first occurrence is returned.
      *
      * @param float[]|int[] $values
      *
@@ -225,9 +225,9 @@ class Search
      */
     private static function baseArgMin(array $values): int
     {
-        $max = \min($values);
+        $min = \min($values);
         foreach ($values as $i => $v) {
-            if ($v === $max) {
+            if ($v === $min) {
                 return $i;
             }
         }

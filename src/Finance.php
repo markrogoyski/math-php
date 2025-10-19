@@ -399,7 +399,7 @@ class Finance
      *
      * The present value of a $1000 5-year bond that pays a fixed 7% ($70)
      * coupon at the end of each year with a discount rate of 5%:
-     *   pv(0.5, 5, -70, -1000, false)
+     *   pv(0.05, 5, -70, -1000, false)
      *
      * The payment and future_value is negative indicating money paid out.
      *
@@ -543,7 +543,7 @@ class Finance
 
         $root = NumericalAnalysis\RootFinding\NewtonsMethod::solve($func, [$initial_guess, $values], 0, self::EPSILON, 0);
         if (!\is_nan($root)) {
-            return self::CheckZero($root);
+            return self::checkZero($root);
         }
         return self::checkZero(self::alternateIrr($values));
     }
