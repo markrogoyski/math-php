@@ -134,6 +134,9 @@ class Integer
         if ($k < 1) {
             throw new Exception\OutOfBoundsException("k must be ≥ 1. ($k provided)");
         }
+        if ($n < 1) {
+            throw new Exception\OutOfBoundsException("n must be ≥ 1. ($n provided)");
+        }
 
         $J      = $n ** $k;
         $primes = \array_unique(self::primeFactorization($n));
@@ -182,6 +185,10 @@ class Integer
      */
     public static function reducedTotient(int $n): int
     {
+        if ($n < 1) {
+            throw new Exception\OutOfBoundsException("n must be ≥ 1. ($n provided)");
+        }
+
         $primes = \array_count_values(self::primeFactorization($n));
         $λ      = 1;
         if (isset($primes[2]) && $primes[2] > 2) {
@@ -302,10 +309,7 @@ class Integer
      */
     public static function isPerfectPower(int $n): bool
     {
-        if (empty(self::perfectPower($n))) {
-            return false;
-        }
-        return true;
+        return !empty(self::perfectPower($n));
     }
 
     /**
