@@ -27,7 +27,7 @@ class PeopleTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test 11 variables
+     * @test 12 variables
      */
     public function testDataHas12Variables()
     {

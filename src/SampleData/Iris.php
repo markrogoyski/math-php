@@ -185,7 +185,7 @@ class Iris
 
     /**
      * Raw data with each observation labeled
-     * [['sepalLength' => 5.11, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
+     * [['sepalLength' => 5.1, 'sepalWidth' => 3.5, 'petalLength' => 1.4, 'petalWidth' => 0.2, 'species' => 'setosa'], ... ]
      *
      * @return array<array<string, float>>
      */

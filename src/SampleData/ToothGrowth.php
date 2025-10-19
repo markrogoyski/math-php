@@ -83,7 +83,7 @@ class ToothGrowth
 
     /**
      * Raw data without labels
-     * [[4.2, 'VC', 0.5], [11.5, 'VC', '0.5], ... ]
+     * [[4.2, 'VC', 0.5], [11.5, 'VC', 0.5], ... ]
      *
      * @return mixed[]
      */
