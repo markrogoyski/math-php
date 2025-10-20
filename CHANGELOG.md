@@ -14,6 +14,9 @@
 * SampleData\People `getShoeSize` has a typo and was `getShowSize`. This has been fixed.
 * Fixed calculation in Probability\Distribution\Discrete\Hypergeometric `cdf`. Implementation changed to use sum of PMFs.
 
+### Improvements
+* Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
+
 ## v2.12.0 - 2025-10-17
 
 ### New Features
