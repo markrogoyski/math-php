@@ -256,15 +256,70 @@ class Average
 
     /**
      * Geometric mean
+     *
      * A type of mean which indicates the central tendency or typical value of a set of numbers
      * by using the product of their values (as opposed to the arithmetic mean which uses their sum).
      * https://en.wikipedia.org/wiki/Geometric_mean
+     *
+     * DEFINITION (Mathematical Formula):
      *                    __________
      * Geometric mean = ⁿ√a₀a₁a₂ ⋯
      *
-     * @param  float[] $numbers
+     * Where:
+     *  - n is the count of numbers
+     *  - a₀a₁a₂⋯ represents the product of all numbers
+     *  - ⁿ√ represents the nth root
      *
-     * @return float
+     * IMPLEMENTATION (Log-Space Calculation):
+     *
+     * Rather than computing the product directly and then taking the nth root,
+     * we use a mathematically equivalent but numerically more stable approach:
+     *
+     *                       n
+     *                       ∑ ln(xᵢ)
+     *  Geometric mean = exp(───────)
+     *                          n
+     *
+     * This is mathematically equivalent because of the logarithmic identity:
+     *  log(x₁ · x₂ · ... · xₙ) = log(x₁) + log(x₂) + ... + log(xₙ)
+     *
+     * Therefore:
+     *  (x₁ · x₂ · ... · xₙ)^(1/n) = exp( (log(x₁) + log(x₂) + ... + log(xₙ)) / n )
+     *                               = exp( Σ ln(xᵢ) / n )
+     *
+     * NUMERICAL STABILITY (Why This Implementation):
+     *
+     * The direct approach (product → nth root) is vulnerable to overflow and underflow:
+     *  - OVERFLOW: When computing large products (e.g., 100 values of 10⁶),
+     *    the intermediate product can exceed 1.8e308 (PHP's float maximum),
+     *    causing overflow to INF and returning incorrect results.
+     *  - UNDERFLOW: When computing very small products (e.g., 100 values of 10⁻⁵),
+     *    the intermediate product underflows to zero, causing incorrect results.
+     *
+     * The log-space approach avoids these issues by:
+     *  1. Taking logarithms of each value (ln(10⁶) ≈ 13.8, ln(10⁻⁵) ≈ -11.5)
+     *  2. Summing the logarithms instead of multiplying the original values
+     *  3. Computing the mean of the logarithms (simple division)
+     *  4. Exponentiating the result (always well-defined for bounded inputs)
+     *
+     * This approach handles products from ~10⁻⁶⁰⁰ to ~10⁶⁰⁰, compared to the
+     * ~10⁻³⁰⁸ to ~10³⁰⁸ range of the direct approach.
+     *
+     * EXAMPLE:
+     *  geometricMean([2, 4, 8]) = exp((ln(2) + ln(4) + ln(8)) / 3)
+     *                            = exp((0.693 + 1.386 + 2.079) / 3)
+     *                            = exp(1.386)
+     *                            = 4.0  ✓
+     *
+     * PROPERTIES:
+     *  - All input values must be positive (> 0)
+     *  - For a single value, returns that value
+     *  - For identical values, returns that value
+     *  - Always ≤ arithmetic mean (by AM-GM inequality)
+     *
+     * @param  float[] $numbers Array of positive numbers
+     *
+     * @return float The geometric mean of the input numbers
      *
      * @throws Exception\BadDataException if the input array of numbers is empty
      */
@@ -274,17 +329,14 @@ class Average
             throw new Exception\BadDataException('Cannot find the geometric mean of an empty list of numbers');
         }
 
-        $n       = \count($numbers);
-        $a₀a₁a₂⋯ = \array_reduce(
-            $numbers,
-            function ($carry, $a) {
-                return $carry * $a;
-            },
-            1
-        );
-        $ⁿ√a₀a₁a₂⋯ = \pow($a₀a₁a₂⋯, 1 / $n);
+        $n = \count($numbers);
 
-        return $ⁿ√a₀a₁a₂⋯;
+        $∑ln⟮xᵢ⟯ = \array_sum(\array_map(function ($x) {
+            return \log($x);
+        }, $numbers));
+        $mean_log = $∑ln⟮xᵢ⟯ / $n;
+
+        return \exp($mean_log);
     }
 
     /**
