@@ -62,7 +62,12 @@ class ChiSquared extends Continuous
         $k = $this->k;
 
         // Numerator
-        $x⁽ᵏ／²⁾⁻¹ = $x ** (($k / 2) - 1);
+        // Note: Avoid raising 0 to negative exponent (deprecated in PHP 8)
+        // This represents a singularity at x = 0 when k < 2
+        $⁽ᵏ／²⁾⁻¹ = ($k / 2) - 1;
+        $x⁽ᵏ／²⁾⁻¹ = ($x == 0 && $⁽ᵏ／²⁾⁻¹ < 0)
+            ? \INF
+            : $x ** $⁽ᵏ／²⁾⁻¹;
         $ℯ⁻⁽ˣ／²⁾  = \exp(-($x / 2));
 
         // Denominator
