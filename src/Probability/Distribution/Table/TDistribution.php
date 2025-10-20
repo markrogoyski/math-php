@@ -111,7 +111,7 @@ class TDistribution
 
     /**
      * Two-sided t distribution table
-     * Confidence level percentaces
+     * Confidence level percentages
      * @var array<int|string, array<numeric|string, int|float>>
      */
     private const TWO_SIDED_CONFIDENCE_LEVEL = [
