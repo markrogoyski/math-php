@@ -67,8 +67,17 @@ class LogLogistic extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * \pow($x / $α, $β - 1);
+        // Note: Avoid raising 0 to negative exponent (deprecated in PHP 8)
+        // This represents a singularity at x = 0 when β < 1
+        $ᵝ⁻¹       = $β - 1;
+        $⟮x／α⟯ᵝ⁻¹ = ($x == 0 && $ᵝ⁻¹ < 0)
+            ? \INF
+            : \pow($x / $α, $ᵝ⁻¹);
+
+        $⟮β／α⟯⟮x／α⟯ᵝ⁻¹  = ($β / $α) * $⟮x／α⟯ᵝ⁻¹;
+
         $⟮1 ＋ ⟮x／α⟯ᵝ⟯² = \pow(1 + ($x / $α) ** $β, 2);
+
         return $⟮β／α⟯⟮x／α⟯ᵝ⁻¹ / $⟮1 ＋ ⟮x／α⟯ᵝ⟯²;
     }
 
@@ -90,7 +99,12 @@ class LogLogistic extends Continuous
         $α = $this->α;
         $β = $this->β;
 
-        $⟮x／α⟯⁻ᵝ = \pow($x / $α, -$β);
+        // Note: Avoid raising 0 to negative exponent (deprecated in PHP 8)
+        // When x = 0, (x/α)⁻ᵝ = 0⁻ᵝ = ∞, so cdf = 1/(1+∞) = 0
+        $⟮x／α⟯⁻ᵝ = ($x == 0)
+            ? \INF
+            : \pow($x / $α, -$β);
+
         return 1 / (1 + $⟮x／α⟯⁻ᵝ);
     }
 

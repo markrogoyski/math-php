@@ -16,6 +16,7 @@
 
 ### Improvements
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
+* Refactor LogLogistic pdf and cdf to avoid raising 0 to negative exponent which is deprecated
 
 ## v2.12.0 - 2025-10-17
 
