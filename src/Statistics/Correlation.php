@@ -276,16 +276,16 @@ class Correlation
      *
      * @param array<float> $X values for random variable X
      * @param array<float> $Y values for random variable Y
-     * @param bool $popluation
+     * @param bool $population
      *
      * @return float
      *
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException
      */
-    public static function r2(array $X, array $Y, bool $popluation = false): float
+    public static function r2(array $X, array $Y, bool $population = false): float
     {
-        return \pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $population), 2);
     }
 
     /**
@@ -298,16 +298,16 @@ class Correlation
      *
      * @param array<float> $X values for random variable X
      * @param array<float> $Y values for random variable Y
-     * @param bool $popluation
+     * @param bool $population
      *
      * @return float
      *
      * @throws Exception\BadDataException
      * @throws Exception\OutOfBoundsException
      */
-    public static function coefficientOfDetermination(array $X, array $Y, bool $popluation = false): float
+    public static function coefficientOfDetermination(array $X, array $Y, bool $population = false): float
     {
-        return \pow(self::r($X, $Y, $popluation), 2);
+        return \pow(self::r($X, $Y, $population), 2);
     }
 
     /**
@@ -576,7 +576,7 @@ class Correlation
         $y_bar = Average::mean($Y);
         $translation_matrix = new NumericMatrix([[$x_bar],[$y_bar]]);
 
-        // We add a row to allow the transformation matrix to also traslate the ellipse to a different location
+        // We add a row to allow the transformation matrix to also translate the ellipse to a different location
         $transformation_matrix = $transformation_matrix->augment($translation_matrix);
 
         $unit_circle = new NumericMatrix(Trigonometry::unitCircle($num_points));
