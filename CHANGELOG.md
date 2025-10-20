@@ -18,6 +18,7 @@
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
 * Refactor LogLogistic pdf and cdf to avoid raising 0 to negative exponent which is deprecated
 * Improved implementation of NoncentralT `median`
+* Probability\Distribution\Multivariate\Multinomial uses a higher numerical precision to reject probabilities that don't sum to 1.0
 
 ## v2.12.0 - 2025-10-17
 

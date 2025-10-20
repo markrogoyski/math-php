@@ -23,7 +23,7 @@ class Dirichlet
     ];
 
     /**
-     * Distribution parameter bounds limits
+     * Distribution support bounds limits
      * x ∈ (0,1)
      * @var array{x: string}
      */
@@ -77,7 +77,7 @@ class Dirichlet
         /*
          *  K   αᵢ-1
          *  ∏ xᵢ
-         * ⁱ⁼ⁱ
+         * ⁱ⁼¹
          */
         $∏xᵢ = \array_product(
             \array_map(

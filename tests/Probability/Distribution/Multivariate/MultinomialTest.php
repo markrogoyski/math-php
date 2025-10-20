@@ -79,15 +79,29 @@ class MultinomialTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test     constructor throws Exception\BadDataException if the probabilities do not add up to 1
-     * @throws   \Exception
+     * @test         constructor throws Exception\BadDataException if the probabilities do not add up to 1
+     * @throws       \Exception
+     * @dataProvider dataProviderForProbabilitiesNotAddingUpToOne
+     * @param        float[] $probabilities
      */
-    public function testPMFExceptionProbabilitiesDoNotAddUpToOne()
+    public function testConstructorExceptionProbabilitiesDoNotAddUpToOne(array $probabilities)
     {
         // Then
         $this->expectException(Exception\BadDataException::class);
 
         // When
-        $multinomial = new Multinomial([0.3, 0.2, 0.1]);
+        $multinomial = new Multinomial($probabilities);
+    }
+
+    public function dataProviderForProbabilitiesNotAddingUpToOne(): array
+    {
+        return [
+            [[0.0, 0.0, 0.0]],     // 0.0
+            [[0.3, 0.2, 0.1]],     // 0.6
+            [[0.3, 0.35, 0.3]],    // 0.95
+            [[0.35, 0.35, 0.35]],  // 1.05
+            [[0.4, 0.4, 0.1999]],  // 0.9999
+            [[0.4, 0.4, 2.0001]],  // 1.0001
+        ];
     }
 }
