@@ -5,6 +5,7 @@ namespace MathPHP\Probability\Distribution\Continuous;
 use MathPHP\Functions\Special;
 use MathPHP\Functions\Support;
 use MathPHP\Probability\Combinatorics;
+use MathPHP\NumericalAnalysis\RootFinding\SecantMethod;
 
 /**
  * Noncentral t-distribution
@@ -191,13 +192,35 @@ class NoncentralT extends Continuous
 
     /**
      * Median of the distribution
-     * @note: This is probably not correct and should be updated.
-     * @todo: Replace with actual median calculation.
      *
+     * The median of the noncentral t-distribution does not have a closed-form solution
+     * and must be computed numerically. It is defined as the value x where CDF(x) = 0.5.
+     *
+     * This implementation uses the Secant Method to find the root of:
+     *   f(x) = CDF(x) - 0.5
+     *
+     * The Secant Method is chosen because:
+     * - It requires only function evaluations (no derivative needed)
+     * - It has superlinear convergence rate (~1.618)
+     * - It is more efficient than Bisection Method for this problem
+     * - The median is always near the noncentrality parameter μ, making guesses reliable
+     *
+     * References:
+     * - Secant Method: https://en.wikipedia.org/wiki/Secant_method
+     * - Noncentral t-distribution: https://en.wikipedia.org/wiki/Noncentral_t-distribution
      * @return float
      */
     public function median(): float
     {
-        return $this->mean();
+        $f = function ($x) {
+            return $this->cdf($x) - 0.5;
+        };
+
+        return SecantMethod::solve(
+            $f,
+            $this->μ - 1,   // p₀: Initial guess (before median)
+            $this->μ + 1,   // p₁: Second guess (after median)
+            1e-10           // tolerance for convergence
+        );
     }
 }

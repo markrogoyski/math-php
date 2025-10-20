@@ -206,14 +206,13 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @test         median (temporary version that is just the mean)
-     * @dataProvider dataProviderForMean
-     * @todo         Rewrite test using actual median values once median calculation is implemented
+     * @test         median
+     * @dataProvider dataProviderForMedian
      * @param        int   $ν degrees of freedom > 0
      * @param        float $μ Noncentrality parameter
      * @param        float $expected
      */
-    public function testMedianTemporaryValue(int $ν, float $μ, float $expected)
+    public function testMedian(int $ν, float $μ, float $expected)
     {
         // Given
         $noncentral_t = new NoncentralT($ν, $μ);
@@ -224,5 +223,22 @@ class NoncentralTTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->assertEqualsWithDelta($expected, $median, $tol);
+    }
+
+    /**
+     * @return array [ν, μ, median]
+     * Data generated from SciPy: stats.nct(df, nc).ppf(0.5)
+     */
+    public function dataProviderForMedian(): array
+    {
+        return [
+            [25, -2, -2.0206140829],
+            [2, -2, -2.3303902595],
+            [50, 10, 10.0586745149],
+            [10, 10, 10.3312735631],
+            [3, 2, 2.2038266580],
+            [5, 5, 5.3311221227],
+            [1, 1, 1.3202130994],
+        ];
     }
 }
