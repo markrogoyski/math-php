@@ -622,9 +622,9 @@ class Descriptive
     {
         $quartiles = self::quartiles($numbers);
         $Q1        = $quartiles['Q1'];
-        $Q2        = $quartiles['Q3'];
+        $Q3        = $quartiles['Q3'];
 
-        return Average::mean([$Q1, $Q2]);
+        return Average::mean([$Q1, $Q3]);
     }
 
     /**
