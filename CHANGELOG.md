@@ -12,6 +12,7 @@
 * Algebra::quadratic returns empty array when a=0 and b=0 (Previously would divide by zero)
 * Trigonometry::unitCircle division by zero error for single-point.
 * SampleData\People `getShoeSize` has a typo and was `getShowSize`. This has been fixed.
+* Fixed calculation in Probability\Distribution\Discrete\Hypergeometric `cdf`. Implementation changed to use sum of PMFs.
 
 ## v2.12.0 - 2025-10-17
 
