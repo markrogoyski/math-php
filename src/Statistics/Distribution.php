@@ -2,6 +2,8 @@
 
 namespace MathPHP\Statistics;
 
+use MathPHP\Exception;
+
 class Distribution
 {
     public const PRINT = true;
@@ -330,13 +332,22 @@ class Distribution
      *   9 |
      *  10 | 6
      *
-     * @param array<int> $values
+     * @param array<int> $values Non-negative integers only
      * @param bool  $print  Optional setting to print the distribution
      *
      * @return array<int, array<int>> keys are the stems, values are the leaves
+     *
+     * @throws Exception\BadDataException if any value is negative
      */
     public static function stemAndLeafPlot(array $values, bool $print = false): array
     {
+        // All values must be non-negative
+        foreach ($values as $value) {
+            if ($value < 0) {
+                throw new Exception\BadDataException("Stem and leaf plots require non-negative integers. Value $value is negative.");
+            }
+        }
+
         // Split each value into stem and leaf
         \sort($values);
         $plot = array();

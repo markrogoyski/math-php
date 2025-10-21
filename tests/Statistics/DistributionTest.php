@@ -756,4 +756,20 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
         // When
         Distribution::stemAndLeafPlot([1, 2, 3], $print);
     }
+
+    /**
+     * @test stemAndLeafPlot throws exception for negative values
+     */
+    public function testStemAndLeafPlotThrowsExceptionForNegativeValues()
+    {
+        // Given
+        $values = [44, 46, -15, 63, 64];
+
+        // Then
+        $this->expectException(\MathPHP\Exception\BadDataException::class);
+        $this->expectExceptionMessage('Stem and leaf plots require non-negative integers. Value -15 is negative.');
+
+        // When
+        Distribution::stemAndLeafPlot($values);
+    }
 }

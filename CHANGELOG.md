@@ -25,6 +25,7 @@
 * Rewrote Statistics\Distribution `fractionalRanking` to track original indices and use == for tie detection instead of `strval()` grouping, avoiding floating-point comparison bugs.
 * Statistics\Distribution `cumulativeFrequency` and `cumulativeRelativeFrequency` now do a frequency distribution on sorted data, which was the original intent.
 * Statistics\Divergence `kullbackLeibler` and `jensenShannon` throw an exception if there are non-negative probabilities.
+* Statistics\Distribution `stemAndLeafPlot` throws an exception if there are negative values.
 
 ## v2.12.0 - 2025-10-17
 
