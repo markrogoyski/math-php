@@ -23,6 +23,7 @@
 * Improved implementation of NoncentralT `median`
 * Probability\Distribution\Multivariate\Multinomial uses a higher numerical precision to reject probabilities that don't sum to 1.0
 * Rewrote Statistics\Distribution `fractionalRanking` to track original indices and use == for tie detection instead of `strval()` grouping, avoiding floating-point comparison bugs.
+* Statistics\Distribution `cumulativeFrequency` and `cumulativeRelativeFrequency` now do a frequency distribution on sorted data, which was the original intent.
 
 ## v2.12.0 - 2025-10-17
 

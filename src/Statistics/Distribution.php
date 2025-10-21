@@ -69,6 +69,8 @@ class Distribution
      */
     public static function cumulativeFrequency(array $values): array
     {
+        \sort($values);
+
         $running_total          = 0;
         $cumulative_frequencies = array();
         foreach (self::frequency($values) as $value => $frequency) {
@@ -93,11 +95,11 @@ class Distribution
      */
     public static function cumulativeRelativeFrequency(array $values): array
     {
-        $sample_size            = \count($values);
+        $n                      = \count($values);
         $cumulative_frequencies = self::cumulativeFrequency($values);
         return \array_map(
-            function ($frequency) use ($sample_size) {
-                return $frequency / $sample_size;
+            function ($frequency) use ($n) {
+                return $frequency / $n;
             },
             $cumulative_frequencies
         );

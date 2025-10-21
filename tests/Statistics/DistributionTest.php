@@ -108,6 +108,10 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
+                [1, 2, 2, 3, 4, 4, 4, 5],
+                [1 => 1, 2 => 3, 3 => 4, 4 => 7, 5 => 8],
+            ],
+            [
                 [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ],
                 [ 'A' => 2, 'B' => 6, 'C' => 8, 'D' => 9, 'F' => 10 ],
             ],
@@ -117,11 +121,23 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [ 'yes', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no' ],
-                [ 'yes' => 6, 'no' => 10 ],
+                [ 'no' => 4, 'yes' => 10 ],
             ],
             [
                 [ 'agree', 'disagree', 'agree', 'agree', 'no opinion', 'agree', 'disagree' ],
                 [ 'agree' => 4, 'disagree' => 6, 'no opinion' => 7 ],
+            ],
+            [
+                [3, 1, 2, 3, 1],
+                [1 => 2, 2 => 3, 3 => 5],
+            ],
+            [
+                [2, 1, 3, 3, 1],
+                [1 => 2, 2 => 3, 3 => 5],
+            ],
+            [
+                [2, 2, 1, 3, 4, 5, 4, 4],
+                [1 => 1, 2 => 3, 3 => 4, 4 => 7, 5 => 8],
             ],
         ];
     }
@@ -148,6 +164,10 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
     {
         return [
             [
+                [1, 2, 2, 3, 4, 4, 4, 5],
+                [1 => 0.125, 2 => 0.375, 3 => 0.5, 4 => 0.875, 5 => 1],
+            ],
+            [
                 [ 'A', 'A', 'B', 'B', 'B', 'B', 'C', 'C', 'D', 'F' ],
                 [ 'A' => 0.2, 'B' => 0.6, 'C' => 0.8, 'D' => 0.9, 'F' => 1 ],
             ],
@@ -157,11 +177,23 @@ class DistributionTest extends \PHPUnit\Framework\TestCase
             ],
             [
                 [ 'yes', 'yes', 'no', 'yes', 'no', 'no', 'yes', 'yes', 'yes', 'no' ],
-                [ 'yes' => 0.6, 'no' => 1 ],
+                [ 'no' => 0.4, 'yes' => 1 ],
             ],
             [
                 [ 'agree', 'disagree', 'agree', 'agree', 'no opinion', 'agree', 'disagree' ],
                 [ 'agree' => 0.57142857, 'disagree' => 0.85714286, 'no opinion' => 1 ],
+            ],
+            [
+                [3, 1, 2, 3, 1],
+                [1 => 0.4, 2 => 0.6, 3 => 1],
+            ],
+            [
+                [2, 1, 3, 3, 1],
+                [1 => 0.4, 2 => 0.6, 3 => 1],
+            ],
+            [
+                [2, 2, 1, 3, 4, 5, 4, 4],
+                [1 => 0.125, 2 => 0.375, 3 => 0.5, 4 => 0.875, 5 => 1],
             ],
         ];
     }
