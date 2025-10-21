@@ -143,7 +143,7 @@ class EffectSize
      *
      * @return float Absolute value of calculation
      *
-     * @throws Exception\OutOfBoundsException if an r is ≤ 0
+     * @throws Exception\OutOfBoundsException if an r not in the range [-1, 1]
      */
     public static function cohensQ(float $r₁, float $r₂): float
     {
@@ -178,7 +178,7 @@ class EffectSize
      *  μ₁  = mean of sample population 1
      *  μ₂  = mean of sample population 2
      *  s₁² = variance of sample population 1
-     *  s₂² = variance of sample population 1
+     *  s₂² = variance of sample population 2
      *  s   = pooled standard deviation
      *
      * This formula uses the common simplified version of the pooled standard deviation.
@@ -230,7 +230,7 @@ class EffectSize
      *  μ₁  = mean of sample population 1
      *  μ₂  = mean of sample population 2
      *  s₁² = variance of sample population 1
-     *  s₂² = variance of sample population 1
+     *  s₂² = variance of sample population 2
      *  n₁  = sample size of sample population 1
      *  n₂  = sample size of sample population 2
      *  s*  = pooled standard deviation
