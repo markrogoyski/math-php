@@ -198,6 +198,9 @@ class EffectSize
 
         // Pooled standard deviation
         $s = \sqrt(($s₁² + $s₂²) / 2);
+        if ($s == 0) {
+            return \INF;
+        }
 
         // d
         return ($μ₁ - $μ₂) / $s;
@@ -239,13 +242,17 @@ class EffectSize
      * @param float $μ₂ Mean of sample population 2
      * @param float $s₁ Standard deviation of sample population 1
      * @param float $s₂ Standard deviation of sample population 2
-     * @param int   $n₁ Sample size of sample popluation 1
-     * @param int   $n₂ Sample size of sample popluation 2
+     * @param int   $n₁ Sample size of sample population 1
+     * @param int   $n₂ Sample size of sample population 2
      *
      * @return float
      */
     public static function hedgesG(float $μ₁, float $μ₂, float $s₁, float $s₂, int $n₁, int $n₂): float
     {
+        if ($n₁ === 1 && $n₂ === 1) {
+            throw new Exception\BadDataException("Sample sizes cannot both be size 1 for Hedges' g");
+        }
+
         // Variance of each data set
         $s₁² = $s₁ * $s₁;
         $s₂² = $s₂ * $s₂;
@@ -254,6 +261,10 @@ class EffectSize
         $⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂²   = (($n₁ - 1) * $s₁²) + (($n₂ - 1) * $s₂²);
         $⟮n₁ ＋ n₂ − 2⟯              = $n₁ + $n₂ - 2;
         $s＊                        = \sqrt($⟮n₁ − 1⟯s₁² ＋ ⟮n₂ − 1⟯s₂² / $⟮n₁ ＋ n₂ − 2⟯);
+
+        if ($s＊ == 0) {
+            return \INF;
+        }
 
         // g
         $g = ($μ₁ - $μ₂) / $s＊;
@@ -286,6 +297,9 @@ class EffectSize
      */
     public static function glassDelta(float $μ₁, float $μ₂, float $s₂): float
     {
+        if ($s₂ == 0) {
+            return \INF;
+        }
         return ($μ₁ - $μ₂) / $s₂;
     }
 }

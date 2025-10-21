@@ -17,6 +17,7 @@
 * Statistics\Descriptive `coefficientOfVariation` will return NAN if mean is zero. Previously did division by zero.
 * Fix some typos in Statistics\Distance `hellinger`, `brayCurtis`, and `canberra` that could have resulted in incorrect results.
 * Fix \Statistics\EffectSize `cohensQ` bounds check [-1, 1] and throw OutOfBoundsException when outside range, and return INF when r == 1 or -1.
+* Fix \Statistics\EffectSize boundary edge cases resulting in division by zero for `hedgesG`, `cohensD`, and `glassDelta`.
 
 ### Improvements
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated

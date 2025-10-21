@@ -245,6 +245,13 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
             [6.7, 6, 1.2, 1, 0.6337502222976299],
             [9, 3.5, 1.2, 1.5, 4.049155956077707],
             [108, 118, 15, 14.83239697419133, -0.6704015],
+            // Test data: R cohens_d {ClinSigMeasures}
+            [1, 1, 1, 1, 0],
+            [2, 2, 2, 2, 0],
+            [2, 3, 1.2, 4.3, -0.316782621528642],
+            [2, 3, 0, 4.3, -0.328886874970487],
+            [2, 3, 1.2, 0, -1.17851130197758],
+            [2, 3, 0, 0, \INF],
         ];
     }
 
@@ -284,7 +291,31 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
             [6.7, 6, 1.2, 1, 45, 15, 0.59824169],
             [9, 3.5, 1.2, 1.5, 13, 15, 3.89844347],
             [108, 118, 15, 14.83239697419133, 21, 18, -0.65642092],
+            // Edge case
+            [3, 3, 0, 0, 5, 5, \INF],
         ];
+    }
+
+    /**
+     * @test Sample sizes of both n = 1 results in a bad data exception
+     */
+    public function testHedgesGBadDataExceptionSampleSizesBothOne()
+    {
+        // Given
+        $n₁ = 1;
+        $n₂ = 1;
+
+        // And
+        $μ₁ = 3;
+        $μ₂ = 4;
+        $s₁ = 1.3;
+        $s₂ = 1.5;
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $g = EffectSize::hedgesG($μ₁, $μ₂, $s₁, $s₂, $n₁, $n₂);
     }
 
     /**
@@ -313,6 +344,7 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
             [40, 57.727272727273, 30.763910379179, -0.57623600],
             [3, 4, 1.5811388300842, -0.63245553],
             [3, 3, 1.5, 0],
+            [3, 3, 0, \INF],
         ];
     }
 }
