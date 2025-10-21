@@ -24,7 +24,7 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test data created using Python's scipi.stats.Distance
+     * Test data created using Python's scipy.stats.Distance
      * @return array [p, q, distance]
      */
     public function dataProviderForKullbackLeibler(): array
@@ -54,6 +54,11 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
                 [0.9, 0.1],
                 [0.1, 0.9],
                 1.7577796618689758
+            ],
+            [
+                [0.5, 0.3, 0.2],
+                [0.4, 0.4, 0.2],
+                0.025267153921570557
             ],
         ];
     }
