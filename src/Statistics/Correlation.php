@@ -115,6 +115,12 @@ class Correlation
         if (\count($X) !== \count($Y)) {
             throw new Exception\BadDataException('X and Y must have the same number of elements.');
         }
+
+        $n = \count($X);
+        if ($n < 2) {
+            throw new Exception\OutOfBoundsException('Sample covariance requires at least 2 data points. n = ' . $n);
+        }
+
         $x = Average::mean($X);
         $y = Average::mean($Y);
 
@@ -125,7 +131,6 @@ class Correlation
             $X,
             $Y
         ));
-        $n = \count($X);
 
         return $∑⟮xᵢ − x⟯⟮yᵢ − y⟯ / ($n - 1);
     }
@@ -224,9 +229,20 @@ class Correlation
      */
     public static function populationCorrelationCoefficient(array $X, array $Y): float
     {
+        if (\count($X) !== \count($Y)) {
+            throw new Exception\BadDataException('X and Y must have the same number of elements.');
+        }
+
         $cov⟮X，Y⟯ = self::populationCovariance($X, $Y);
         $σx      = Descriptive::standardDeviation($X, true);
         $σy      = Descriptive::standardDeviation($Y, true);
+
+        if ($σx == 0 || $σy == 0) {
+            throw new Exception\BadDataException(
+                'Correlation coefficient is undefined when one or both variables have zero variance. ' .
+                'σx = ' . $σx . ', σy = ' . $σy
+            );
+        }
 
         return $cov⟮X，Y⟯ / ( $σx * $σy );
     }
@@ -263,9 +279,24 @@ class Correlation
      */
     public static function sampleCorrelationCoefficient(array $X, array $Y): float
     {
+        if (\count($X) !== \count($Y)) {
+            throw new Exception\BadDataException('X and Y must have the same number of elements.');
+        }
+
+        if (\count($X) < 2) {
+            throw new Exception\OutOfBoundsException('Sample correlation coefficient requires at least 2 data points. n = ' . \count($X));
+        }
+
         $Sxy = self::sampleCovariance($X, $Y);
         $sx  = Descriptive::standardDeviation($X, Descriptive::SAMPLE);
         $sy  = Descriptive::standardDeviation($Y, Descriptive::SAMPLE);
+
+        if ($sx == 0 || $sy == 0) {
+            throw new Exception\BadDataException(
+                'Correlation coefficient is undefined when one or both variables have zero variance. ' .
+                'sx = ' . $sx . ', sy = ' . $sy
+            );
+        }
 
         return $Sxy / ( $sx * $sy );
     }

@@ -13,12 +13,14 @@
 * Trigonometry::unitCircle division by zero error for single-point.
 * SampleData\People `getShoeSize` has a typo and was `getShowSize`. This has been fixed.
 * Fixed calculation in Probability\Distribution\Discrete\Hypergeometric `cdf`. Implementation changed to use sum of PMFs.
+* Statistics\Correlation `sampleCovariance`, `populationCorrelationCoefficient`, `sampleCorrelationCoefficient`, throw BadDataException or OutOfBoundsException rather than division by zero for bad input data.
 
 ### Improvements
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
 * Refactor LogLogistic pdf and cdf to avoid raising 0 to negative exponent which is deprecated
 * Improved implementation of NoncentralT `median`
 * Probability\Distribution\Multivariate\Multinomial uses a higher numerical precision to reject probabilities that don't sum to 1.0
+* Rewrote Statistics\Distribution `fractionalRanking` to track original indices and use == for tie detection instead of `strval()` grouping, fixing floating-point comparison bugs.
 
 ## v2.12.0 - 2025-10-17
 

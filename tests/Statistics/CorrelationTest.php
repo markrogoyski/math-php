@@ -232,11 +232,13 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Data generated with R: cor(x, y, method="pearson)
+     * Data generated with numpy.corrcoef(X, Y)[0,1]
      * @return array [x, y, ppc]
      */
     public function dataProviderForPopulationCorrelationCoefficient(): array
     {
         return [
+            // Data generated with R cor(x, y, method="pearson)
             [
                 [1, 2, 4, 5, 8],
                 [5, 20, 40, 80, 100],
@@ -311,6 +313,26 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
                 [6, 7, 8, 3, 6, 5, 4, 6, 6, 4],
                 [4, 6, 3, 2, 9, 7, 8, 9, 5, 4],
                 0.1032071
+            ],
+            // Floating-point precision edge cases
+            // Generated using numpy.corrcoef(X, Y)[0,1]
+            // Repeated decimal multiplication (0.1 and 0.2)
+            [
+                [0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9, 1.0],
+                [0.2, 0.4, 0.6000000000000001, 0.8, 1.0, 1.2000000000000002, 1.4000000000000001, 1.6, 1.8, 2.0],
+                1.00000000,
+            ],
+            // Very small values (1e-10 scale)
+            [
+                [1e-10, 2e-10, 3e-10, 4e-10, 5e-10],
+                [5e-10, 4e-10, 3e-10, 2e-10, 1e-10],
+                -1.00000000,
+            ],
+            // Mix of very different magnitudes (1e-5 to 1e5)
+            [
+                [1e-05, 2e-05, 100000.0, 200000.0, 300000.0],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                0.97014250,
             ],
         ];
     }
@@ -503,11 +525,13 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Test data generated with R: cor(x, y, method="kendall")
+     * Test data generated with scipy.stats.kendalltau(X, Y)
      * @return array [X, Y, τ]
      */
     public function dataProviderForKendallsTau(): array
     {
         return [
+            // Generated with R: cor(x, y, method="kendall")
             // No ties for tau-a
             [
                 [1, 2, 5, 3, 4],
@@ -575,6 +599,56 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
                 [4, 6, 3, 2, 9, 7, 8, 9, 5, 4],
                 0.0742156
             ],
+            // Floating-point precision edge cases
+            // Generated using scipy.stats.kendalltau(X, Y)
+            // Floating-point arithmetic: 0.1 + 0.2 vs 0.3 (should be treated as tie)
+            [
+                [0.30000000000000004, 0.3, 0.5, 0.7, 0.9],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                0.80000000,
+            ],
+            // Very close values: 1.0 vs 1.0000000001
+            [
+                [1.0, 1.0000000001, 2.0, 3.0, 4.0],
+                [10.0, 20.0, 30.0, 40.0, 50.0],
+                1.00000000,
+            ],
+            // Multiple near-ties in both X and Y
+            [
+                [1.1, 1.1000001, 2.2, 2.2000001, 3.3],
+                [5.5, 5.5000001, 6.6, 6.6000001, 7.7],
+                1.00000000,
+            ],
+            // Accumulated floating-point errors from repeated multiplication by 0.1
+            [
+                [0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9, 1.0],
+                [0.3, 0.6, 0.8999999999999999, 1.2, 1.5, 1.7999999999999998, 2.1, 2.4, 2.6999999999999997, 3.0],
+                1.00000000,
+            ],
+            // Mix of exact ties and near-ties
+            [
+                [1.0, 1.0, 2.0, 2.0000000001, 3.0, 3.0],
+                [10.0, 10.0000000001, 20.0, 20.0, 30.0, 30.0],
+                0.92307692,
+            ],
+            // Negative correlation with division-generated floats (1/3, 2/3, etc.)
+            [
+                [0.3333333333333333, 0.6666666666666666, 1.0, 1.3333333333333333, 1.6666666666666667],
+                [5.0, 4.0, 3.0, 2.0, 1.0],
+                -1.00000000,
+            ],
+            // Values from transcendental functions (sin and cos)
+            [
+                [0.8414709848078965, 0.9092974268256817, 0.1411200080598672, -0.7568024953079283, -0.9589242746631385],
+                [0.5403023058681398, -0.4161468365471424, -0.9899924966004454, -0.6536436208636119, 0.28366218546322625],
+                0.00000000,
+            ],
+            // Square roots (irrational numbers with representation limits)
+            [
+                [1.4142135623730951, 1.7320508075688772, 2.23606797749979, 2.6457513110645907, 3.3166247903554],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                1.00000000,
+            ],
         ];
     }
 
@@ -614,6 +688,8 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
 
     /**
      * Data generated with R: cor(X, Y, method="spearman")
+     * Data generated with enerated using scipy.stats.spearmanr(X, Y)
+     * Data from various online sources
      * @return array [X, Y, ρ]
      */
     public function dataProviderForSpearmansRho(): array
@@ -715,6 +791,32 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
                 [4, 6, 3, 2, 9, 7, 8, 9, 5, 4],
                 0.1009871
             ],
+            // Floating-point precision edge cases
+            // Generated using scipy.stats.spearmanr(X, Y)
+            // Floating-point arithmetic: 0.1 + 0.2 = 0.30000000000000004 vs 0.3
+            [
+                [0.30000000000000004, 0.3, 0.5, 0.7, 0.9],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                0.9,
+            ],
+            // Very close values: 1.0 vs 1.0000000001
+            [
+                [1.0, 1.0000000001, 2.0, 3.0, 4.0, 5.0],
+                [10.0, 20.0, 30.0, 40.0, 50.0, 60.0],
+                1.00000000,
+            ],
+            // Division-generated floats (fractions with 3 and 7)
+            [
+                [0.3333333333333333, 0.6666666666666666, 1.0, 1.3333333333333333, 1.6666666666666667, 2.0],
+                [0.14285714285714285, 0.2857142857142857, 0.42857142857142855, 0.5714285714285714, 0.7142857142857143, 0.8571428571428571],
+                1.00000000,
+            ],
+            // Irrational numbers (sqrt and pi multiples)
+            [
+                [1.0, 1.4142135623730951, 1.7320508075688772, 2.0, 2.23606797749979, 2.449489742783178, 2.6457513110645907],
+                [3.141592653589793, 6.283185307179586, 9.42477796076938, 12.566370614359172, 15.707963267948966, 18.84955592153876, 21.991148575128552],
+                1.00000000,
+            ],
         ];
     }
 
@@ -810,6 +912,295 @@ class CorrelationTest extends \PHPUnit\Framework\TestCase
                     [1.26303913613233, 0.418541793916591],
                     [1.47449429236742, 0.555004169940273],
                 ],
+            ],
+        ];
+    }
+
+    /**
+     * @test populationCovariance with empty arrays
+     * @throws \Exception
+     */
+    public function testPopulationCovarianceEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::populationCovariance($X, $Y);
+    }
+
+    /**
+     * @test sampleCovariance with empty arrays
+     * @throws \Exception
+     */
+    public function testSampleCovarianceEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::sampleCovariance($X, $Y);
+    }
+
+    /**
+     * @test weightedCovariance with empty X array
+     * @throws \Exception
+     */
+    public function testWeightedCovarianceEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+        $w = [1, 1, 1];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::weightedCovariance($X, $Y, $w);
+    }
+
+    /**
+     * @test populationCorrelationCoefficient with empty arrays
+     * @throws \Exception
+     */
+    public function testPopulationCorrelationCoefficientEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::populationCorrelationCoefficient($X, $Y);
+    }
+
+    /**
+     * @test sampleCorrelationCoefficient with empty arrays
+     * @throws \Exception
+     */
+    public function testSampleCorrelationCoefficientEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::sampleCorrelationCoefficient($X, $Y);
+    }
+
+    /**
+     * @test kendallsTau with empty arrays
+     * @throws \Exception
+     */
+    public function testKendallsTauEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::kendallsTau($X, $Y);
+    }
+
+    /**
+     * @test spearmansRho with empty arrays
+     * @throws \Exception
+     */
+    public function testSpearmansRhoEmptyArrays()
+    {
+        // Given
+        $X = [];
+        $Y = [1, 2, 3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::spearmansRho($X, $Y);
+    }
+
+    /**
+     * @test sampleCorrelationCoefficient with single element arrays
+     * Single element arrays have undefined sample standard deviation (division by n-1=0)
+     * @throws \Exception
+     */
+    public function testSampleCorrelationCoefficientSingleElement()
+    {
+        // Given
+        $X = [1];
+        $Y = [2];
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Correlation::sampleCorrelationCoefficient($X, $Y);
+    }
+
+    /**
+     * @test sampleCovariance with single element arrays
+     * Single element results in division by n-1=0
+     * @throws \Exception
+     */
+    public function testSampleCovarianceSingleElement()
+    {
+        // Given
+        $X = [1];
+        $Y = [2];
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Correlation::sampleCovariance($X, $Y);
+    }
+
+    /**
+     * @test Correlation coefficient with constant arrays (zero variance)
+     * Zero variance results in division by zero in correlation coefficient
+     * @throws \Exception
+     */
+    public function testCorrelationCoefficientConstantArrays()
+    {
+        // Given - both arrays are constant (zero variance)
+        $X = [5, 5, 5, 5, 5];
+        $Y = [10, 10, 10, 10, 10];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::populationCorrelationCoefficient($X, $Y);
+    }
+
+    /**
+     * @test Correlation coefficient with one constant array
+     * @throws \Exception
+     */
+    public function testCorrelationCoefficientOneConstantArray()
+    {
+        // Given - X is constant (zero variance)
+        $X = [5, 5, 5, 5, 5];
+        $Y = [1, 2, 3, 4, 5];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Correlation::populationCorrelationCoefficient($X, $Y);
+    }
+
+    /**
+     * @test Kendall's Tau with epsilon-based tie detection
+     * @dataProvider dataProviderForKendallsTauEpsilonBugs
+     * @param array $X
+     * @param array $Y
+     * @param float $expected_tau
+     * @throws \Exception
+     */
+    public function testKendallsTauWithEpsilonTieDetection(array $X, array $Y, float $expected_tau)
+    {
+        // When
+        $tau = Correlation::kendallsTau($X, $Y);
+
+        // Then
+        $this->assertEqualsWithDelta($expected_tau, $tau, 0.00001);
+    }
+
+    /**
+     * Data provider for Kendall's tau epsilon tests
+     * Generated using scipy.stats.kendalltau()
+     * @return array
+     */
+    public function dataProviderForKendallsTauEpsilonBugs(): array
+    {
+        return [
+            // Near-equal values within 1e-12
+            [
+                [1.0, 1.000000000001, 2.0, 3.0, 4.0],
+                [10.0, 20.0, 30.0, 40.0, 50.0],
+                1.0000000000,
+            ],
+            // Floating-point arithmetic 0.1 + 0.2
+            [
+                [0.30000000000000004, 0.3, 0.5, 0.7, 0.9],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                0.8000000000,
+            ],
+            // Multiple near-ties in both X and Y
+            [
+                [1.0, 1.0000000000001, 2.0, 2.0000000000001, 3.0],
+                [5.0, 5.0000000000001, 6.0, 6.0000000000001, 7.0],
+                1.0000000000,
+            ],
+            // Division-generated floats
+            [
+                [0.3333333333333333, 0.6666666666666666, 1.0, 1.3333333333333333, 1.6666666666666667],
+                [0.14285714285714285, 0.2857142857142857, 0.42857142857142855, 0.5714285714285714, 0.7142857142857143],
+                1.0000000000,
+            ],
+        ];
+    }
+
+    /**
+     * @test Spearman's Rho with epsilon-based ranking
+     * @dataProvider dataProviderForSpearmansRhoEpsilonBugs
+     * @param array $X
+     * @param array $Y
+     * @param float $expected_rho
+     * @throws \Exception
+     */
+    public function testSpearmansRhoWithEpsilonRanking(array $X, array $Y, float $expected_rho)
+    {
+        // When
+        $rho = Correlation::spearmansRho($X, $Y);
+
+        // Then
+        $this->assertEqualsWithDelta($expected_rho, $rho, 0.00001);
+    }
+
+    /**
+     * Data provider for Spearman's rho epsilon tests
+     * Generated using scipy.stats.spearmanr()
+     * @return array
+     */
+    public function dataProviderForSpearmansRhoEpsilonBugs(): array
+    {
+        return [
+            // 0.1 + 0.2 vs 0.3
+            [
+                [0.30000000000000004, 0.3, 0.5, 0.7, 0.9],
+                [1.0, 2.0, 3.0, 4.0, 5.0],
+                0.9000000000, // SciPy with epsilon-based ranking
+            ],
+            // Values differing by 1e-14
+            [
+                [1.0, 1.00000000000001, 2.0, 3.0, 4.0, 5.0],
+                [10.0, 20.0, 30.0, 40.0, 50.0, 60.0],
+                1.0000000000,
+            ],
+            // Accumulated errors from repeated multiplication
+            [
+                [0.1, 0.2, 0.30000000000000004, 0.4, 0.5, 0.6000000000000001, 0.7000000000000001, 0.8, 0.9, 1.0],
+                [0.2, 0.4, 0.6000000000000001, 0.8, 1.0, 1.2000000000000002, 1.4000000000000001, 1.6, 1.8, 2.0],
+                1.0000000000,
             ],
         ];
     }
