@@ -91,6 +91,40 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * @test kullbackLeibler when p contains negative values
+     */
+    public function testKullbackLeiblerExceptionNegativeP()
+    {
+        // Given
+        $p = [0.6, 0.5, -0.1];  // sums to 1.0 but contains negative value
+        $q = [0.3, 0.4, 0.3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('Probability values must be non-negative');
+
+        // When
+        Divergence::kullbackLeibler($p, $q);
+    }
+
+    /**
+     * @test kullbackLeibler when q contains negative values
+     */
+    public function testKullbackLeiblerExceptionNegativeQ()
+    {
+        // Given
+        $p = [0.3, 0.4, 0.3];
+        $q = [0.6, 0.5, -0.1];  // sums to 1.0 but contains negative value
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('Probability values must be non-negative');
+
+        // When
+        Divergence::kullbackLeibler($p, $q);
+    }
+
+    /**
      * @test         jensenShannon
      * @dataProvider dataProviderForJensenShannonDivergence
      * @param        array $p
@@ -166,6 +200,40 @@ class DivergenceTest extends \PHPUnit\Framework\TestCase
 
         // Then
         $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Divergence::jensenShannon($p, $q);
+    }
+
+    /**
+     * @test jensenShannon when p contains negative values
+     */
+    public function testJensenShannonDivergenceExceptionNegativeP()
+    {
+        // Given
+        $p = [0.6, 0.5, -0.1];  // sums to 1.0 but contains negative value
+        $q = [0.3, 0.4, 0.3];
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('Probability values must be non-negative');
+
+        // When
+        Divergence::jensenShannon($p, $q);
+    }
+
+    /**
+     * @test jensenShannon when q contains negative values
+     */
+    public function testJensenShannonDivergenceExceptionNegativeQ()
+    {
+        // Given
+        $p = [0.3, 0.4, 0.3];
+        $q = [0.6, 0.5, -0.1];  // sums to 1.0 but contains negative value
+
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('Probability values must be non-negative');
 
         // When
         Divergence::jensenShannon($p, $q);

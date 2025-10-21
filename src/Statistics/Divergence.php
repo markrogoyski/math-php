@@ -41,6 +41,7 @@ class Divergence
      * @return float difference between distributions
      *
      * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q contain negative values
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function kullbackLeibler(array $p, array $q): float
@@ -48,6 +49,11 @@ class Divergence
         // Arrays must have the same number of elements
         if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability values must be non-negative
+        if (\min($p) < 0 || \min($q) < 0) {
+            throw new Exception\BadDataException('Probability values must be non-negative');
         }
 
         // Probability distributions must add up to 1.0
@@ -105,6 +111,7 @@ class Divergence
      * @return float difference between distributions
      *
      * @throws Exception\BadDataException if p and q do not have the same number of elements
+     * @throws Exception\BadDataException if p and q contain negative values
      * @throws Exception\BadDataException if p and q are not probability distributions that add up to 1
      */
     public static function jensenShannon(array $p, array $q): float
@@ -112,6 +119,11 @@ class Divergence
         // Arrays must have the same number of elements
         if (\count($p) !== \count($q)) {
             throw new Exception\BadDataException('p and q must have the same number of elements');
+        }
+
+        // Probability values must be non-negative
+        if (\min($p) < 0 || \min($q) < 0) {
+            throw new Exception\BadDataException('Probability values must be non-negative');
         }
 
         // Probability distributions must add up to 1.0
