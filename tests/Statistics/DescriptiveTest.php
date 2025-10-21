@@ -143,6 +143,11 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [ [ 3, 7, 34, 25, 46, 7754, 3, 6 ], 6546331.937 ],
             [ [ 4, 6, 2, 2, 2, 2, 3, 4, 1, 3 ], 1.89 ],
             [ [ -3432, 5, 23, 9948, -74 ], 20475035.6 ],
+
+            // Edge cases generated using Python NumPy: np.var(ddof=0) for population variance
+            [ [ 1000000.0, 1000001.0, 1000002.0 ], 0.6666666666666666 ], // Large numbers
+            [ [ 0.0001, 0.0002, 0.0003, 0.0004 ], 1.25e-08 ], // Small decimals
+            [ [ -1000, -500, 0, 500, 1000 ], 500000.0 ], // Symmetric wide range
         ];
     }
 
@@ -196,6 +201,11 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [ [ 170, 300, 430, 470, 600 ], 27130 ],
             [ [ 1550, 1700, 900, 850, 1000, 950 ], 135416.66668 ],
             [ [ 1245, 1255, 1654, 1547, 1787, 1989, 1878, 2011, 2145, 2545, 2656 ], 210804.29090909063 ],
+
+            // Edge cases generated using Python NumPy: np.var(ddof=1) for sample variance
+            [ [ 1000000.0, 1000001.0, 1000002.0 ], 1.0 ], // Large numbers
+            [ [ 0.0001, 0.0002, 0.0003, 0.0004 ], 1.6666666666666667e-08 ], // Small decimals
+            [ [ -1000, -500, 0, 500, 1000 ], 625000.0 ], // Symmetric wide range
         ];
     }
 
@@ -440,6 +450,11 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [ [ 170, 300, 430, 470, 600 ], 164.7118696390761 ],
             [ [ 1550, 1700, 900, 850, 1000, 950 ], 367.99 ],
             [ [ 1245, 1255, 1654, 1547, 1787, 1989, 1878, 2011, 2145, 2545, 2656 ], 459.13 ],
+
+            // Edge cases generated using Python NumPy: np.std(ddof=1) for sample standard deviation
+            [ [ 1000000.0, 1000001.0, 1000002.0, 1000003.0 ], 1.2909944487358056 ], // Large numbers
+            [ [ 0.0001, 0.0002, 0.0003, 0.0004, 0.0005 ], 0.000158113883008419 ], // Small decimals
+            [ [ -1000, -500, 0, 500, 1000 ], 790.5694150420949 ], // Symmetric wide range
         ];
     }
 
@@ -678,7 +693,30 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [
                 [0, 900, 1800, 2700, 3600, 4500],
                 [ '0%' => 0, 'Q1' => 900, 'Q2' => 2250, 'Q3' => 3600, '100%' => 4500, 'IQR' => 2700 ],
-            ]
+            ],
+
+            // Edge cases generated using Python NumPy
+            // Functions: np.min(), np.max(), np.median() on array slices
+            // Method: Tukey's hinges (inclusive) - median included in both halves for odd-length arrays
+            // Single element
+            [
+                [ 5 ],
+                [ '0%' => 5, 'Q1' => 5, 'Q2' => 5, 'Q3' => 5, '100%' => 5, 'IQR' => 0 ],
+            ],
+            [
+                [ 42 ],
+                [ '0%' => 42, 'Q1' => 42, 'Q2' => 42, 'Q3' => 42, '100%' => 42, 'IQR' => 0 ],
+            ],
+            // Two elements
+            [
+                [ 1, 2 ],
+                [ '0%' => 1, 'Q1' => 1, 'Q2' => 1.5, 'Q3' => 2, '100%' => 2, 'IQR' => 1 ],
+            ],
+            // Three elements
+            [
+                [ 10, 20, 30 ],
+                [ '0%' => 10, 'Q1' => 15, 'Q2' => 20, 'Q3' => 25, '100%' => 30, 'IQR' => 10 ],
+            ],
         ];
     }
 
@@ -1098,6 +1136,54 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [ [100, 100, 100], 0 ],
             [ [0, 10, 20, 30, 40], 0.7905 ],
             [ [32, 50, 68, 86, 104], 0.41852941176471 ],
+
+            // Edge cases generated using Python NumPy: np.std(ddof=1) / np.mean()
+            // Small variance cases
+            [ [100, 100, 100, 100], 0.0 ], // No variance
+            [ [99.9, 100.0, 100.1], 0.0009999999999999432 ], // Very small variance
+
+            // Large numbers
+            [ [1000000.0, 2000000.0, 3000000.0, 4000000.0, 5000000.0], 0.5270462766947299 ], // Large numbers (millions)
+            [ [1000000000.0, 1100000000.0, 1200000000.0], 0.09090909090909091 ], // Very large numbers (billions)
+
+            // Small positive numbers
+            [ [0.001, 0.002, 0.003, 0.004, 0.005], 0.5270462766947299 ], // Small decimals
+
+            // Negative numbers
+            [ [-100, -200, -300, -400, -500], -0.5270462766947299 ], // All negative
+
+            // Mixed ranges
+            [ [1, 100, 10000], 1.7061359590899874 ], // Wide range
+        ];
+    }
+
+    /**
+     * @test         coefficientOfVariation returns NAN when mean is zero
+     * @dataProvider dataProviderForCoefficientOfVariationNan
+     * @param        array $numbers
+     * @throws       \Exception
+     */
+    public function testsCoefficientOfVariationReturnsNanWhenMeanIsZero(array $numbers)
+    {
+        // When
+        $cv = Descriptive::coefficientOfVariation($numbers);
+
+        // Then
+        $this->assertNan($cv);
+    }
+
+    /**
+     * Zero mean cases - should return NAN
+     * Generated using Python NumPy
+     * Functions: np.std(ddof=1) / np.mean() when np.mean() == 0
+     * @return array [numbers]
+     */
+    public function dataProviderForCoefficientOfVariationNan(): array
+    {
+        return [
+            [ [0, 0, 0] ], // Zero values
+            [ [-5, -3, 0, 3, 5] ], // Symmetric around zero
+            [ [-10, 0, 10] ], // Simple symmetric
         ];
     }
 
@@ -1347,6 +1433,26 @@ class DescriptiveTest extends \PHPUnit\Framework\TestCase
             [
                 [0, 0, 1, 2, 63, 61, 27, 13],
                 ['min' => 0, 'Q1' => 0.5, 'median' => 7.5, 'Q3' => 44.0, 'max' => 63],
+            ],
+
+            // Edge cases generated using Python NumPy
+            // Functions: np.min(), np.max(), np.median() on array slices
+            // Method: Exclusive - median excluded from halves for odd-length arrays
+            [
+                [ 1, 2, 3, 4, 5 ],
+                ['min' => 1, 'Q1' => 1.5, 'median' => 3, 'Q3' => 4.5, 'max' => 5],
+            ],
+            [
+                [ 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 ],
+                ['min' => 10, 'Q1' => 30, 'median' => 55, 'Q3' => 80, 'max' => 100],
+            ],
+            [
+                [ 5 ],
+                ['min' => 5, 'Q1' => 5, 'median' => 5, 'Q3' => 5, 'max' => 5],
+            ],
+            [
+                [ -10, -5, 0, 5, 10 ],
+                ['min' => -10, 'Q1' => -7.5, 'median' => 0, 'Q3' => 7.5, 'max' => 10],
             ],
         ];
     }

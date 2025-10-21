@@ -14,6 +14,7 @@
 * SampleData\People `getShoeSize` has a typo and was `getShowSize`. This has been fixed.
 * Fixed calculation in Probability\Distribution\Discrete\Hypergeometric `cdf`. Implementation changed to use sum of PMFs.
 * Statistics\Correlation `sampleCovariance`, `populationCorrelationCoefficient`, `sampleCorrelationCoefficient`, throw BadDataException or OutOfBoundsException rather than division by zero for bad input data.
+* Statistics\Descriptive `coefficientOfVariation` will return NAN if mean is zero. Previously did division by zero.
 
 ### Improvements
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
