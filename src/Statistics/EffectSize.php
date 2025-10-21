@@ -130,7 +130,7 @@ class EffectSize
      * Cohen's q
      *
      * The difference between two Fisher transformed Pearson regression coefficients.
-     * hhttps://en.wikipedia.org/wiki/Effect_size#Cohen.27s_q
+     * https://en.wikipedia.org/wiki/Effect_size#Cohen.27s_q
      *
      *     1     1 + r₁   1     1 + r₂
      * q = - log ------ - - log ------
@@ -141,14 +141,17 @@ class EffectSize
      * @param float $r₁
      * @param float $r₂
      *
-     * @return float
+     * @return float Absolute value of calculation
      *
      * @throws Exception\OutOfBoundsException if an r is ≤ 0
      */
     public static function cohensQ(float $r₁, float $r₂): float
     {
-        if ($r₁ >= 1 || $r₂ >= 1) {
-            throw new Exception\OutOfBoundsException('r must be greater than or equal to 1');
+        if ($r₁ < -1 || $r₁ > 1 || $r₂ < -1 || $r₂ > 1) {
+            throw new Exception\OutOfBoundsException('r must be in the range [-1, 1]');
+        }
+        if ($r₁ == -1 || $r₁ == 1 || $r₂ == -1 || $r₂ == 1) {
+            return \INF;
         }
 
         $½ = 0.5;

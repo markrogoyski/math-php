@@ -153,10 +153,11 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         $q = EffectSize::cohensQ($r₁, $r₂);
 
         // Then
-        $this->assertEqualsWithDelta($expected, $q, 0.001);
+        $this->assertEqualsWithDelta($expected, $q, \abs($expected) * 1e-10 + 1e-14);
     }
 
     /**
+     * Test data generated with R: cohens_q {ClinSigMeasures}
      * @return array  [r₁, r₂, expected]
      */
     public function dataProviderForCohensQ(): array
@@ -164,25 +165,52 @@ class EffectSizeTest extends \PHPUnit\Framework\TestCase
         return [
             [0.1, 0.1, 0],
             [0.5, 0.5, 0],
-            [0.1, 0.2, 0.102],
-            [0.2, 0.1, 0.102],
-            [0.1, 0.5, 0.449],
-            [0.1, 0.9, 1.372],
-            [0.1, 0, 0.1],
-            [0.1, -0.1, 0.201],
+            [0.1, 0.2, 0.102397206323006],
+            [0.2, 0.1, 0.102397206323006],
+            [0.1, 0.5, 0.448970796602979],
+            [0.1, 0.9, 1.37188414185214],
+            [0.1, 0, 0.100335347731076],
+            [0.1, -0.1, 0.200670695462151],
+            [1, 0.5, \INF],
+            [-1, 0.5, \INF],
+            [0.5, 1, \INF],
+            [0.5, -1, \INF],
         ];
     }
 
     /**
-     * @test     cohensQ R out of bounds
+     * @test         cohensQ R out of bounds
+     * @dataProvider dataProviderForCohensQOutOfBounds
+     * @param        float $r₁
+     * @param        float $r₂
      */
-    public function testCohensQExceptionROutOfBounds()
+    public function testCohensQExceptionROutOfBounds(float $r₁, float $r₂)
     {
         // Then
         $this->expectException(Exception\OutOfBoundsException::class);
 
         // When
-        EffectSize::cohensQ(0.1, 2);
+        EffectSize::cohensQ($r₁, $r₂);
+    }
+
+    /**
+     * @return array [[r₁, r₂]
+     */
+    public function dataProviderForCohensQOutOfBounds(): array
+    {
+        return [
+            [1.1, 0.1],
+            [2, 0.1],
+            [1.1, 1.1],
+            [2, 2],
+            [0.1, 1.1],
+            [0.1, 2],
+            [-1.1, 0.1],
+            [-2, 0.1],
+            [-2, -2],
+            [0.1, -1.1],
+            [0.1, -2],
+        ];
     }
 
     /**
