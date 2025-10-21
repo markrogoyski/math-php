@@ -33,7 +33,7 @@ use MathPHP\LinearAlgebra\Vector;
  */
 class Distance
 {
-    private const ONE_TOLERANCE = 0.010001;
+    private const ONE_TOLERANCE = 1e-10;
 
     /**
      * Bhattacharyya distance
@@ -105,7 +105,7 @@ class Distance
             throw new Exception\BadDataException('Distributions p and q must add up to 1');
         }
 
-        // Defensive measures against taking the log of 0 which would be -∞ or dividing by 0
+        // Defensive measures against numerical issues with very small probability values
         $p = \array_map(
             function ($pᵢ) {
                 return $pᵢ == 0 ? 1e-15 : $pᵢ;
@@ -385,7 +385,7 @@ class Distance
             throw new Exception\BadDataException('u and v must have the same number of elements');
         }
         $uZero = \count(\array_unique($u)) === 1 && \end($u) == 0;
-        $vZero = \count(\array_unique($u)) === 1 && \end($v) == 0;
+        $vZero = \count(\array_unique($v)) === 1 && \end($v) == 0;
         if ($uZero && $vZero) {
             return \NAN;
         }
@@ -435,7 +435,7 @@ class Distance
             throw new Exception\BadDataException('p and q must have the same number of elements');
         }
         $pZero = \count(\array_unique($p)) === 1 && \end($p) == 0;
-        $qZero = \count(\array_unique($p)) === 1 && \end($q) == 0;
+        $qZero = \count(\array_unique($q)) === 1 && \end($q) == 0;
         if ($pZero && $qZero) {
             return \NAN;
         }
