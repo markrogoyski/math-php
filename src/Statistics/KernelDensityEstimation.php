@@ -18,7 +18,7 @@ use MathPHP\Probability\Distribution\Continuous;
  */
 class KernelDensityEstimation
 {
-    /** @var array<float> Data used for the esimtation */
+    /** @var array<float> Data used for the estimation */
     protected $data;
 
     /** @var int number of data points */
