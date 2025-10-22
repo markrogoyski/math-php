@@ -64,8 +64,8 @@ class RandomVariable
             throw new Exception\BadDataException('Cannot find the central moment of an empty list of numbers');
         }
 
-        $μ         = Average::mean($X);
-        $∑⟮xᵢ − μ⟯ⁿ = \array_sum(\array_map(
+        $μ       = Average::mean($X);
+        $∑⟮xᵢ−μ⟯ⁿ = \array_sum(\array_map(
             function ($xᵢ) use ($μ, $n) {
                 return \pow(($xᵢ - $μ), $n);
             },
@@ -73,7 +73,7 @@ class RandomVariable
         ));
         $N = \count($X);
 
-        return $∑⟮xᵢ − μ⟯ⁿ / $N;
+        return $∑⟮xᵢ−μ⟯ⁿ / $N;
     }
 
     /**
@@ -145,17 +145,17 @@ class RandomVariable
             throw new Exception\BadDataException('Cannot find the sample skewness of less than three numbers');
         }
 
-        $μ₃    = self::centralMoment($X, 3);
-        $μ₂    = self::centralMoment($X, 2);
+        $μ₃ = self::centralMoment($X, 3);
+        $μ₂ = self::centralMoment($X, 2);
 
         $μ₂³′² = \pow($μ₂, 3 / 2);
         if ($μ₂³′² == 0) {
             return \NAN;  // Prevents division by zero in μ₃ / μ₂³′² equation
         }
 
-        $√⟮n⟮n − 1⟯⟯ = \sqrt($n * ($n - 1));
+        $√⟮n⟮n−1⟯⟯ = \sqrt($n * ($n - 1));
 
-        return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n − 1⟯⟯ / ($n - 2) );
+        return ($μ₃ / $μ₂³′²) * ( $√⟮n⟮n−1⟯⟯ / ($n - 2) );
     }
 
     /**
@@ -187,7 +187,7 @@ class RandomVariable
         }
 
         $μ         = Average::mean($X);
-        $∑⟮xᵢ − μ⟯³ = \array_sum(\array_map(
+        $∑⟮xᵢ−μ⟯³ = \array_sum(\array_map(
             function ($xᵢ) use ($μ) {
                 return \pow(($xᵢ - $μ), 3);
             },
@@ -195,12 +195,12 @@ class RandomVariable
         ));
         $σ³ = \pow(Descriptive::standardDeviation($X, Descriptive::SAMPLE), 3);
 
-        $⟮σ³ × ⟮N − 1⟯⟯ = ($σ³ * ($N - 1));
-        if ($⟮σ³ × ⟮N − 1⟯⟯ == 0) {
+        $⟮σ³×⟮N−1⟯⟯ = ($σ³ * ($N - 1));
+        if ($⟮σ³×⟮N−1⟯⟯ == 0) {
             return \NAN;
         }
 
-        return $∑⟮xᵢ − μ⟯³ / $⟮σ³ × ⟮N − 1⟯⟯;
+        return $∑⟮xᵢ−μ⟯³ / $⟮σ³×⟮N−1⟯⟯;
     }
 
     /**
@@ -260,10 +260,10 @@ class RandomVariable
             throw new Exception\BadDataException("SES requires a dataset of n > 2. N of $n given.");
         }
 
-        $６n⟮n − 1⟯           = 6 * $n * ($n - 1);
-        $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯ = ($n - 2) * ($n + 1) * ($n + 3);
+        $６n⟮n−1⟯       = 6 * $n * ($n - 1);
+        $⟮n−2⟯⟮n＋1⟯⟮n＋3⟯ = ($n - 2) * ($n + 1) * ($n + 3);
 
-        return \sqrt($６n⟮n − 1⟯ / $⟮n − 2⟯⟮n ＋ 1⟯⟮n ＋ 2⟯);
+        return \sqrt($６n⟮n−1⟯ / $⟮n−2⟯⟮n＋1⟯⟮n＋3⟯);
     }
 
     /**
@@ -328,15 +328,15 @@ class RandomVariable
     public static function populationKurtosis(array $X): float
     {
         if (\count($X) < 4) {
-            throw new Exception\BadDataException('Cannot find the kurtosis of an empty list of numbers');
+            throw new Exception\BadDataException('Cannot find the kurtosis of fewer than 4 numbers');
         }
 
         $g₂ = self::sampleKurtosis($X);
 
         $n = \count($X);
-        $⟮n ＋ 1⟯g₂ ＋ 6 = ($n + 1) * $g₂ + 6;
+        $⟮n＋1⟯g₂＋6 = ($n + 1) * $g₂ + 6;
 
-        return ($⟮n ＋ 1⟯g₂ ＋ 6 * ($n - 1)) / (($n - 2) * ($n - 3));
+        return ($⟮n＋1⟯g₂＋6 * ($n - 1)) / (($n - 2) * ($n - 3));
     }
 
     /**
@@ -443,11 +443,11 @@ class RandomVariable
             throw new Exception\BadDataException("SEK requires a dataset of n > 3. N of $n given.");
         }
 
-        $２⟮SES⟯        = 2 * self::ses($n);
-        $⟮n² − 1⟯       = $n ** 2 - 1;
-        $⟮n − 3⟯⟮n ＋ 5⟯ = ($n - 3) * ($n + 5);
+        $２⟮SES⟯    = 2 * self::ses($n);
+        $⟮n²−1⟯     = $n ** 2 - 1;
+        $⟮n−3⟯⟮n＋5⟯ = ($n - 3) * ($n + 5);
 
-        return $２⟮SES⟯ * \sqrt($⟮n² − 1⟯ / $⟮n − 3⟯⟮n ＋ 5⟯);
+        return $２⟮SES⟯ * \sqrt($⟮n²−1⟯ / $⟮n−3⟯⟮n＋5⟯);
     }
 
     /**
@@ -580,14 +580,14 @@ class RandomVariable
             throw new Exception\BadDataException('Cannot find the sum of squares deviations of an empty list of numbers');
         }
 
-        $μ         = Average::mean($numbers);
-        $∑⟮xᵢ − μ⟯² = \array_sum(\array_map(
+        $μ       = Average::mean($numbers);
+        $∑⟮xᵢ−μ⟯² = \array_sum(\array_map(
             function ($xᵢ) use ($μ) {
                 return \pow(($xᵢ - $μ), 2);
             },
             $numbers
         ));
 
-        return $∑⟮xᵢ − μ⟯²;
+        return $∑⟮xᵢ−μ⟯²;
     }
 }
