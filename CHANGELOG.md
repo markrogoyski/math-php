@@ -20,6 +20,7 @@
 * Fix \Statistics\EffectSize boundary edge cases resulting in division by zero for `hedgesG`, `cohensD`, and `glassDelta`.
 
 ### Improvements
+* Refactor the geometric mean implementation to use a numerically stable log-space calculation
 * Refactor ChiSquared pdf to avoid raising 0 to negative exponent which is deprecated
 * Refactor LogLogistic pdf and cdf to avoid raising 0 to negative exponent which is deprecated
 * Improved implementation of NoncentralT `median`
@@ -30,6 +31,7 @@
 * Statistics\Distribution `stemAndLeafPlot` throws an exception if there are negative values.
 * Statistics\Experiment functions throw exceptions when input outside of range. `likelihoodRatioSS` returns infinity for rather than division by zero.
 * Statistics\Outlier edge cases throw exceptions: Grubbs' having fewer than 3 observations; standard deviation of zero; Support upper/lower as aliases for one sided in `grubbsCriticalValue`.
+* Improved exception message for Functions\Support `checkLimits` to add invalid endpoint character in the exception message
 
 ## v2.12.0 - 2025-10-17
 
