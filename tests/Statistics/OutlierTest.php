@@ -100,7 +100,7 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * cakcykated by (max - μ) / sd
+     * Calculated by (max - μ) / sd
      * @return array
      */
     public function dataProviderForGrubbsStatisticOneSidedUpper(): array
@@ -138,14 +138,12 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $oneSided);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);
+        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.0001);
     }
 
     /**
      * Reference table: http://www.statistics4u.com/fundstat_eng/ee_grubbs_outliertest.html
      * @return array (𝛼, n, critical value)
-     * @todo [0.05, 400, 3.6339], [0.05, 500, 3.6952], [0.05, 600, 3.7442]
-     * @todo [0.01, 400, 4.0166], [0.01, 500, 4.0749], [0.01, 600, 4.1214],
      */
     public function dataProviderForCriticalValueOneSided(): array
     {
@@ -184,6 +182,9 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
             [0.05, 180, 3.4001],
             [0.05, 200, 3.4324],
             [0.05, 300, 3.5525],
+            [0.05, 400, 3.6339],
+            [0.05, 500, 3.6952],
+            [0.05, 600, 3.7442],
 
             // 𝛼 = 0.01
             [0.01, 3, 1.1546],
@@ -219,6 +220,9 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
             [0.01, 180, 3.7904],
             [0.01, 200, 3.8220],
             [0.01, 300, 3.9385],
+            [0.01, 400, 4.0166],
+            [0.01, 500, 4.0749],
+            [0.01, 600, 4.1214],
         ];
     }
 
@@ -239,14 +243,12 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
         $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $twoSided);
 
         // Then
-        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);
+        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.0001);
     }
 
     /**
      * Reference table: http://www.statistics4u.com/fundstat_eng/ee_grubbs_outliertest.html
      * @return array (𝛼, n, critical value)
-     * @todo [0.05, 400, 3.8032], [0.05, 500, 3.8631], [0.05, 600, 3.9109]
-     * @todo [0.01, 400, 4.1707], [0.01, 500, 4.2283], [0.01, 600, 4.2740]
      */
     public function dataProviderForCriticalValueTwoSided(): array
     {
@@ -285,6 +287,10 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
             [0.05, 180, 3.5736],
             [0.05, 200, 3.6055],
             [0.05, 300, 3.7236],
+            [0.05, 400, 3.8032],
+            [0.05, 500, 3.8631],
+            [0.05, 600, 3.9109],
+
             // 𝛼 = 0.01
             [0.01, 3,  1.1547],
             [0.01, 4,  1.4962],
@@ -319,6 +325,9 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
             [0.01, 180, 3.9460],
             [0.01, 200, 3.9777],
             [0.01, 300, 4.0935],
+            [0.01, 400, 4.1707],
+            [0.01, 500, 4.2283],
+            [0.01, 600, 4.2740],
         ];
     }
 
@@ -367,6 +376,150 @@ class OutlierTest extends \PHPUnit\Framework\TestCase
             ['zero'],
             ['three'],
             ['ten'],
+        ];
+    }
+
+    /**
+     * @test   Grubbs statistic throws exception when standard deviation is zero (identical values)
+     * @dataProvider dataProviderForZeroStandardDeviation
+     * @param        array  $data
+     * @param        string $typeOfTest
+     * @throws       \Exception
+     */
+    public function testGrubbsStatisticZeroStandardDeviationException(array $data, string $typeOfTest)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('Standard deviation is zero');
+
+        // When
+        $G = Outlier::grubbsStatistic($data, $typeOfTest);
+    }
+
+    /**
+     * Test data where all values are identical (σ = 0) with sufficient sample size (n ≥ 3)
+     * Verified: Standard deviation of identical values is 0 (basic statistical principle)
+     * @return array
+     */
+    public function dataProviderForZeroStandardDeviation(): array
+    {
+        return [
+            'all fives, two-sided' => [[5, 5, 5, 5, 5], 'two'],
+            'all fives, lower' => [[5, 5, 5, 5, 5], 'lower'],
+            'all fives, upper' => [[5, 5, 5, 5, 5], 'upper'],
+            'all zeros, two-sided' => [[0, 0, 0, 0], 'two'],
+            'all negatives, lower' => [[-10, -10, -10, -10, -10, -10], 'lower'],
+            'three identical values, two-sided' => [[100, 100, 100], 'two'],
+            'three identical values, upper' => [[7.5, 7.5, 7.5], 'upper'],
+        ];
+    }
+
+    /**
+     * @test   Grubbs statistic throws exception when sample size is less than 3
+     * @dataProvider dataProviderForSampleSizeTooSmall
+     * @param        array  $data
+     * @param        string $typeOfTest
+     * @throws       \Exception
+     */
+    public function testGrubbsStatisticSampleSizeTooSmallException(array $data, string $typeOfTest)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('at least 3 observations');
+
+        // When
+        $G = Outlier::grubbsStatistic($data, $typeOfTest);
+    }
+
+    /**
+     * Test data with insufficient sample size (n < 3)
+     * Reference: Grubbs' test requires n ≥ 3 for statistical validity
+     * Source: https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h1.htm
+     * @return array
+     */
+    public function dataProviderForSampleSizeTooSmall(): array
+    {
+        return [
+            'two values, two-sided' => [[1, 100], 'two'],
+            'two values, lower' => [[1, 100], 'lower'],
+            'two values, upper' => [[1, 100], 'upper'],
+            'two different values, two-sided' => [[5.5, 10.2], 'two'],
+            'single value, two-sided' => [[42], 'two'],
+            'single value, lower' => [[42], 'lower'],
+            'single value, upper' => [[42], 'upper'],
+        ];
+    }
+
+    /**
+     * @test   Critical value throws exception when sample size is less than 3
+     * @dataProvider dataProviderForCriticalValueSampleSizeTooSmall
+     * @param        float  $𝛼
+     * @param        int    $n
+     * @param        string $typeOfTest
+     * @throws       \Exception
+     */
+    public function testGrubbsCriticalValueSampleSizeTooSmallException(float $𝛼, int $n, string $typeOfTest)
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+        $this->expectExceptionMessage('at least 3 observations');
+
+        // When
+        $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $typeOfTest);
+    }
+
+    /**
+     * Test critical value with insufficient sample size
+     * Reference: Grubbs' test requires n ≥ 3 for statistical validity
+     * @return array
+     */
+    public function dataProviderForCriticalValueSampleSizeTooSmall(): array
+    {
+        return [
+            'n=2, two-sided' => [0.05, 2, 'two'],
+            'n=1, two-sided' => [0.05, 1, 'two'],
+            'n=2, one-sided' => [0.05, 2, 'one'],
+            'n=1, one-sided' => [0.01, 1, 'one'],
+            'n=0, two-sided' => [0.05, 0, 'two'],
+        ];
+    }
+
+    /**
+     * @test         Critical value accepts 'lower' and 'upper' as aliases for 'one'
+     * @dataProvider dataProviderForCriticalValueOneSidedWithLowerUpper
+     * @param        string $typeOfTest
+     * @param        float  $𝛼
+     * @param        int    $n
+     * @param        float  $expectedCriticalValue
+     * @throws       Exception\BadParameterException
+     */
+    public function testCriticalGrubbsOneSidedWithLowerUpperAliases(string $typeOfTest, float $𝛼, int $n, float $expectedCriticalValue)
+    {
+        // When
+        $criticalValue = Outlier::grubbsCriticalValue($𝛼, $n, $typeOfTest);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedCriticalValue, $criticalValue, 0.001);
+    }
+
+    /**
+     * Test that 'lower' and 'upper' work as aliases for 'one' in critical value
+     * Reference table: http://www.statistics4u.com/fundstat_eng/ee_grubbs_outliertest.html
+     * Both one-sided lower and upper tests use the same critical value (one-sided)
+     * @return array (typeOfTest, 𝛼, n, critical value)
+     */
+    public function dataProviderForCriticalValueOneSidedWithLowerUpper(): array
+    {
+        return [
+            // Using 'lower' should work and return same value as 'one'
+            ['lower', 0.05, 10, 2.1761],
+            ['lower', 0.05, 20, 2.5566],
+            ['lower', 0.01, 10, 2.4097],
+
+            // Using 'upper' should work and return same value as 'one'
+            ['upper', 0.05, 10, 2.1761],
+            ['upper', 0.05, 20, 2.5566],
+            ['upper', 0.01, 10, 2.4097],
         ];
     }
 }

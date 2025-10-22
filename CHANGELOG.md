@@ -29,6 +29,7 @@
 * Statistics\Divergence `kullbackLeibler` and `jensenShannon` throw an exception if there are non-negative probabilities.
 * Statistics\Distribution `stemAndLeafPlot` throws an exception if there are negative values.
 * Statistics\Experiment functions throw exceptions when input outside of range. `likelihoodRatioSS` returns infinity for rather than division by zero.
+* Statistics\Outlier edge cases throw exceptions: Grubbs' having fewer than 3 observations; standard deviation of zero; Support upper/lower as aliases for one sided in `grubbsCriticalValue`.
 
 ## v2.12.0 - 2025-10-17
 
