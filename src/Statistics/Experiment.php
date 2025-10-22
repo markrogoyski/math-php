@@ -64,9 +64,20 @@ class Experiment
      *     ci_upper_bound:  float,
      *     p:               float,
      * }
+     *
+     * @throws Exception\OutOfBoundsException if any cell count is negative
+     * @throws Exception\BadDataException if any cell count is zero (causes division by zero or invalid calculations)
      */
     public static function riskRatio(int $a, int $b, int $c, int $d): array
     {
+        // Validate cell counts
+        if ($a < 0 || $b < 0 || $c < 0 || $d < 0) {
+            throw new Exception\OutOfBoundsException('Cell counts must be non-negative');
+        }
+        if ($a == 0 || $b == 0 || $c == 0 || $d == 0) {
+            throw new Exception\BadDataException('Cell counts cannot be zero (causes division by zero or invalid calculations)');
+        }
+
         // Risk ratio
         $RR = ($a / ($a + $b)) / ($c / ($c + $d));
 
@@ -131,9 +142,20 @@ class Experiment
      *     ci_upper_bound:  float,
      *     p:               float,
      * }
+     *
+     * @throws Exception\OutOfBoundsException if any cell count is negative
+     * @throws Exception\BadDataException if any cell count is zero (causes division by zero or invalid calculations)
      */
     public static function oddsRatio(int $a, int $b, int $c, int $d): array
     {
+        // Validate cell counts
+        if ($a < 0 || $b < 0 || $c < 0 || $d < 0) {
+            throw new Exception\OutOfBoundsException('Cell counts must be non-negative');
+        }
+        if ($a == 0 || $b == 0 || $c == 0 || $d == 0) {
+            throw new Exception\BadDataException('Cell counts cannot be zero (causes division by zero or invalid calculations)');
+        }
+
         // Odds ratio
         $OR = ($a / $b) / ($c / $d);
 
@@ -185,9 +207,20 @@ class Experiment
      *     "LL+": float,
      *     "LL-": float,
      * }
+     *
+     * @throws Exception\OutOfBoundsException if any cell count is negative
+     * @throws Exception\BadDataException if any cell count is zero (causes division by zero or invalid calculations)
      */
     public static function likelihoodRatio(int $a, int $b, int $c, int $d): array
     {
+        // Validate cell counts
+        if ($a < 0 || $b < 0 || $c < 0 || $d < 0) {
+            throw new Exception\OutOfBoundsException('Cell counts must be non-negative');
+        }
+        if ($a == 0 || $b == 0 || $c == 0 || $d == 0) {
+            throw new Exception\BadDataException('Cell counts cannot be zero (causes division by zero or invalid calculations)');
+        }
+
         // LL+ Positive likelihood ratio
         $LL＋ = ($a / ($a + $c)) / ($b / ($b + $d));
 
@@ -215,6 +248,10 @@ class Experiment
      * LL- = ---------------
      *         specificity
      *
+     * Special cases:
+     * - When specificity = 1.0 (perfect specificity), LL+ = INF
+     * - When specificity = 0.0 (no true negatives), LL- = INF
+     *
      * @param  float $sensitivity
      * @param  float $specificity
      *
@@ -223,19 +260,24 @@ class Experiment
      *     "LL-": float,
      * }
      *
-     * @throws Exception\OutOfBoundsException if sensitivity or specificity are > 1.0
+     * @throws Exception\OutOfBoundsException if sensitivity or specificity are outside [0, 1]
      */
     public static function likelihoodRatioSS(float $sensitivity, float $specificity): array
     {
-        if ($sensitivity > 1.0 || $specificity > 1.0) {
-            throw new Exception\OutOfBoundsException('Sensitivity and specificity must be <= 1.0');
+        // Validate input ranges
+        if ($sensitivity < 0 || $sensitivity > 1.0 || $specificity < 0 || $specificity > 1.0) {
+            throw new Exception\OutOfBoundsException('Sensitivity and specificity must be between 0 and 1');
         }
 
         // LL+ Positive likelihood ratio
-        $LL＋ = $sensitivity / (1 - $specificity);
+        $LL＋ = $specificity == 1.0
+            ? \INF
+            : $sensitivity / (1 - $specificity);
 
         // LL- Negative likelihood ratio
-        $LL− = (1 - $sensitivity) / $specificity;
+        $LL− = $specificity == 0.0
+            ? \INF
+            : (1 - $sensitivity) / $specificity;
 
         return [
             'LL+' => $LL＋,

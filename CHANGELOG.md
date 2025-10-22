@@ -28,6 +28,7 @@
 * Statistics\Distribution `cumulativeFrequency` and `cumulativeRelativeFrequency` now do a frequency distribution on sorted data, which was the original intent.
 * Statistics\Divergence `kullbackLeibler` and `jensenShannon` throw an exception if there are non-negative probabilities.
 * Statistics\Distribution `stemAndLeafPlot` throws an exception if there are negative values.
+* Statistics\Experiment functions throw exceptions when input outside of range. `likelihoodRatioSS` returns infinity for rather than division by zero.
 
 ## v2.12.0 - 2025-10-17
 

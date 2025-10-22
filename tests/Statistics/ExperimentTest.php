@@ -19,13 +19,13 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
     public function testRiskRatio(int $a, int $b, int $c, int $d, array $expected)
     {
         // When
-        $riskRation = Experiment::riskRatio($a, $b, $c, $d);
+        $riskRatio = Experiment::riskRatio($a, $b, $c, $d);
 
         // Then
-        $this->assertEqualsWithDelta($expected['RR'], $riskRation['RR'], 0.001);
-        $this->assertEqualsWithDelta($expected['ci_lower_bound'], $riskRation['ci_lower_bound'], 0.001);
-        $this->assertEqualsWithDelta($expected['ci_upper_bound'], $riskRation['ci_upper_bound'], 0.001);
-        $this->assertEqualsWithDelta($expected['p'], $riskRation['p'], 0.0001);
+        $this->assertEqualsWithDelta($expected['RR'], $riskRatio['RR'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_lower_bound'], $riskRatio['ci_lower_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['ci_upper_bound'], $riskRatio['ci_upper_bound'], 0.001);
+        $this->assertEqualsWithDelta($expected['p'], $riskRatio['p'], 0.0001);
     }
 
     /**
@@ -159,5 +159,177 @@ class ExperimentTest extends \PHPUnit\Framework\TestCase
 
         // When
         Experiment::likelihoodRatioSS($sensitivity, $specificity);
+    }
+
+    /**
+     * @test likelihoodRatioSS exception if sensitivity is negative
+     */
+    public function testLikelihoodRatioSSNegativeSensitivity()
+    {
+        // Given
+        $sensitivity = -0.5;
+        $specificity = 0.9;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Experiment::likelihoodRatioSS($sensitivity, $specificity);
+    }
+
+    /**
+     * @test likelihoodRatioSS exception if specificity is negative
+     */
+    public function testLikelihoodRatioSSNegativeSpecificity()
+    {
+        // Given
+        $sensitivity = 0.9;
+        $specificity = -0.5;
+
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Experiment::likelihoodRatioSS($sensitivity, $specificity);
+    }
+
+    /**
+     * @test likelihoodRatioSS returns INF for LL+ when specificity is 1.0 (perfect specificity)
+     */
+    public function testLikelihoodRatioSSPerfectSpecificity()
+    {
+        // Given
+        $sensitivity = 0.9;
+        $specificity = 1.0;
+
+        // When
+        $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+        // Then
+        $this->assertEquals(\INF, $result['LL+']);
+        $this->assertEqualsWithDelta(0.1, $result['LL-'], 0.001);
+    }
+
+    /**
+     * @test likelihoodRatioSS returns INF for LL- when specificity is 0.0
+     */
+    public function testLikelihoodRatioSSZeroSpecificity()
+    {
+        // Given
+        $sensitivity = 0.9;
+        $specificity = 0.0;
+
+        // When
+        $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+        // Then
+        $this->assertEqualsWithDelta(0.9, $result['LL+'], 0.001);
+        $this->assertEquals(\INF, $result['LL-']);
+    }
+
+    /**
+     * @test likelihoodRatioSS with sensitivity = 0.0
+     */
+    public function testLikelihoodRatioSSZeroSensitivity()
+    {
+        // Given
+        $sensitivity = 0.0;
+        $specificity = 0.9;
+
+        // When
+        $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+        // Then
+        $this->assertEquals(0.0, $result['LL+']);
+        $this->assertEqualsWithDelta(1.1111, $result['LL-'], 0.001);
+    }
+
+    /**
+     * @test likelihoodRatioSS with sensitivity = 1.0
+     */
+    public function testLikelihoodRatioSSPerfectSensitivity()
+    {
+        // Given
+        $sensitivity = 1.0;
+        $specificity = 0.9;
+
+        // When
+        $result = Experiment::likelihoodRatioSS($sensitivity, $specificity);
+
+        // Then
+        $this->assertEqualsWithDelta(10.0, $result['LL+'], 0.001);
+        $this->assertEquals(0.0, $result['LL-']);
+    }
+
+    /**
+     * @test riskRatio exception when cell count is negative
+     */
+    public function testRiskRatioNegativeCellCount()
+    {
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Experiment::riskRatio(-1, 80, 1, 99);
+    }
+
+    /**
+     * @test riskRatio exception when cell count is zero
+     */
+    public function testRiskRatioZeroCellCount()
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Experiment::riskRatio(0, 80, 1, 99);
+    }
+
+    /**
+     * @test oddsRatio exception when cell count is negative
+     */
+    public function testOddsRatioNegativeCellCount()
+    {
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Experiment::oddsRatio(20, -5, 1, 99);
+    }
+
+    /**
+     * @test oddsRatio exception when cell count is zero
+     */
+    public function testOddsRatioZeroCellCount()
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Experiment::oddsRatio(20, 0, 1, 99);
+    }
+
+    /**
+     * @test likelihoodRatio exception when cell count is negative
+     */
+    public function testLikelihoodRatioNegativeCellCount()
+    {
+        // Then
+        $this->expectException(Exception\OutOfBoundsException::class);
+
+        // When
+        Experiment::likelihoodRatio(20, 80, -1, 99);
+    }
+
+    /**
+     * @test likelihoodRatio exception when cell count is zero
+     */
+    public function testLikelihoodRatioZeroCellCount()
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        Experiment::likelihoodRatio(20, 80, 0, 99);
     }
 }
