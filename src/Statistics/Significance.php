@@ -28,7 +28,7 @@ class Significance
      * @param float $Hₐ Alternate hypothesis (M Sample mean)
      * @param int   $n  Sample size
      * @param float $H₀ Null hypothesis (μ Population mean)
-     * @param float $σ  SD of population (Standard error of the mean)
+     * @param float $σ  SD of population
      *
      * @return array{
      *   z: float,
@@ -61,7 +61,7 @@ class Significance
      * @param float $Hₐ Alternate hypothesis (M Sample mean)
      * @param int   $n  Sample size
      * @param float $H₀ Null hypothesis (μ Population mean)
-     * @param float $σ  SD of population (Standard error of the mean)
+     * @param float $σ  SD of population
      *
      * @return array{
      *   z: float,
@@ -126,7 +126,7 @@ class Significance
      * @param float $μ₁ Sample mean of population 1
      * @param float $μ₂ Sample mean of population 2
      * @param int   $n₁ Sample size of population 1
-     * @param int   $n₂ Sample size of population 1
+     * @param int   $n₂ Sample size of population 2
      * @param float $σ₁ Standard deviation of sample mean 1
      * @param float $σ₂ Standard deviation of sample mean 2
      * @param float $Δ  (Optional) hypothesized difference between the population means (0 if testing for equal means)
@@ -441,7 +441,7 @@ class Significance
      * @param float $μ₁ Sample mean of population 1
      * @param float $μ₂ Sample mean of population 2
      * @param int   $n₁ Sample size of population 1
-     * @param int   $n₂ Sample size of population 1
+     * @param int   $n₂ Sample size of population 2
      * @param float $σ₁ Standard deviation of sample mean 1
      * @param float $σ₂ Standard deviation of sample mean 2
      *

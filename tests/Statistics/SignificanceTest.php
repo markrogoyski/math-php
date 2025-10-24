@@ -547,6 +547,27 @@ class SignificanceTest extends \PHPUnit\Framework\TestCase
                 20.67941, 22.135, 68, 300, 2.820266, 0.9252723,
                 ['t' => -4.205026, 'df' => 70.29978, 'p1' => 0.000076, 'p2' => 7.568864e-05],
             ],
+            // One sample with zero variance (first sample constant)
+            [
+                [10, 10, 10, 10],
+                [8, 10, 12],
+                10, 10, 4, 3, 0, 2,
+                ['t' => 0, 'df' => 2, 'p1' => 0.5, 'p2' => 1],
+            ],
+            // One sample with zero variance (second sample constant)
+            [
+                [8, 10, 12, 14],
+                [10, 10, 10],
+                11, 10, 4, 3, 2.5819888974716, 0,
+                ['t' => 0.7745967, 'df' => 3, 'p1' => 0.24751265, 'p2' => 0.4950253],
+            ],
+            // One sample with zero variance (first sample constant, equal means)
+            [
+                [5, 5, 5, 5, 5],
+                [1, 3, 5, 7, 9],
+                5, 5, 5, 5, 0, 3.162278,
+                ['t' => 0, 'df' => 4, 'p1' => 0.5, 'p2' => 1],
+            ],
         ];
     }
 
