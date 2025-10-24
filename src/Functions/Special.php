@@ -128,8 +128,8 @@ class Special
          *         sin πz * Γ(1 - z)
          */
         if ($z < 0.5) {
-            $Γ⟮1 − z⟯ = self::gammaLanczos(1 - $z);
-            return $π / ( \sin($π * $z) * $Γ⟮1 − z⟯);
+            $Γ⟮1−z⟯ = self::gammaLanczos(1 - $z);
+            return $π / ( \sin($π * $z) * $Γ⟮1−z⟯);
         }
 
         // Standard Lanczos formula when z ≥ 0.5
@@ -143,8 +143,8 @@ class Special
 
         // Compute parts of equation
         $√2π = \sqrt(2 * $π);
-        $⟮z ＋ g ＋½⟯ᶻ⁺½ = \pow($z + $g + 0.5, $z + 0.5);
-        $ℯ＾−⟮z ＋ g ＋½⟯ = \exp(-($z + $g + 0.5));
+        $⟮z＋g＋½⟯ᶻ⁺½  = \pow($z + $g + 0.5, $z + 0.5);
+        $ℯ＾−⟮z＋g＋½⟯ = \exp(-($z + $g + 0.5));
 
         /**
          * Put it all together:
@@ -152,7 +152,7 @@ class Special
          *  √2π | z + g + -  |    e^-(z+g+½) A(z)
          *       \        2 /
          */
-        return $√2π * $⟮z ＋ g ＋½⟯ᶻ⁺½ * $ℯ＾−⟮z ＋ g ＋½⟯ * $A⟮z⟯;
+        return $√2π * $⟮z＋g＋½⟯ᶻ⁺½ * $ℯ＾−⟮z＋g＋½⟯ * $A⟮z⟯;
     }
 
     /**
@@ -195,7 +195,7 @@ class Special
         $√2π                    = \sqrt(2 * \M_PI);
         $ℯ⁻ⁿ                    = \exp(-$n);
         $√1／n                  = \sqrt(1 / $n);
-        $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ = \pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
+        $⟮n＋1／⟮12n−1／10n⟯⟯ⁿ = \pow($n + 1 / (12 * $n - 1 / (10 * $n)), $n);
 
         /**
          * Put it all together:
@@ -204,7 +204,7 @@ class Special
          *  Γ(n)≈ √2π ℯ⁻ⁿ  /  - | n + ----------- |
          *                √   n  \    12n - 1/10n /
          */
-        return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n ＋ 1／⟮12n − 1／10n⟯⟯ⁿ;
+        return $√2π * $ℯ⁻ⁿ * $√1／n * $⟮n＋1／⟮12n−1／10n⟯⟯ⁿ;
     }
 
     /**
@@ -612,9 +612,9 @@ class Special
     {
         $Γ⟮x⟯  = self::Γ($x);
         $Γ⟮y⟯  = self::Γ($y);
-        $Γ⟮x ＋ y⟯ = self::Γ($x + $y);
+        $Γ⟮x＋y⟯ = self::Γ($x + $y);
 
-        return 1 / $Γ⟮x ＋ y⟯ * $Γ⟮x⟯ * $Γ⟮y⟯;
+        return 1 / $Γ⟮x＋y⟯ * $Γ⟮x⟯ * $Γ⟮y⟯;
     }
 
     /**

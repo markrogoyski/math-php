@@ -100,9 +100,9 @@ class Descriptive
             throw new Exception\OutOfBoundsException('Degrees of freedom must be > 0');
         }
 
-        $∑⟮xᵢ − μ⟯² = RandomVariable::sumOfSquaresDeviations($numbers);
+        $∑⟮xᵢ−μ⟯² = RandomVariable::sumOfSquaresDeviations($numbers);
 
-        return $∑⟮xᵢ − μ⟯² / $ν;
+        return $∑⟮xᵢ−μ⟯² / $ν;
     }
 
     /**
@@ -194,7 +194,7 @@ class Descriptive
         }
 
         $μw           = Average::weightedMean($numbers, $weights);
-        $∑wᵢ⟮xᵢ − μw⟯² = \array_sum(\array_map(
+        $∑wᵢ⟮xᵢ−μw⟯² = \array_sum(\array_map(
             function ($xᵢ, $wᵢ) use ($μw) {
                 return $wᵢ * \pow(($xᵢ - $μw), 2);
             },
@@ -206,7 +206,7 @@ class Descriptive
             ? \array_sum($weights)
             : \array_sum($weights) - 1;
 
-        return $∑wᵢ⟮xᵢ − μw⟯² / $∑wᵢ;
+        return $∑wᵢ⟮xᵢ−μw⟯² / $∑wᵢ;
     }
 
     /**
@@ -286,7 +286,7 @@ class Descriptive
         }
 
         $x         = Average::mean($numbers);
-        $∑│xᵢ − x│ = \array_sum(\array_map(
+        $∑│xᵢ−x│ = \array_sum(\array_map(
             function ($xᵢ) use ($x) {
                 return \abs($xᵢ - $x);
             },
@@ -294,7 +294,7 @@ class Descriptive
         ));
         $N = \count($numbers);
 
-        return $∑│xᵢ − x│ / $N;
+        return $∑│xᵢ−x│ / $N;
     }
 
     /**
