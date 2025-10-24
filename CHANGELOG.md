@@ -1,6 +1,6 @@
 # MathPHP Change Log
 
-## v2.13.0 - TBD
+## v2.13.0 - 2025-10-23
 
 ### New Features
 * Matrix `columnAddScalar`
