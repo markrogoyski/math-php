@@ -2,6 +2,9 @@
 
 namespace MathPHP\SetTheory;
 
+use MathPHP\Util\JustifyMultipleIterator;
+use MathPHP\Util\NoValueMonad;
+
 /**
  * Set (Set Theory)
  * A set is a collection of distinct objects, considered as an object in
@@ -379,6 +382,7 @@ class Set implements \Countable, \Iterator
      * SET OPERATIONS ON OTHER SETS
      *  - Union
      *  - Intersection
+     *  - Partial intersection
      *  - Difference
      *  - Symmetric difference
      **************************************************************************/
@@ -429,6 +433,63 @@ class Set implements \Countable, \Iterator
         }
 
         $intersection = \array_intersect_key($this->A, ...$B_members);
+
+        return new Set($intersection);
+    }
+
+    /**
+     * Produces a new set of the M-partial intersection of this set and another given sets.
+     *
+     * Definition:
+     *
+     * An M-partial intersection (for M > 0) of N sets is a set elements in which
+     * are contained in at least M initial sets.
+     *
+     * Properties:
+     *
+     * - 1-partial intersection is equivalent to the union of these sets.
+     * - 2-partial intersection is equivalent to the difference of the union and the symmetric difference of these sets.
+     * - N-partial intersection is equivalent to the common (complete) intersection of these sets.
+     * - For any M > N M-partial intersection always equals to the empty set.
+     *
+     * @see https://github.com/Smoren/partial-intersection-php for the explanation and the examples.
+     *
+     * @param int $m Min intersection count
+     * @param Set ...$Bs One or more sets
+     *
+     * @return Set
+     */
+    public function intersectPartial(int $m, Set ...$Bs): Set
+    {
+        $B_members = [];
+        foreach ($Bs as $B) {
+            $B_members[] = $B->asArray();
+        }
+
+        $iterator = new JustifyMultipleIterator($this->asArray(), ...$B_members);
+
+        $usageMap = [];
+        $intersection = [];
+
+        foreach ($iterator as $values) {
+            foreach ($values as $value) {
+                if ($value instanceof NoValueMonad) {
+                    continue;
+                }
+
+                $key = $this->getKey($value);
+
+                if (!isset($usageMap[$key])) {
+                    $usageMap[$key] = 0;
+                }
+
+                $usageMap[$key]++;
+
+                if ($usageMap[$key] === $m) {
+                    $intersection[] = $value;
+                }
+            }
+        }
 
         return new Set($intersection);
     }
