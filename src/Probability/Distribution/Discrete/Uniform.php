@@ -154,4 +154,14 @@ class Uniform extends Discrete
 
         return (($b - $a + 1) ** 2 - 1) / 12;
     }
+
+    /**
+     * Random number sampled from the distribution
+     *
+     * @return int
+     */
+    public function rand(): int
+    {
+        return \random_int($this->a, $this->b);
+    }
 }
