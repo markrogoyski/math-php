@@ -2,6 +2,7 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Arithmetic;
 use MathPHP\Functions\Map;
 use MathPHP\Functions\Support;
 use MathPHP\Exception;
@@ -1476,6 +1477,7 @@ class NumericMatrix extends Matrix
      *  - covarianceMatrix
      *  - adjugate
      *  - householder
+     *  - upperHessenberg
      **************************************************************************/
 
     /**
@@ -1882,6 +1884,64 @@ class NumericMatrix extends Matrix
     public function householder(): NumericMatrix
     {
         return Householder::transform($this);
+    }
+
+    /**
+     * Uses householder to convert the matrix to upper hessenberg form
+     *
+     * @return NumericMatrix
+     *
+     * @throws Exception\MathException
+     */
+    public function upperHessenberg(): NumericMatrix
+    {
+        $n = $this->getM();
+
+        $hessenberg = $this;
+        $identity = MatrixFactory::identity($n);
+
+        for ($i = 0; $i < $n-2; $i++)
+        {
+            $slice = $this->submatrix($i+1, $i, $n-1, $i);
+            $x = $slice->asVectors()[0];
+            $sign = $x[0] >= 0 ? 1 : -1;
+            $x1 = $sign * $x->l2norm();
+            if (Arithmetic::almostEqual($x1, 0, $this->getError())) {
+                continue;
+            }
+            $u = \array_fill(0, $n-$i-1, 0);
+            $u[0] = $x1;
+            $u = new Vector($u);
+            
+            $v = $u->subtract($x);
+            $v = MatrixFactory::createFromVectors([$v]);
+            $vt = $v->transpose();
+
+            $vvt = $v->multiply($vt);
+            $vtv = $vt->multiply($v)[0][0];
+            $P = $vvt->scalarDivide($vtv);
+
+            $H = MatrixFactory::identity($P->getM());
+            $H = $H->subtract($P->scalarMultiply(2));
+
+            // augment
+            $offset = $n - $H->getM();
+            $elems = $identity->getMatrix();
+            for ($i = 0; $i < $H->getM(); $i++)
+            {
+                for ($j = 0; $j < $H->getN(); $j++)
+                {
+                    $elems[$i + $offset][$j + $offset] = $H[$i][$j];
+                }
+            }
+            
+            $H = MatrixFactory::create($elems);
+
+            // Multiply
+            $hessenberg = $H->multiply($hessenberg->multiply($H));
+        }
+
+        return $hessenberg;
     }
 
     /**************************************************************************
