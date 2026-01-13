@@ -8,22 +8,28 @@ namespace MathPHP\Statistics\Regression;
 abstract class Regression
 {
     /**
-     * Array of x and y points: [ [x, y], [x, y], ... ]
-     * @var array<array{float, float}>
+     * Array of x and y points: [ [x₁₁, x₁₂, x₁ₖ, y₁], [x₂₁, x₂₂, x₂ₖ, y₂], ... ]
+     * @var list<array{float, float, ...<float>}>
      */
     protected $points;
 
     /**
      * X values of the original points
-     * @var array<float>
+     * @var list<float>
      */
     protected $xs;
 
     /**
      * Y values of the original points
-     * @var array<float>
+     * @var list<float>
      */
     protected $ys;
+
+    /**
+     * X row values of the original points
+     * @var list<non-empty-list<float>>
+     */
+    protected $xss;
 
     /**
      * Number of points
@@ -32,23 +38,33 @@ abstract class Regression
     protected $n;
 
     /**
+     * Number of columns in xss
+     * @var int
+     */
+    protected $k;
+
+    /**
      * Constructor - Prepares the data arrays for regression analysis
      *
-     * @param array<array{float, float}> $points [ [x, y], [x, y], ... ]
+     * @param list<array{float|non-empty-list<float>, float}> $points [ [ x₁ | [ x₁₁, x₁₂, x₁ₖ ], y₁ ], [ x₂ | [ x₂₁, x₂₂, x₂ₖ ], y₂ ], ... ]
      */
     public function __construct(array $points)
     {
         $this->points = $points;
         $this->n      = \count($points);
+        $this->k      = empty($points) ? 0 : (\is_array($points[0]) ? \count($points[0]) : 1);
 
         // Get list of x points and y points.
-        // This will be fine for linear or polynomial regression, where there is only one x,
-        // but if expanding to multiple linear, the format will have to change.
+        // This will be fine for linear or polynomial regression, where there is only one x.
         $this->xs = \array_map(function ($point) {
-            return $point[0];
+            return \is_array($point[0]) ? $point[0][0] : $point[0];
         }, $points);
         $this->ys = \array_map(function ($point) {
             return $point[1];
+        }, $points);
+        // For multilinear, the format is a list of x for each point.
+        $this->xss = \array_map(function (array $point) {
+            return \is_array($point[0]) ? $point[0] : [$point[0]];
         }, $points);
     }
 
@@ -60,6 +76,17 @@ abstract class Regression
      * @return float
      */
     abstract public function evaluate(float $x): float;
+
+    /**
+     * Evaluate the regression equation at x vector
+     *
+     * @param non-empty-list<float> $vector
+     * @return float
+     */
+    public function evaluateVector(array $vector): float
+    {
+        return $this->evaluate($vector[0]);
+    }
 
     /**
      * Get points
@@ -74,7 +101,7 @@ abstract class Regression
     /**
      * Get Xs (x values of each point)
      *
-     * @return array<float> of x values
+     * @return list<float> of x values
      */
     public function getXs(): array
     {
@@ -84,11 +111,21 @@ abstract class Regression
     /**
      * Get Ys (y values of each point)
      *
-     * @return array<float> of y values
+     * @return list<float> of y values
      */
     public function getYs(): array
     {
         return $this->ys;
+    }
+
+    /**
+     * Get Xss (x vector of each point)
+     *
+     * @return list<non-empty-list<float>> of x values
+     */
+    public function getXss(): array
+    {
+        return $this->xss;
     }
 
     /**
@@ -105,10 +142,10 @@ abstract class Regression
      * Ŷ (yhat)
      * A list of the predicted values of Y given the regression.
      *
-     * @return array<float>
+     * @return list<float>
      */
     public function yHat(): array
     {
-        return \array_map([$this, 'evaluate'], $this->xs);
+        return \array_map([$this, 'evaluateVector'], $this->xss);
     }
 }

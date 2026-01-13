@@ -25,10 +25,10 @@ trait LeastSquares
     private $reg_ys;
 
     /**
-     * Regression xs
+     * Regression xs or xss
      * Since the actual xs may be translated for regression, we need to keep these
      * handy for regression statistics.
-     * @var array<float>
+     * @var array<float>|array<array<float>>
      */
     private $reg_xs;
 
@@ -96,7 +96,7 @@ trait LeastSquares
      *       (x)² - x²
      *
      * @param  array<float> $ys y values
-     * @param  array<float> $xs x values
+     * @param  array<float>|array<array<float>> $xs x values
      * @param  int   $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int   $fit_constant '1' if we are fitting a constant to the regression.
      *
