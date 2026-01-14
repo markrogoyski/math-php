@@ -58,8 +58,8 @@ class MultilinearTest extends TestCase
                 // y = 2x₁ - 0.5x₂ + 10
                 // Order from Vandermonde (d=2, p=1): [0,0], [0,1], [1,0]
                 // β₀ = ε = 10
-                // β₁ = x₂ coeff = -0.5
-                // β₂ = x₁ coeff = 2
+                // β₁ = x₁ coeff = 2
+                // β₂ = x₂ coeff = -0.5
                 [
                     [[1, 5], 9.5],   // 2(1) - 0.5(5) + 10 = 2 - 2.5 + 10 = 9.5
                     [[2, 8], 10],    // 2(2) - 0.5(8) + 10 = 4 - 4 + 10 = 10

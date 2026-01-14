@@ -44,9 +44,14 @@ class Multilinear extends ParametricRegression
      * @param non-empty-list<float> $vector
      *
      * @return float
+     *
+     * @throws BadDataException
      */
     public function evaluateVector(array $vector): float
     {
+        if (empty($this->parameters)) {
+            throw new Exception\BadDataException('Regression parameters are not calculated');
+        }
         return $this->evaluateModel($vector, $this->parameters);
     }
 }

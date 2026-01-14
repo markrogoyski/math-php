@@ -8,8 +8,8 @@ namespace MathPHP\Statistics\Regression;
 abstract class Regression
 {
     /**
-     * Array of x and y points: [ [x₁₁, x₁₂, x₁ₖ, y₁], [x₂₁, x₂₂, x₂ₖ, y₂], ... ]
-     * @var list<array{float, float, ...<float>}>
+     * Array of x and y points: [ [ x₁ | [ x₁₁, x₁₂, x₁ₖ ], y₁ ], [ x₂ | [ x₂₁, x₂₂, x₂ₖ ], y₂ ], ... ]
+     * @var list<array{float|non-empty-list<float>, float}>
      */
     protected $points;
 
@@ -91,7 +91,7 @@ abstract class Regression
     /**
      * Get points
      *
-     * @return array<array{float, float}>
+     * @return list<array{float|non-empty-list<float>, float}>
      */
     public function getPoints(): array
     {

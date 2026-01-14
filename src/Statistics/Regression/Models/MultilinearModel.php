@@ -4,6 +4,9 @@ namespace MathPHP\Statistics\Regression\Models;
 
 trait MultilinearModel
 {
+    /**
+     * @var list<string>
+     */
     private static $subscripts = ['₀', '₁', '₂', '₃', '₄', '₅', '₆', '₇', '₈', '₉'];
 
     /**
