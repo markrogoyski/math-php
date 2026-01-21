@@ -23,8 +23,8 @@ class MultilinearTest extends TestCase
         $parameters = $regression->getParameters();
 
         // Then
-        foreach ($expected_parameters as $name => $value) {
-            $this->assertEqualsWithDelta($value, $parameters[$name], 0.0001);
+        foreach ($expected_parameters as $i => $value) {
+            $this->assertEqualsWithDelta($value, $parameters[$i], 0.0001);
         }
     }
 
@@ -37,7 +37,7 @@ class MultilinearTest extends TestCase
             [
                 // y = 2x₁ + 3x₂ + 5
                 // Vandermonde (d=2, p=1): [0,0], [1,0], [0,1]
-                // β₀ = ε = 5
+                // β₀ = 5
                 // β₁ = x₁ coeff = 2
                 // β₂ = x₂ coeff = 3
                 [
@@ -48,16 +48,16 @@ class MultilinearTest extends TestCase
                     [[0, 0], 5],
                 ],
                 [
+                    'β₀'  => 5,
                     'β₁' => 2,
                     'β₂' => 3,
-                    'ε'  => 5,
                 ],
             ],
             [
                 // Example from real data or calculated elsewhere
                 // y = 2x₁ - 0.5x₂ + 10
-                // Order from Vandermonde (d=2, p=1): [0,0], [0,1], [1,0]
-                // β₀ = ε = 10
+                // Vandermonde (d=2, p=1): [0,0], [1,0], [0,1]
+                // β₀ = 10
                 // β₁ = x₁ coeff = 2
                 // β₂ = x₂ coeff = -0.5
                 [
@@ -67,9 +67,9 @@ class MultilinearTest extends TestCase
                     [[0, 0], 10],
                 ],
                 [
+                    'β₀'  => 10,
                     'β₁' => 2,
                     'β₂' => -0.5,
-                    'ε'  => 10,
                 ],
             ],
         ];
@@ -147,7 +147,7 @@ class MultilinearTest extends TestCase
                     [[2, 2], 15],
                     [[0, 0], 5],
                 ],
-                'y = 2.000000x₁ + 3.000000x₂ + 5.000000',
+                'y = 5.000000 + 2.000000x₁ + 3.000000x₂',
             ],
         ];
     }

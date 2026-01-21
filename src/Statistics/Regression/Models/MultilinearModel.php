@@ -29,7 +29,7 @@ trait MultilinearModel
 
     /**
      * Evaluate the model given all the model parameters
-     * y = x₁β₁ + x₂β₂ + … + xₖβₖ + ε
+     * y = β₀ + x₁β₁ + x₂β₂ + … + xₖβₖ
      *
      * @param list<float> $vector
      * @param non-empty-list<float> $params
@@ -38,28 +38,28 @@ trait MultilinearModel
      */
     public static function evaluateModel(array $vector, array $params): float
     {
-        $y = 0;
+        $y = $params[0];
         for ($i = 1, $len = \count($params); $i < $len; $i++) {
             $y += $vector[$i - 1] * $params[$i];
         }
-        $y += $params[0];
         return $y;
     }
 
     /**
-     * Get regression parameters (coefficients)
+     * Get regression parameters (coefficients).
      *
-     * @param non-empty-list<float> $params
+     * Use array_values() on the result to get a list<float> of coefficients.
      *
-     * @return array<string, float>
+     * @param array<int, float> $params
+     *
+     * @return array<string, float> [β₀ + β₁ + β₂ + … + βₖ]
      */
     public function getModelParameters(array $params): array
     {
         $result = [];
-        for ($i = 1, $len = \count($params); $i < $len; $i++) {
+        for ($i = 0, $len = \count($params); $i < $len; $i++) {
             $result['β' . self::getSubscript($i)] = $params[$i];
         }
-        $result['ε'] = $params[0];
         return $result;
     }
 
@@ -72,11 +72,10 @@ trait MultilinearModel
      */
     public function getModelEquation(array $params): string
     {
-        $result = 'y = ';
+        $result = \sprintf('y = %f', $params[0]);
         for ($i = 1, $len = \count($params); $i < $len; $i++) {
-            $result .= \sprintf('%fx%s + ', $params[$i], self::getSubscript($i));
+            $result .= \sprintf(' + %fx%s', $params[$i], self::getSubscript($i));
         }
-        $result .= \sprintf('%f', $params[0]);
         return $result;
     }
 }
