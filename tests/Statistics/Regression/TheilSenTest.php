@@ -24,17 +24,31 @@ class TheilSenTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test getPoints
+     * @dataProvider dataProviderForGetPoints
+     * @param array $points
      */
-    public function testGetPoints()
+    public function testGetPoints(array $points): void
     {
-        // Given
-        $points = [ [1,2], [2,3], [4,5], [5,7], [6,8] ];
-
         // When
         $regression = new TheilSen($points);
 
         // Then
         $this->assertEquals($points, $regression->getPoints());
+    }
+
+    /**
+     * @return array [points]
+     */
+    public function dataProviderForGetPoints(): array
+    {
+        return [
+            [
+                [[1, 2], [2, 3], [4, 5], [5, 7], [6, 8]],
+            ],
+            [
+                [[[1], 2], [[2], 3], [[4], 5], [[5], 7], [[6], 8]],
+            ],
+        ];
     }
 
     /**

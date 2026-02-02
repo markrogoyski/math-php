@@ -39,13 +39,15 @@ class TheilSen extends ParametricRegression
     {
         // The slopes array will be a list of slopes between all pairs of points
         $slopes = [];
-        $n      = \count($this->points);
+        $n      = $this->n;
         for ($i = 0; $i < $n; $i++) {
             for ($j = $i + 1; $j < $n; $j++) {
-                $pointi = $this->points[$i];
-                $pointj = $this->points[$j];
-                if ($pointj[0] != $pointi[0]) {
-                    $slopes[] = ($pointj[1] - $pointi[1]) / ($pointj[0] - $pointi[0]);
+                $pointiX = $this->xs[$i];
+                $pointiY = $this->ys[$i];
+                $pointjX = $this->xs[$j];
+                $pointjY = $this->ys[$j];
+                if ($pointjX != $pointiX) {
+                    $slopes[] = ($pointjY - $pointiY) / ($pointjX - $pointiX);
                 }
             }
         }
