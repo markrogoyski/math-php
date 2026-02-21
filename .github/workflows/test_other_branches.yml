@@ -9,10 +9,15 @@ on:
 jobs:
   test-and-lint:
     name: Test and Lint
+
+
     runs-on: ubuntu-latest
+
+
     strategy:
       matrix:
         php: ['7.2', '7.3', '7.4', '8.0', '8.1', '8.2', '8.3', '8.4']
+
 
     steps:
       - name: Set up PHP
@@ -21,27 +26,34 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: composer:v2
 
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 20.x
+
 
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+
       - name: PHP Version Check
         run: php -v
+
 
       - name: Validate Composer JSON
         run: composer validate
 
+
       - name: Run Composer
         run: composer install --no-interaction
 
+
       - name: PHP Lint
         run: ./vendor/bin/parallel-lint src tests
+
 
       - name: Unit tests
         run: |
@@ -52,6 +64,7 @@ jobs:
           echo "Test suite Linear Algebra"
           ./vendor/bin/phpunit --configuration tests/phpunit.xml --testsuite=LinearAlgebra
 
+
       - name: PHP Code Sniffer
         run: |
           ./vendor/bin/phpcs --version
@@ -59,10 +72,15 @@ jobs:
 
   static-analysis:
     name: Static Analysis
+
+
     runs-on: ubuntu-latest
+
+
     strategy:
       matrix:
-        php: ['8.4']
+        php: ['8.3', '8.4', '8.4', '8.5']
+
 
     steps:
       - name: Set up PHP
@@ -72,18 +90,22 @@ jobs:
           coverage: xdebug
           tools: composer:v2
 
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20.x'
+          node-version: 20.x
+
 
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+
       - name: Run Composer
         run: composer install --no-interaction
+
 
       - name: Static analysis
         run: |
