@@ -256,7 +256,7 @@ class Set implements \Countable, \Iterator
      *
      * @return string|null
      */
-    protected function getKey($x): ?string
+    protected function getKey($x): string
     {
         if (\is_int($x) || \is_float($x) || \is_string($x) || $x instanceof Set) {
             return "$x";
@@ -268,7 +268,7 @@ class Set implements \Countable, \Iterator
             return 'Resource(' . $x . ')';
         }
 
-        return null;
+        return '';
     }
 
     /**************************************************************************
@@ -667,7 +667,7 @@ class Set implements \Countable, \Iterator
      */
     public function valid(): bool
     {
-        return isset($this->A[$this->iterator_position]);
+        return $this->iterator_position !== null && isset($this->A[$this->iterator_position]);
     }
 
     /**

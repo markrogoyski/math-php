@@ -405,7 +405,6 @@ class MiscSpecialTest extends \PHPUnit\Framework\TestCase
 
         // And
         $chebyshevEval = new \ReflectionMethod(Special::Class, 'chebyshevEval');
-        $chebyshevEval->setAccessible(true);
 
         // Then
         $this->expectException(Exception\OutOfBoundsException::class);
@@ -435,7 +434,6 @@ class MiscSpecialTest extends \PHPUnit\Framework\TestCase
 
         // And
         $chebyshevEval = new \ReflectionMethod(Special::Class, 'chebyshevEval');
-        $chebyshevEval->setAccessible(true);
 
         // Then
         $this->expectException(Exception\OutOfBoundsException::class);

@@ -18,7 +18,6 @@ class FinanceTest extends \PHPUnit\Framework\TestCase
         // Given
         $reflection = new \ReflectionClass('MathPHP\Finance');
         $method     = $reflection->getMethod('checkZero');
-        $method->setAccessible(true);
 
         // When
         $checkedZero = $method->invokeArgs(null, [$value]);

@@ -1141,7 +1141,6 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $method = new \ReflectionMethod(Polynomial::class, 'checkNumericOrPolynomial');
-        $method->setAccessible(true);
 
         // When
         $polynomial = $method->invokeArgs(new Polynomial([1]), [$input]);
@@ -1173,7 +1172,6 @@ class PolynomialTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $method = new \ReflectionMethod(Polynomial::class, 'checkNumericOrPolynomial');
-        $method->setAccessible(true);
 
         // Then
         $this->expectException(Exception\IncorrectTypeException::class);
