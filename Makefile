@@ -1,6 +1,6 @@
-.PHONY : lint tests style phpstan phpmd report coverage
+.PHONY : lint tests style phpstan phpmd coverage
 
-all : lint tests style phpstan report
+all : lint tests style phpstan
 
 tests :
 	vendor/bin/phpunit tests/ --configuration=tests/phpunit.xml
@@ -19,6 +19,3 @@ phpmd :
 
 coverage :
 	vendor/bin/phpunit tests/ --configuration=tests/phpunit.xml --coverage-text=php://stdout
-
-report :
-	vendor/bin/phploc src/
