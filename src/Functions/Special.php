@@ -572,7 +572,7 @@ class Special
         static $xmax = 171.61447887182298;
 
         if (\is_nan($a) || \is_nan($b)) {
-            throw new Exception\NanException("Cannot compute beta when a or b is NAN: got a:$a, b:$b");
+            throw new Exception\NanException("Cannot compute beta when a or b is NAN: got a:" . var_export($a, true) . ", b:" . var_export($b, true));
         }
         if ($a < 0 || $b < 0) {
             throw new Exception\OutOfBoundsException("a and b must be non-negative for beta: got a:$a, b:$b");
@@ -643,7 +643,7 @@ class Special
     public static function logBeta(float $a, float $b): float
     {
         if (\is_nan($a) || \is_nan($b)) {
-            throw new Exception\NanException("Cannot compute logBeta if a or b is NAN: got a:$a, b:$b");
+            throw new Exception\NanException("Cannot compute logBeta if a or b is NAN: got a:" . var_export($a, true) . ", b:" . var_export($b, true));
         }
 
         $p = \min($a, $b);
