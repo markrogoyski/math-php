@@ -515,7 +515,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
-        $preconditions->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -541,7 +540,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $preconditions = new \ReflectionMethod(Piecewise::class, 'constructorPreconditions');
-        $preconditions->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -560,7 +558,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
-        $checkAsAndBs->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -579,7 +576,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
-        $checkAsAndBs->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -598,7 +594,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
-        $checkAsAndBs->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -617,7 +612,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
 
         // And
         $checkAsAndBs = new \ReflectionMethod(Piecewise::class, 'checkAsAndBs');
-        $checkAsAndBs->setAccessible(true);
 
         // Then
         $this->expectException(Exception\BadDataException::class);
@@ -637,7 +631,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'openOpen');
-        $openOpen->setAccessible(true);
 
         // When
         $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
@@ -667,7 +660,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'openClosed');
-        $openOpen->setAccessible(true);
 
         // When
         $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
@@ -697,7 +689,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'closedOpen');
-        $openOpen->setAccessible(true);
 
         $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
 
@@ -726,7 +717,6 @@ class PiecewiseTest extends \PHPUnit\Framework\TestCase
     {
         // Given
         $openOpen = new \ReflectionMethod(Piecewise::class, 'closedClosed');
-        $openOpen->setAccessible(true);
 
         // When
         $result = $openOpen->invokeArgs($this->piecewise, [$aOpen, $bOpen]);
