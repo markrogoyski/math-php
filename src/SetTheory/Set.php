@@ -150,7 +150,6 @@ class Set implements \Countable, \Iterator
      */
     public function isMember($x): bool
     {
-        // @phpstan-ignore-next-line ($this->getKey() may return null, int|string required)
         return \array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -164,7 +163,6 @@ class Set implements \Countable, \Iterator
      */
     public function isNotMember($x): bool
     {
-        // @phpstan-ignore-next-line ($this->getKey() may return null, int|string required)
         return !\array_key_exists($this->getKey($x), $this->A);
     }
 
@@ -254,7 +252,7 @@ class Set implements \Countable, \Iterator
      *
      * @param mixed $x
      *
-     * @return string|null
+     * @return string
      */
     protected function getKey($x): string
     {
