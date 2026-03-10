@@ -70,6 +70,14 @@ class MonomialExponentGeneratorTest extends TestCase
                 ]
             ],
             [
+                3, 2, false,
+                [
+                    [0, 0, 0],
+                    [0, 0, 1], [0, 1, 0], [1, 0, 0],
+                    [0, 0, 2], [0, 1, 1], [0, 2, 0], [1, 0, 1], [1, 1, 0], [2, 0, 0],
+                ]
+            ],
+            [
                 1, 0, true,
                 [[0]]
             ],
@@ -105,6 +113,14 @@ class MonomialExponentGeneratorTest extends TestCase
                 [
                     [0, 0, 0],
                     [1, 0, 0], [0, 1, 0], [0, 0, 1]
+                ]
+            ],
+            [
+                3, 2, true,
+                [
+                    [0, 0, 0],
+                    [1, 0, 0], [0, 1, 0], [0, 0, 1],
+                    [2, 0, 0], [1, 1, 0], [1, 0, 1], [0, 2, 0], [0, 1, 1], [0, 0, 2],
                 ]
             ],
         ];
@@ -150,5 +166,25 @@ class MonomialExponentGeneratorTest extends TestCase
 
         // When
         MonomialExponentGenerator::all(1, -1, false);
+    }
+
+    /**
+     * @test         getNumberOfTerms returns the correct number of terms
+     * @dataProvider dataProviderForAll
+     * @param int $dimension
+     * @param int $degree
+     * @param bool $reverse
+     * @param array $expected
+     */
+    public function testGetNumberOfTerms(int $dimension, int $degree, bool $reverse, array $expected): void
+    {
+        // Given
+        $generator = new MonomialExponentGenerator();
+
+        // When
+        $numTerms = $generator->getNumberOfTerms($dimension, $degree);
+
+        // Then
+        $this->assertEquals(count($expected), $numTerms);
     }
 }

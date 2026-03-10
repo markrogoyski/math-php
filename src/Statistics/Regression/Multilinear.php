@@ -2,56 +2,13 @@
 
 namespace MathPHP\Statistics\Regression;
 
-use MathPHP\Exception;
-use MathPHP\Exception\BadDataException;
-
-class Multilinear extends ParametricRegression
+class Multilinear extends Polynomial
 {
-    use Methods\LeastSquares;
-    use Models\MultilinearModel;
-
     /**
-     * Calculates the regression parameters.
-     *
-     * @throws Exception\BadDataException
-     * @throws Exception\IncorrectTypeException
-     * @throws Exception\MatrixException
-     * @throws Exception\MathException
+     * @param list<array{float|non-empty-list<float>, float}> $points [ [ x₁ | [ x₁₁, x₁₂, x₁ₖ ], y₁ ], [ x₂ | [ x₂₁, x₂₂, x₂ₖ ], y₂ ], ... ]
      */
-    public function calculate(): void
+    public function __construct(array $points)
     {
-        $this->parameters = $this->leastSquares($this->ys, $this->xss)->getColumn(0);
-    }
-
-    /**
-     * Evaluate the regression equation at x.
-     *
-     * @param float $x
-     *
-     * @return float
-     *
-     * @throws BadDataException
-     */
-    public function evaluate(float $x): float
-    {
-        throw new Exception\BadDataException('Multilinear regression does not support evaluate(x)');
-    }
-
-    /**
-     * Evaluate the regression equation at x vector.
-     * Uses the instance model's evaluateModel method.
-     *
-     * @param non-empty-list<float> $vector
-     *
-     * @return float
-     *
-     * @throws BadDataException
-     */
-    public function evaluateVector(array $vector): float
-    {
-        if (empty($this->parameters)) {
-            throw new Exception\BadDataException('Regression parameters are not calculated');
-        }
-        return $this->evaluateModel($vector, $this->parameters);
+        parent::__construct($points);
     }
 }

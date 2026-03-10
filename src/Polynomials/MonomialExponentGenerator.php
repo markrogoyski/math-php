@@ -4,9 +4,23 @@ namespace MathPHP\Polynomials;
 
 use Generator;
 use InvalidArgumentException;
+use MathPHP\Exception;
+use MathPHP\Probability\Combinatorics;
 
 final class MonomialExponentGenerator
 {
+    /**
+     * @param int $dimension
+     * @param int $degree
+     * @return int
+     * @throws Exception\OutOfBoundsException
+     */
+    public static function getNumberOfTerms(int $dimension, int $degree): int
+    {
+        return (int)(Combinatorics::factorial($dimension + $degree) /
+            (Combinatorics::factorial($degree) * Combinatorics::factorial($dimension)));
+    }
+
     /**
      * Returns all exponent tuples with total degree <= $degree.
      *

@@ -12,11 +12,24 @@ use MathPHP\Functions\Map\Single;
  *       K + x
  *
  * The equation is linearized and fit using Least Squares
+ *
+ * @phpstan-import-type SimpleLinearResultModel from Methods\LeastSquares
+ * @phpstan-import-type PolynomialResultModel from Methods\LeastSquares
  */
 class LineweaverBurk extends ParametricRegression
 {
     use Models\MichaelisMenten;
+    /** @use Methods\LeastSquares<SimpleLinearResultModel> */
     use Methods\LeastSquares;
+
+    /**
+     * @param list<float> $array
+     * @return SimpleLinearResultModel
+     */
+    protected function createResultModel(array $array): array
+    {
+        return $this->createSimpleLinearResultModel($array);
+    }
 
     /**
      * Calculate the regression parameters by least squares on linearized data

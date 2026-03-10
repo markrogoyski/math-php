@@ -9,6 +9,88 @@ use PHPUnit\Framework\TestCase;
 class MultilinearTest extends TestCase
 {
     /**
+     * @test         getXss
+     * @dataProvider dataProviderForMultiXss
+     * @param        array $points
+     * @param        array $expectedXss
+     */
+    public function testMultiXss(array $points, array $expectedXss): void
+    {
+        // Given
+        $regression = new Multilinear($points);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedXss, $regression->getXss(), 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMultiXss(): array
+    {
+        return [
+            [
+                [[1, 9.5], [2, 10], [3, 15]],
+                [[1], [2], [3]],
+            ],
+            [
+                [[[1], 9.5], [[2], 10], [[3], 15]],
+                [[1], [2], [3]],
+            ],
+            [
+                [
+                    [[1, 5], 9.5],
+                    [[2, 8], 10],
+                    [[3, 2], 15],
+                    [[0, 0], 10],
+                ],
+                [
+                    [1, 5],
+                    [2, 8],
+                    [3, 2],
+                    [0, 0],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @test         getXss
+     * @dataProvider dataProviderForMultiXssBadData
+     * @param        array $points
+     * @param        array $expectedXss
+     */
+    public function testMultiXssBadData(array $points, array $expectedXss): void
+    {
+        // Then
+        $this->expectException(Exception\BadDataException::class);
+
+        // When
+        $regression = new Multilinear($points);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForMultiXssBadData(): array
+    {
+        return [
+            [
+                [
+                    [[1, 5], 9.5],
+                    [[2, 8], 10],
+                    [[3, 2], 15],
+                ],
+                [
+                    [1, 5],
+                    [2, 8],
+                    [3, 2],
+                ],
+            ],
+        ];
+    }
+
+    /**
      * @test         getParameters
      * @dataProvider dataProviderForParameters
      * @param        array $points
@@ -116,6 +198,27 @@ class MultilinearTest extends TestCase
     }
 
     /**
+     * @test evaluate
+     */
+    public function testEvaluate()
+    {
+        // Given
+        $points = [
+            [[1, 1], 10],
+            [[2, 5], 12],
+            [[3, 2], 14],
+            [[4, 8], 16],
+        ];
+        $regression = new Multilinear($points);
+
+        // When
+        $y = $regression->evaluate(1.0);
+
+        // Then
+        $this->assertEqualsWithDelta(10, $y, 0.0001);
+    }
+
+    /**
      * @test         getEquation
      * @dataProvider dataProviderForEquation
      * @param        array  $points
@@ -147,7 +250,7 @@ class MultilinearTest extends TestCase
                     [[2, 2], 15],
                     [[0, 0], 5],
                 ],
-                'y = 5.000000 + 2.000000x₁ + 3.000000x₂',
+                'y = 5.000000 + 2.000000 * x₁ + 3.000000 * x₂',
             ],
         ];
     }
@@ -177,26 +280,5 @@ class MultilinearTest extends TestCase
         $this->assertEqualsWithDelta(13, $yHat[2], 0.0001);
         $this->assertEqualsWithDelta(15, $yHat[3], 0.0001);
         $this->assertEqualsWithDelta(5, $yHat[4], 0.0001);
-    }
-
-    /**
-     * @test evaluate throws exception
-     */
-    public function testEvaluateThrowsException()
-    {
-        // Given
-        $points = [
-            [[1, 1], 10],
-            [[2, 5], 12],
-            [[3, 2], 14],
-            [[4, 8], 16],
-        ];
-        $regression = new Multilinear($points);
-
-        // Then
-        $this->expectException(Exception\BadDataException::class);
-
-        // When
-        $regression->evaluate(1.0);
     }
 }

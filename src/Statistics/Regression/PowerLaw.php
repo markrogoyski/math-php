@@ -26,10 +26,14 @@ use MathPHP\Exception;
  *        |  ∑⟮ln yᵢ⟯ − b∑⟮ln xᵢ⟯  |
  * a = exp|  ------------------  |
  *        |_          n         _|
+ *
+ * @phpstan-import-type SimpleLinearResultModel from Methods\LeastSquares
+ * @phpstan-import-type PolynomialResultModel from Methods\LeastSquares
  */
 class PowerLaw extends ParametricRegression
 {
     use Models\PowerModel;
+    /** @use Methods\LeastSquares<SimpleLinearResultModel> */
     use Methods\LeastSquares;
 
     /** @var float */
@@ -37,6 +41,15 @@ class PowerLaw extends ParametricRegression
 
     /** @var float */
     protected $b;
+
+    /**
+     * @param list<float> $array
+     * @return SimpleLinearResultModel
+     */
+    protected function createResultModel(array $array): array
+    {
+        return $this->createSimpleLinearResultModel($array);
+    }
 
     /**
      * Calculate the regression parameters by least squares on linearized data

@@ -266,11 +266,11 @@ class RegressionTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @test         getXss
-     * @dataProvider dataProviderForXss
+     * @dataProvider dataProviderForSimpleXss
      * @param        array $points
      * @param        array $expectedXss
      */
-    public function testXss(array $points, array $expectedXss): void
+    public function testSimpleXss(array $points, array $expectedXss): void
     {
         // Given
         $regression = new Linear($points);
@@ -282,7 +282,7 @@ class RegressionTest extends \PHPUnit\Framework\TestCase
     /**
      * @return array
      */
-    public function dataProviderForXss(): array
+    public function dataProviderForSimpleXss(): array
     {
         $y = 0;
         return [
@@ -294,9 +294,32 @@ class RegressionTest extends \PHPUnit\Framework\TestCase
                 [[[1], $y], [[2], $y], [[3], $y]],
                 [[1], [2], [3]],
             ],
+        ];
+    }
+
+    /**
+     * @test         getXss
+     * @dataProvider dataProviderForSimpleXssInvalidArgument
+     * @param        array $points
+     */
+    public function testSimpleXssInvalidArgument(array $points): void
+    {
+        // Then
+        $this->expectException(\InvalidArgumentException::class);
+
+        // When
+        $regression = new Linear($points);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSimpleXssInvalidArgument(): array
+    {
+        $y = 0;
+        return [
             [
                 [[[1, 10], $y], [[2, 20], $y], [[3, 30], $y]],
-                [[1, 10], [2, 20], [3, 30]],
             ],
         ];
     }

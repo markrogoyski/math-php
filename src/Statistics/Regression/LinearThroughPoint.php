@@ -23,9 +23,13 @@ use MathPHP\Functions\Map\Single;
  *         ∑(x-v)²
  *
  * b = w - m * v
+ *
+ * @phpstan-import-type SimpleLinearResultModel from Methods\LeastSquares
+ * @phpstan-import-type PolynomialResultModel from Methods\LeastSquares
  */
 class LinearThroughPoint extends ParametricRegression
 {
+    /** @use Methods\LeastSquares<SimpleLinearResultModel> */
     use Methods\LeastSquares;
     use Models\LinearModel;
 
@@ -51,6 +55,15 @@ class LinearThroughPoint extends ParametricRegression
         $this->w = $force[1];
 
         parent::__construct($points);
+    }
+
+    /**
+     * @param list<float> $array
+     * @return SimpleLinearResultModel
+     */
+    protected function createResultModel(array $array): array
+    {
+        return $this->createSimpleLinearResultModel($array);
     }
 
     /**

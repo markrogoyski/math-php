@@ -2,18 +2,27 @@
 
 namespace MathPHP\Statistics\Regression\Methods;
 
+use MathPHP\Exception;
 use MathPHP\Exception\BadDataException;
 use MathPHP\Exception\BadParameterException;
 use MathPHP\Exception\IncorrectTypeException;
-use MathPHP\LinearAlgebra\MatrixFactory;
-use MathPHP\Statistics\RandomVariable;
-use MathPHP\Functions\Map\Single;
 use MathPHP\Functions\Map\Multi;
+use MathPHP\Functions\Map\Single;
+use MathPHP\LinearAlgebra\MatrixFactory;
+use MathPHP\LinearAlgebra\NumericMatrix;
+use MathPHP\Polynomials\MonomialExponentGenerator;
 use MathPHP\Probability\Distribution\Continuous\F;
 use MathPHP\Probability\Distribution\Continuous\StudentT;
-use MathPHP\LinearAlgebra\NumericMatrix;
-use MathPHP\Exception;
+use MathPHP\Statistics\RandomVariable;
+use MathPHP\Statistics\Regression\Regression;
+use MathPHP\Util\Script;
 
+/**
+ * @phpstan-type SimpleLinearResultModel array{m: float, b: float}
+ * @phpstan-type PolynomialResultModel array<string, float>
+ *
+ * @template-covariant TResultModel of array // SimpleLinearResultModel|PolynomialResultModel
+ */
 trait LeastSquares
 {
     /**
@@ -47,14 +56,24 @@ trait LeastSquares
      */
     private $reg_P;
 
-    /** @var float */
-    private $fit_constant;
+    /** @var int */
+    private $fit_constant = 1;
+
+    /**
+     * Number of columns in xss. (Field definition must match Regression::$k.)
+     * @see Regression::$k
+     * @var int
+     */
+    protected $k;
 
     /** @var int */
     private $p;
 
     /** @var int Degrees of freedom */
     private $ν;
+
+    /** @var int Number of terms */
+    private $t;
 
     /** @var NumericMatrix */
     private $⟮XᵀX⟯⁻¹;
@@ -110,7 +129,13 @@ trait LeastSquares
         $this->reg_xs = $xs;
         $this->fit_constant = $fit_constant;
         $this->p = $order;
-        $this->ν = $this->n - $this->p - $this->fit_constant;
+
+        $number_of_terms = MonomialExponentGenerator::getNumberOfTerms($this->k, $order);
+        if ($fit_constant === 0) {
+            $number_of_terms--;
+        }
+        $this->ν = $this->n - $number_of_terms;
+        $this->t = $number_of_terms;
 
         if ($this->ν <= 0) {
             throw new Exception\BadDataException('Degrees of freedom ν must be > 0. Computed to be ' . $this->ν);
@@ -131,6 +156,40 @@ trait LeastSquares
         $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
 
         return $β_hat;
+    }
+
+    /**
+     * @param list<float> $array
+     * @return TResultModel
+     */
+    abstract protected function createResultModel(array $array): array;
+
+    /**
+     * Creates a result model of shape [m, b] for simple linear regression.
+     *
+     * @param list<float> $array
+     * @return SimpleLinearResultModel
+     */
+    protected function createSimpleLinearResultModel(array $array): array
+    {
+        return [
+            'm' => $array[1],
+            'b' => $array[0],
+        ];
+    }
+
+    /**
+     * Creates a result model of shape [β₀, β₁, ..., βn].
+     *
+     * @param list<float> $array
+     * @return PolynomialResultModel
+     */
+    protected function createPolynomialResultModel(array $array): array
+    {
+        $keys = \array_map(static function (int $i) {
+            return 'β' . Script::getSubscript($i);
+        }, \range(0, \count($array) - 1));
+        return \array_combine($keys, $array);
     }
 
     /**
@@ -289,7 +348,7 @@ trait LeastSquares
 
     /**
      * Mean square regression
-     * MSR = SSᵣ / p
+     * MSR = SSᵣ / k
      *
      * @return float
      *
@@ -297,9 +356,9 @@ trait LeastSquares
      */
     public function meanSquareRegression(): float
     {
-        $p   = $this->p;
+        $k   = $this->k;
         $SSᵣ = $this->sumOfSquaresRegression();
-        $MSR = $SSᵣ / $p;
+        $MSR = $SSᵣ / $k;
 
         return $MSR;
     }
@@ -375,23 +434,28 @@ trait LeastSquares
      * se(b) = /  ----
      *        √    n
      *
-     * @return array{m: float, b: float} [m => se(m), b => se(b)]
+     * @return TResultModel E.g., [m => se(m), b => se(b)] for simple linear regression
      *
      * @throws Exception\BadParameterException
      * @throws Exception\IncorrectTypeException
      */
     public function standardErrors(): array
     {
+        return $this->createResultModel($this->standardErrorsArray());
+    }
+
+    /**
+     * @return list<float>
+     * @throws BadParameterException
+     * @throws IncorrectTypeException
+     */
+    public function standardErrorsArray(): array
+    {
         $⟮XᵀX⟯⁻¹ = $this->⟮XᵀX⟯⁻¹;
         $σ²     = $this->meanSquareResidual();
 
         $standard_error_matrix = $⟮XᵀX⟯⁻¹->scalarMultiply($σ²);
-        $standard_error_array  = Single::sqrt($standard_error_matrix->getDiagonalElements());
-
-        return [
-            'm' => $standard_error_array[1],
-            'b' => $standard_error_array[0],
-        ];
+        return Single::sqrt($standard_error_matrix->getDiagonalElements());
     }
 
     /**
@@ -452,11 +516,14 @@ trait LeastSquares
         $e   = $this->residuals();
         $h   = $this->leverages();
         $mse = $this->meanSquareResidual();
-        $p   = $this->p + $this->fit_constant;
+        $t   = $this->t;
 
         return \array_map(
-            function ($eᵢ, $hᵢ) use ($mse, $p) {
-                return ($eᵢ ** 2 / $mse / $p) * ($hᵢ / (1 - $hᵢ) ** 2);
+            function ($eᵢ, $hᵢ) use ($mse, $t) {
+                if ((1 - $hᵢ) == 0) {
+                    return INF;
+                }
+                return ($eᵢ ** 2 / $mse / $t) * ($hᵢ / (1 - $hᵢ) ** 2);
             },
             $e,
             $h
@@ -622,21 +689,33 @@ trait LeastSquares
      *    β     = regression parameter (coefficient)
      *    se(β) = standard error of the regression parameter (coefficient)
      *
-     * @return array{m: float, b: float} [m => t, b => t]
+     * @return TResultModel E.g., [m => t, b => t] for simple linear regression
      *
      * @throws BadParameterException
      * @throws IncorrectTypeException
      */
     public function tValues(): array
     {
-        $se = $this->standardErrors();
-        $m  = $this->parameters[1];
-        $b  = $this->parameters[0];
+        return $this->createResultModel($this->tValuesArray());
+    }
 
-        return [
-            'm' => $m / $se['m'],
-            'b' => $b / $se['b'],
-        ];
+    /**
+     * @return list<float>
+     * @throws BadParameterException
+     * @throws IncorrectTypeException
+     */
+    public function tValuesArray(): array
+    {
+        $se = $this->standardErrorsArray();
+        $parameters = $this->parameters;
+
+        return \array_map(
+            static function (float $parameter, float $se) {
+                return $parameter / $se;
+            },
+            $parameters,
+            $se
+        );
     }
 
     /**
@@ -650,21 +729,33 @@ trait LeastSquares
      *
      *  alpha = 1 if the regression includes a constant term
      *
-     * @return array{m: float, b: float} [m => p, b => p]
+     * @return TResultModel E.g., [m => p, b => p] for simple linear regression
      *
      * @throws BadParameterException
      * @throws IncorrectTypeException
      */
     public function tProbability(): array
     {
+        return $this->createResultModel($this->tProbabilityArray());
+    }
+
+    /**
+     * @return list<float>
+     * @throws BadParameterException
+     * @throws IncorrectTypeException
+     */
+    public function tProbabilityArray(): array
+    {
         $ν  = $this->ν;
-        $t  = $this->tValues();
+        $t  = $this->tValuesArray();
 
         $studentT = new StudentT($ν);
-        return [
-            'm' => $studentT->cdf($t['m']),
-            'b' => $studentT->cdf($t['b']),
-        ];
+        return \array_map(
+            static function (float $value) use ($studentT) {
+                return $studentT->cdf($value);
+            },
+            $t
+        );
     }
 
     /**

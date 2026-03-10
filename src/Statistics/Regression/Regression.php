@@ -2,6 +2,8 @@
 
 namespace MathPHP\Statistics\Regression;
 
+use InvalidArgumentException;
+
 /**
  * Base class for regressions.
  */
@@ -38,10 +40,16 @@ abstract class Regression
     protected $n;
 
     /**
-     * Number of columns in xss
+     * Number of columns in xss.
      * @var int
      */
     protected $k;
+
+    /**
+     * Whether the regression supports multiple explanatory variables.
+     * @var bool
+     */
+    protected $multipleExplanatoryVariablesSupported = false;
 
     /**
      * Constructor - Prepares the data arrays for regression analysis
@@ -52,19 +60,34 @@ abstract class Regression
     {
         $this->points = $points;
         $this->n      = \count($points);
-        $this->k      = empty($points) ? 0 : (\is_array($points[0]) ? \count($points[0]) : 1);
+        $this->k      = empty($points) ? 0 : (\is_array($points[0][0]) ? \count($points[0][0]) : 1);
 
-        // Get list of x points and y points.
-        // This will be fine for linear or polynomial regression, where there is only one x.
-        $this->xs = \array_map(function ($point) {
+        // For the multi regression, the format is a list of x for each point.
+        // Also do some validation.
+        $this->xss = \array_map(function (array $point) {
+            $row = \is_array($point[0]) ? $point[0] : [$point[0]];
+            $count = \count($row);
+            if ($this->multipleExplanatoryVariablesSupported) {
+                if ($count === 0) {
+                    throw new InvalidArgumentException('For multi regression, the x values of each row must be non-empty.');
+                }
+                if ($count !== $this->k) {
+                    throw new InvalidArgumentException('For multi regression, the x values of each row must be of the same length.');
+                }
+            } else {
+                if ($count !== 1) {
+                    throw new InvalidArgumentException('For simple regression, the x values of each row must be a single value.');
+                }
+            }
+            return $row;
+        }, $points);
+
+        // Get a list of x points and y points for the simple regression.
+        $this->xs = \array_map(function (array $point) {
             return \is_array($point[0]) ? $point[0][0] : $point[0];
         }, $points);
-        $this->ys = \array_map(function ($point) {
+        $this->ys = \array_map(function (array $point) {
             return $point[1];
-        }, $points);
-        // For multilinear, the format is a list of x for each point.
-        $this->xss = \array_map(function (array $point) {
-            return \is_array($point[0]) ? $point[0] : [$point[0]];
         }, $points);
     }
 
