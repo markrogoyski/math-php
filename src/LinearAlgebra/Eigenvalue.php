@@ -2,20 +2,24 @@
 
 namespace MathPHP\LinearAlgebra;
 
+use MathPHP\Arithmetic;
 use MathPHP\Exception;
 use MathPHP\Expression\Polynomial;
 use MathPHP\Functions\Support;
+use MathPHP\LinearAlgebra\Decomposition\QR;
 
 class Eigenvalue
 {
     public const CLOSED_FORM_POLYNOMIAL_ROOT_METHOD = 'closedFormPolynomialRootMethod';
     public const POWER_ITERATION                    = 'powerIteration';
     public const JACOBI_METHOD                      = 'jacobiMethod';
+    public const QR_ALGORITHM                       = 'qrAlgorithm';
 
     private const METHODS = [
         self::CLOSED_FORM_POLYNOMIAL_ROOT_METHOD,
         self::POWER_ITERATION,
         self::JACOBI_METHOD,
+        self::QR_ALGORITHM,
     ];
 
     /**
@@ -260,5 +264,70 @@ class Eigenvalue
         }
 
         return [$max_ev];
+    }
+
+    public static function qrAlgorithm(NumericMatrix $A): array
+    {
+        self::checkMatrix($A);
+
+        if ($A->isUpperHessenberg()) {
+            $H = $A;
+        } else {
+            $H = $A->upperHessenberg();
+        }
+
+        return self::qrIteration($H);
+    }
+
+    private static function qrIteration(NumericMatrix $A, array &$values = null): array
+    {
+        $values = $values ?? [];
+        $e = $A->getError();
+        $n = $A->getM();
+        
+        if ($A->getM() === 1) {
+            $values[] = $A[0][0];
+            return $values;
+        }
+
+        $ident = MatrixFactory::identity($n);
+
+        do {
+            // Pick shift
+            $shift = self::calcShift($A);
+            $A = $A->subtract($ident->scalarMultiply($shift));
+
+            // decompose
+            $qr = QR::decompose($A);
+            $A = $qr->R->multiply($qr->Q);
+
+            // shift back
+            $A = $A->add($ident->scalarMultiply($shift));
+        } while (!Arithmetic::almostEqual($A[$n-1][$n-2], 0, $e)); // subdiagonal entry needs to be 0
+
+        // Check if we can deflate
+        $eig = $A[$n-1][$n-1];
+        $values[] = $eig;
+        self::qrIteration($A->submatrix(0, 0, $n-2, $n-2), $values);
+
+        return array_reverse($values);
+    }
+
+    private static function calcShift(NumericMatrix $A): float
+    {
+        $n = $A->getM() - 1;
+        $sigma = .5 * ($A[$n-1][$n-1] - $A[$n][$n]);
+        $sign = $sigma >= 0 ? 1 : -1;
+
+        $numerator = ($sign * ($A[$n][$n-1])**2);
+        $denominator = abs($sigma) + sqrt($sigma**2 + ($A[$n-1][$n-1])**2);
+
+        try {
+            $fraction = $numerator / $denominator;
+        } catch (\DivisionByZeroError $error) {
+            $fraction = 0;
+        }
+
+        return $A[$n][$n] - $fraction;
     }
 }

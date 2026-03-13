@@ -1485,4 +1485,42 @@ class MatrixOperationsTest extends \PHPUnit\Framework\TestCase
             ],
         ];
     }
+
+    /**
+     * @test         upperHessenberg reduction
+     * @dataProvider dataProviderForUpperHessenberg
+     * @param        array $A
+     * @throws       \Exception
+     */
+    public function testUpperHessenberg(array $A, array $H)
+    {
+        // Given
+        $A = MatrixFactory::create($A);
+        $H = MatrixFactory::create($H);
+
+        // When
+        $actual = $A->upperHessenberg();
+
+        // Then
+        $this->assertTrue($actual->isUpperHessenberg());
+        $this->assertEqualsWithDelta($H, $actual, 0.0000001);
+    }
+
+    public static function dataProviderForUpperHessenberg(): \Iterator
+    {
+        yield [
+            'A' => [
+                [3, 0, 0, 0],
+                [0, 1, 0, 1],
+                [0, 0, 2, 0],
+                [0, 1, 0, 1],
+            ],
+            'H' => [
+                [3, 0, 0, 0],
+                [0, 1, 1, 0],
+                [0, 1, 1, 0],
+                [0, 0, 0, 2],
+            ]
+        ];
+    }
 }
