@@ -728,4 +728,771 @@ class SetAxiomsTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(\pow(2, $n), count($P⟮S⟯));
         $this->assertEquals(\pow(2, $n), count($P⟮S⟯->asArray()));
     }
+
+    /**
+     * An M-partial intersection (for M > 0) of N sets is a set elements in which
+     * are contained in at least M initial sets.
+     *
+     * @test
+     * @dataProvider dataProviderForPartialIntersectionDefinition
+     * @param int $m
+     * @param Set ...$sets
+     * @return void
+     */
+    public function testPartialIntersectionDefinition(int $m, Set ...$sets)
+    {
+        // Given
+        $allSets = $sets;
+        $s = array_shift($sets);
+        $totalElementsCount = array_reduce($allSets, static function (int $carry, Set $set) {
+            return $carry + count($set);
+        }, 0);
+        $partialIntersection = $s->intersectPartial($m, ...$sets);
+
+        // When
+        if ($totalElementsCount === 0) {
+            // Then
+            // Assert than for any M and N M-partial intersection of N empty sets is an empty set.
+            $this->assertCount(0, $partialIntersection);
+        }
+
+        // Then
+        foreach ($partialIntersection as $value) {
+            $usageCount = array_reduce($allSets, static function (int $carry, Set $currentSet) use ($value) {
+                return $carry + intval($currentSet->isMember($value));
+            }, 0);
+
+            // Assert that every element in M-partial intersection occurs in at least M sets.
+            $this->assertTrue($usageCount >= $m);
+        }
+
+        // Then
+        foreach ($allSets as $set) {
+            $notInPartialIntersection = $set->difference($partialIntersection);
+            foreach ($notInPartialIntersection as $value) {
+                $usageCount = array_reduce($allSets, static function (int $carry, Set $currentSet) use ($value) {
+                    return $carry + intval($currentSet->isMember($value));
+                }, 0);
+
+                // Assert that elements from sets and not in M-partial intersection occurs in less than M sets.
+                $this->assertTrue($usageCount < $m);
+            }
+        }
+    }
+
+    public function dataProviderForPartialIntersectionDefinition(): array
+    {
+        return [
+            [
+                1,
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+            ],
+            [
+                1,
+                new Set([1]),
+            ],
+            [
+                2,
+                new Set([1]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
+            ],
+            [
+                1,
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                2,
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                1,
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                2,
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                1,
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                2,
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                3,
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                1,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                1,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                1,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                1,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                1,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                1,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                2,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                5,
+                new Set(),
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                1,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                2,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                3,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                4,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                5,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                1,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                2,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                5,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+        ];
+    }
+
+    /**
+     * 1-partial intersection is equivalent to the union of these sets.
+     *
+     * @test
+     * @dataProvider dataProviderForOnePartialIntersectionIsUnion
+     * @param Set $s
+     * @param Set ...$others
+     * @return void
+     */
+    public function testOnePartialIntersectionIsUnion(Set $s, Set ...$others)
+    {
+        // Given
+        $onePartialIntersection = $s->intersectPartial(1, ...$others);
+
+        // When
+        $union = $s->union(...$others);
+
+        // Then
+        $this->assertEquals($union, $onePartialIntersection);
+    }
+
+    public function dataProviderForOnePartialIntersectionIsUnion(): array
+    {
+        return [
+            [
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+        ];
+    }
+
+    /**
+     * 2-partial intersection is equivalent to the difference of the union and the symmetric difference of these sets.
+     *
+     * @test
+     * @dataProvider dataProviderForTwoPartialIntersectionIsDifferenceOfUnionAndSymmetricDifference
+     * @param Set $lhs
+     * @param Set $rhs
+     */
+    public function testTwoPartialIntersectionIsDifferenceOfUnionAndSymmetricDifference(Set $lhs, Set $rhs)
+    {
+        // Given
+        $onePartialIntersection = $lhs->intersectPartial(2, $rhs);
+
+        // When
+        $union = $lhs->union($rhs);
+        $symmetricDifference = $lhs->symmetricDifference($rhs);
+        $diffOfUnionAndSymmetricDifference = $union->difference($symmetricDifference);
+
+        // Then
+        $this->assertEquals($diffOfUnionAndSymmetricDifference, $onePartialIntersection);
+    }
+
+    public function dataProviderForTwoPartialIntersectionIsDifferenceOfUnionAndSymmetricDifference(): array
+    {
+        return [
+            [
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                new Set(),
+                new Set([1, 2, 3]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set(),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+            ],
+        ];
+    }
+
+    /**
+     * N-partial intersection is equivalent to the common (complete) intersection of these sets.
+     *
+     * @test
+     * @dataProvider dataProviderForNPartialIntersectionIsCompleteIntersection
+     * @param Set $s
+     * @param Set ...$others
+     * @return void
+     */
+    public function testNPartialIntersectionIsCompleteIntersection(Set $s, Set ...$others)
+    {
+        // Given
+        $n = count($others) + 1;
+        $onePartialIntersection = $s->intersectPartial($n, ...$others);
+
+        // When
+        $union = $s->intersect(...$others);
+
+        // Then
+        $this->assertEquals($union, $onePartialIntersection);
+    }
+
+    public function dataProviderForNPartialIntersectionIsCompleteIntersection(): array
+    {
+        return [
+            [
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+        ];
+    }
+
+    /**
+     * For any M > N M-partial intersection always equals to the empty set.
+     *
+     * @test
+     * @dataProvider dataProviderForMPartialIntersectionIsEmptySetWhenMMoreThanN
+     * @param int $m
+     * @param Set $s
+     * @param Set ...$others
+     * @return void
+     */
+    public function testMPartialIntersectionIsEmptySetWhenMMoreThanN(int $m, Set $s, Set ...$others)
+    {
+        // Given
+        $emptySet = new Set();
+        $n = count($others) + 1;
+
+        // When
+        $this->assertTrue($m > $n);
+        $partialIntersection = $s->intersectPartial($m, ...$others);
+
+        // Then
+        $this->assertEquals($emptySet, $partialIntersection);
+    }
+
+    public function dataProviderForMPartialIntersectionIsEmptySetWhenMMoreThanN(): array
+    {
+        return [
+            [
+                3,
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+            ],
+            [
+                4,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                5,
+                new Set(),
+                new Set(),
+                new Set(),
+            ],
+            [
+                3,
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                4,
+                new Set([1]),
+                new Set(),
+            ],
+            [
+                3,
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                4,
+                new Set(),
+                new Set([1]),
+            ],
+            [
+                3,
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                4,
+                new Set([1]),
+                new Set([1]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+            ],
+            [
+                3,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                5,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([2, 3, 4, 5, 6]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                5,
+                new Set([1, 2, 3, 4, 5]),
+                new Set([6, 7, 8, 9, 10]),
+                new Set([11, 12, 13, 14, 15]),
+            ],
+            [
+                4,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                5,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+            ],
+            [
+                5,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                6,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set(),
+            ],
+            [
+                5,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                6,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+            [
+                100,
+                new Set([1, 2, 3]),
+                new Set([2, 3, 4, 5]),
+                new Set([3, 4, 5, 6, 7]),
+                new Set([3, 4, 5, 6, 7, 8]),
+            ],
+        ];
+    }
 }
