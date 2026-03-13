@@ -5,6 +5,7 @@ namespace MathPHP\Tests\LinearAlgebra\Decomposition;
 use MathPHP\Functions\Support;
 use MathPHP\LinearAlgebra\MatrixFactory;
 use MathPHP\Exception;
+use MathPHP\LinearAlgebra\Eigenvalue;
 use MathPHP\LinearAlgebra\NumericMatrix;
 use MathPHP\LinearAlgebra\Vector;
 use MathPHP\Tests\LinearAlgebra\Fixture\MatrixDataProvider;
@@ -211,6 +212,59 @@ class SVDTest extends \PHPUnit\Framework\TestCase
                     ],
                 ],
             ],
+            // Test SVD columnar sort
+            [
+                [
+                    [0,1,0,0],
+                    [1,0,0,0],
+                    [0,0,1,0]
+                ],
+                [
+                    'S' => [
+                        [1,0,0,0],
+                        [0,1,0,0],
+                        [0,0,1,0]
+                    ]
+                ]
+            ],
+            // Test SVD tabular sort
+            [
+                [
+                    [0, 1, 0],
+                    [1, 0, 0],
+                    [0, 0, 1],
+                    [0, 0, 0],
+                ],
+                [
+                    'S' => [
+                        [1, 0, 0],
+                        [0, 1, 0],
+                        [0, 0, 1],
+                        [0, 0, 0]
+                    ]
+                ]
+            ],
+            // Test Real Failing Matrix
+            [
+                [
+                    [1,0,0,1,0,0],
+                    [0,1,0,0,1,0],
+                    [0,0,1,0,0,1],
+                    [0,0,0,0,0,0],
+                    [0,0,-48.5,0,0,-1681.2],
+                    [0,48.5,0,0,1681.2,0]
+                ],
+                [
+                    'S' => [
+                        [1681.89974,0,0,0,0,0],
+                        [0,1681.89974,0,0,0,0],
+                        [0,0,1.41421,0,0,0],
+                        [0,0,0,0.970748,0,0],
+                        [0,0,0,0,0.970748,0],
+                        [0,0,0,0,0,0]
+                    ]
+                ]
+            ],
             // Idempotent
             [
                 [
@@ -301,6 +355,10 @@ class SVDTest extends \PHPUnit\Framework\TestCase
         $S = $svd->S;
         $V = $svd->V;
         $D = $svd->D;
+
+        if (!$svd->getV()->isOrthogonal()) {
+            $p = true;
+        }
 
         // Then U and V are orthogonal
         $this->assertTrue($svd->getU()->isOrthogonal());
