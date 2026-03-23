@@ -2,6 +2,7 @@
 
 namespace MathPHP\Statistics\Regression\Methods;
 
+use LogicException;
 use MathPHP\Exception;
 use MathPHP\Exception\BadDataException;
 use MathPHP\Exception\BadParameterException;
@@ -52,9 +53,9 @@ trait LeastSquares
      * Projection Matrix
      * https://en.wikipedia.org/wiki/Projection_matrix
      *
-     * @var NumericMatrix
+     * @var NumericMatrix|null
      */
-    private $reg_P;
+    private $reg_P = null;
 
     /** @var int */
     private $fit_constant = 1;
@@ -118,12 +119,13 @@ trait LeastSquares
      * @param  array<float>|array<array<float>> $xs x values
      * @param  int   $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int   $fit_constant '1' if we are fitting a constant to the regression.
+	 * @param  bool  $calculate_projection true whether to calculate the projection matrix.
      *
      * @return NumericMatrix [[m], [b]]
      *
      * @throws Exception\MathException
      */
-    public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1): NumericMatrix
+    public function leastSquares(array $ys, array $xs, int $order = 1, int $fit_constant = 1, bool $calculate_projection = true): NumericMatrix
     {
         $this->reg_ys = $ys;
         $this->reg_xs = $xs;
@@ -150,7 +152,7 @@ trait LeastSquares
         $Xᵀ           = $X->transpose();
         $this->⟮XᵀX⟯⁻¹ = $Xᵀ->multiply($X)->inverse();
         $temp_matrix  = $this->⟮XᵀX⟯⁻¹->multiply($Xᵀ);
-        $this->reg_P  = $X->multiply($temp_matrix);
+        $this->reg_P  = $calculate_projection ? $X->multiply($temp_matrix) : null;
         $β_hat        = $temp_matrix->multiply($y);
 
         $this->reg_Yhat = $X->multiply($β_hat)->getColumn(0);
@@ -234,7 +236,11 @@ trait LeastSquares
      */
     public function getProjectionMatrix(): NumericMatrix
     {
-        return $this->reg_P;
+		$reg_P = $this->reg_P;
+		if ($reg_P === null) {
+			throw new LogicException('Projection matrix is not calculated. Call leastSquares() with calculate_projection=true first.');
+		}
+        return $reg_P;
     }
 
     /**
@@ -251,7 +257,7 @@ trait LeastSquares
      */
     public function leverages(): array
     {
-        return $this->reg_P->getDiagonalElements();
+        return $this->getProjectionMatrix()->getDiagonalElements();
     }
 
     /**************************************************************************

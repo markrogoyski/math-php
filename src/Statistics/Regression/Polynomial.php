@@ -23,15 +23,20 @@ class Polynomial extends ParametricRegression
      */
     protected $multipleExplanatoryVariablesSupported = true;
 
+	/** @var bool */
+	protected $calculate_projection = true;
+
     /**
      * @param list<array{float|non-empty-list<float>, float}> $points [ [ x₁ | [ x₁₁, x₁₂, x₁ₖ ], y₁ ], [ x₂ | [ x₂₁, x₂₂, x₂ₖ ], y₂ ], ... ]
      * @param int $order
      * @param int $fit_constant
+	 * @param bool $calculate_projection true whether to calculate the projection matrix.
      */
-    public function __construct(array $points, int $order = 1, int $fit_constant = 1)
+    public function __construct(array $points, int $order = 1, int $fit_constant = 1, bool $calculate_projection = true)
     {
         $this->order = $order;
         $this->fit_constant = $fit_constant;
+		$this->calculate_projection = $calculate_projection;
         parent::__construct($points);
     }
 
@@ -54,7 +59,7 @@ class Polynomial extends ParametricRegression
      */
     public function calculate(): void
     {
-        $this->parameters = $this->leastSquares($this->ys, $this->xss, $this->order, $this->fit_constant)->getColumn(0);
+        $this->parameters = $this->leastSquares($this->ys, $this->xss, $this->order, $this->fit_constant, $this->calculate_projection)->getColumn(0);
     }
 
     /**
