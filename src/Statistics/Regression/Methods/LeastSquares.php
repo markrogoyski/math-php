@@ -119,7 +119,7 @@ trait LeastSquares
      * @param  array<float>|array<array<float>> $xs x values
      * @param  int   $order The order of the polynomial. 1 = linear, 2 = x², etc
      * @param  int   $fit_constant '1' if we are fitting a constant to the regression.
-	 * @param  bool  $calculate_projection true whether to calculate the projection matrix.
+     * @param  bool  $calculate_projection true whether to calculate the projection matrix.
      *
      * @return NumericMatrix [[m], [b]]
      *
@@ -236,10 +236,10 @@ trait LeastSquares
      */
     public function getProjectionMatrix(): NumericMatrix
     {
-		$reg_P = $this->reg_P;
-		if ($reg_P === null) {
-			throw new LogicException('Projection matrix is not calculated. Call leastSquares() with calculate_projection=true first.');
-		}
+        $reg_P = $this->reg_P;
+        if ($reg_P === null) {
+            throw new LogicException('Projection matrix is not calculated. Call leastSquares() with calculate_projection=true first.');
+        }
         return $reg_P;
     }
 
