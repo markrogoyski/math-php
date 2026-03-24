@@ -5,6 +5,7 @@ namespace MathPHP\LinearAlgebra;
 use MathPHP\Exception;
 use MathPHP\Number\Complex;
 use MathPHP\Number\ObjectArithmetic;
+use MathPHP\Polynomials\MonomialExponentGenerator;
 
 /**
  * Matrix factory to create matrices of all types.
@@ -524,7 +525,7 @@ class MatrixFactory
     /**
      * Create the Vandermonde Matrix from a simple array.
      *
-     * @param array<int|float> $M (α₁, α₂, α₃ ⋯ αm)
+     * @param array<int|float>|array<array<int|float>> $M (α₁, α₂, α₃ ⋯ αm)
      * @param int   $n
      *
      * @return NumericMatrix
@@ -537,9 +538,28 @@ class MatrixFactory
     public static function vandermonde(array $M, int $n): NumericMatrix
     {
         $A = [];
-        foreach ($M as $row => $α) {
-            for ($i = 0; $i < $n; $i++) {
-                $A[$row][$i] = $α ** $i;
+        if (!empty($M)) {
+            // Create at least a one-column matrix.
+            $M = \array_map(function ($value) {
+                return \is_array($value) ? $value : [$value];
+            }, $M);
+
+            $dimension = \count(\reset($M));
+            $degree = $n - 1;
+            $exponentTuples = MonomialExponentGenerator::all($dimension, $degree, true);
+
+            foreach ($M as $row) {
+                $values = [];
+                foreach ($exponentTuples as $exponents) {
+                    $value = 1; // start as int
+                    \reset($row);
+                    foreach ($exponents as $exponent) {
+                        $value *= \current($row) ** $exponent;
+                        \next($row);
+                    }
+                    $values[] = $value;
+                }
+                $A[] = $values;
             }
         }
 

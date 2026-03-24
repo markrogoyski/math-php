@@ -24,11 +24,24 @@ use MathPHP\Exception;
  *
  *     _    _
  * b = y - mx
+ *
+ * @phpstan-import-type SimpleLinearResultModel from Methods\LeastSquares
+ * @phpstan-import-type PolynomialResultModel from Methods\LeastSquares
  */
 class Linear extends ParametricRegression
 {
+    /** @use Methods\LeastSquares<SimpleLinearResultModel> */
     use Methods\LeastSquares;
     use Models\LinearModel;
+
+    /**
+     * @param list<float> $array
+     * @return SimpleLinearResultModel
+     */
+    protected function createResultModel(array $array): array
+    {
+        return $this->createSimpleLinearResultModel($array);
+    }
 
     /**
      * Calculates the regression parameters.

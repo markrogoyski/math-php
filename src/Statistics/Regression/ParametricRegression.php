@@ -14,7 +14,7 @@ abstract class ParametricRegression extends Regression
      * Have the parent separate the points into xs and ys.
      * Calculate the regression parameters
      *
-     * @param array<array{float, float}> $points
+     * @param list<array{float|non-empty-list<float>, float}> $points [ [ x₁ | [ x₁₁, x₁₂, x₁ₖ ], y₁ ], [ x₂ | [ x₂₁, x₂₂, x₂ₖ ], y₂ ], ... ]
      */
     public function __construct(array $points)
     {

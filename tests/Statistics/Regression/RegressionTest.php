@@ -263,4 +263,64 @@ class RegressionTest extends \PHPUnit\Framework\TestCase
             [ [[61,105], [62,120], [63,120], [65,160], [65,120], [68,145], [69,175], [70,160], [72,185], [75,210]] ],
         ];
     }
+
+    /**
+     * @test         getXss
+     * @dataProvider dataProviderForSimpleXss
+     * @param        array $points
+     * @param        array $expectedXss
+     */
+    public function testSimpleXss(array $points, array $expectedXss): void
+    {
+        // Given
+        $regression = new Linear($points);
+
+        // Then
+        $this->assertEqualsWithDelta($expectedXss, $regression->getXss(), 0.00001);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSimpleXss(): array
+    {
+        $y = 0;
+        return [
+            [
+                [[1, $y], [2, $y], [3, $y]],
+                [[1], [2], [3]],
+            ],
+            [
+                [[[1], $y], [[2], $y], [[3], $y]],
+                [[1], [2], [3]],
+            ],
+        ];
+    }
+
+    /**
+     * @test         getXss
+     * @dataProvider dataProviderForSimpleXssInvalidArgument
+     * @param        array $points
+     */
+    public function testSimpleXssInvalidArgument(array $points): void
+    {
+        // Then
+        $this->expectException(\InvalidArgumentException::class);
+
+        // When
+        $regression = new Linear($points);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForSimpleXssInvalidArgument(): array
+    {
+        $y = 0;
+        return [
+            [
+                [[[1, 10], $y], [[2, 20], $y], [[3, 30], $y]],
+            ],
+        ];
+    }
 }
