@@ -915,18 +915,16 @@ class Special
      * erf(x) = ──  ⎮  e^(-t²) dt
      *          √π  ⌡₀
      *
-     * Improved implementation with domain-specific algorithms:
-     * - Small arguments (|x| ≤ 0.01): Taylor series (8 terms, optimized)
-     * - Medium arguments (0.01 < |x| ≤ 4): Taylor series with convergence (up to 50 terms)
-     * - Large arguments (|x| > 4): Asymptotic expansion (4 terms)
+     * Algorithm:
+     * - Small arguments (|x| ≤ 0.01): 8-term Maclaurin series (avoids 1 - erfc cancellation near 0)
+     * - Otherwise: erf(x) = sign(x) · (1 - erfc(|x|)), with erfc from the regularized upper
+     *   incomplete gamma identity erfc(x) = Γ(½, x²)/√π
      *
-     * This implementation prioritizes accuracy (< 1e-12 error) over the classical
-     * Abramowitz & Stegun 7.1.26 approximation (max error: 1.5e-7).
+     * The alternating Maclaurin series for erf loses ~11 digits to cancellation near x = 4
+     * (terms grow to ≈ e^{x²} before decaying), so it is only used for tiny x. Everywhere else
+     * erf is derived from the numerically stable gamma continued fraction already in this file.
      *
-     * Taylor series: erf(x) = (2/√π) * Σ((-1)^n * x^(2n+1) / (n! * (2n+1)))
-     * Asymptotic: erf(x) = 1 - erfc(x) where erfc(x) ≈ (e^(-x²) / (x√π)) * (1 - 1/(2x²) + ...)
-     *
-     * Precision: Better than 1e-12 for all x
+     * Maclaurin series: erf(x) = (2/√π) * (x - x³/3 + x⁵/10 - x⁷/42 + ...)
      *
      * @param  float $x
      *
@@ -942,7 +940,7 @@ class Special
 
         $two／√π = 1.1283791670955125738961589031215451716881;
 
-        // Small arguments: Use Taylor series
+        // Small arguments: Maclaurin series (stable for tiny x, where 1 - erfc would cancel)
         // erf(x) = (2/√π) * (x - x³/3 + x⁵/10 - x⁷/42 + x⁹/216 - ...)
         if ($ax <= 0.01) {
             $x² = $x * $x;
@@ -959,37 +957,10 @@ class Special
             return $sum * $two／√π;
         }
 
-        // Large arguments: For x > 4, compute using erfc for consistency
-        // erf(x) = 1 - erfc(x), but computed via asymptotic expansion to avoid cancellation
-        if ($ax > 4.0) {
-            // For positive x: erf(x) = 1 - erfc(x)
-            if ($x > 0) {
-                return 1.0 - self::erfcAsymptoticSeries($x);
-            } else {
-                // For negative x: erf(-x) = -erf(x)
-                return -(1.0 - self::erfcAsymptoticSeries($ax));
-            }
-        }
+        // erf(x) = sign(x) · (1 - erfc(|x|)); erfc via stable Γ(½, x²)/√π
+        $erf = 1.0 - self::erfcViaIncompleteGamma($ax);
 
-        // Medium arguments: Use Taylor series
-        // erf(x) = (2/√π) * Σ((-1)^n * x^(2n+1) / (n! * (2n+1)))
-        $x² = $ax * $ax;
-        $sum = $ax;
-        $term = $ax;
-
-        for ($n = 1; $n <= 50; $n++) {
-            $term *= -$x² / $n;
-            $sum += $term / (2 * $n + 1);
-
-            // Early exit if converged
-            if (\abs($term / (2 * $n + 1)) < 1e-15) {
-                break;
-            }
-        }
-
-        $result = $sum * $two／√π;
-
-        return ($x > 0) ? $result : -$result;
+        return ($x > 0) ? $erf : -$erf;
     }
 
     /**
@@ -1006,27 +977,21 @@ class Special
     }
 
     /**
-     * Asymptotic series for erfc
-     * erfc(x) ≈ (e^(-x²) / (x√π)) * (1 - 1/(2x²) + 3/(4x⁴) - ...)
+     * erfc for non-negative x via the regularized upper incomplete gamma function
+     * erfc(x) = Γ(½, x²) / √π   (x ≥ 0)
      *
-     * @param  float $x Must be positive and >= 4.0
+     * Reuses the stable continued-fraction / series machinery of upperIncompleteGamma,
+     * which does not suffer the cancellation of the alternating erf Maclaurin series.
+     *
+     * @param  float $x Must be >= 0
      *
      * @return float
      */
-    private static function erfcAsymptoticSeries(float $x): float
+    private static function erfcViaIncompleteGamma(float $x): float
     {
-        $x² = $x * $x;
-        $x⁴ = $x² * $x²;
-        $x⁶ = $x⁴ * $x²;
+        $√π = 1.7724538509055160272981674833411451828;
 
-        $series = 1.0;
-        $series -= 1.0 / (2.0 * $x²);
-        $series += 3.0 / (4.0 * $x⁴);
-        $series -= 15.0 / (8.0 * $x⁶);
-
-        $factor = \exp(-$x²) / ($x * 1.7724538509055160272981674833411451828);  // √π
-
-        return $factor * $series;
+        return self::upperIncompleteGamma(0.5, $x * $x) / $√π;
     }
 
     /**
@@ -1052,18 +1017,15 @@ class Special
      */
     public static function complementaryErrorFunction($x): float
     {
-        // For large positive x, use asymptotic expansion to avoid 1 - erf(x) cancellation
-        if ($x >= 4.0) {
-            return self::erfcAsymptoticSeries($x);
+        $x = (float)$x;
+
+        // erfc(x) = 2 - erfc(-x) for negative x; keeps the reflection exact
+        if ($x < 0) {
+            return 2.0 - self::erfcViaIncompleteGamma(-$x);
         }
 
-        // For large negative x, erfc(-x) = 2 - erfc(x)
-        if ($x <= -6.0) {
-            return 2 - self::erfc(-$x);
-        }
-
-        // Otherwise use erf
-        return 1 - self::errorFunction($x);
+        // erfc(x) = Γ(½, x²)/√π, computed directly to avoid 1 - erf(x) cancellation
+        return self::erfcViaIncompleteGamma($x);
     }
 
     /**
