@@ -840,4 +840,81 @@ class ErrorFunctionTest extends \PHPUnit\Framework\TestCase
             [2.0, 0.0046777349810472658],
         ];
     }
+
+    /**
+     * @test         erf and erfc match arbitrary-precision reference values across every branch,
+     *               and their odd/reflection symmetries hold
+     * @dataProvider dataProviderForErfErfcReference
+     * @param        float $x
+     * @param        float $erf  reference erf(x)
+     * @param        float $erfc reference erfc(x)
+     */
+    public function testErfErfcReference(float $x, float $erf, float $erfc)
+    {
+        // When
+        $erf_pos  = Special::erf($x);
+        $erfc_pos = Special::erfc($x);
+        $erf_neg  = Special::erf(-$x);
+        $erfc_neg = Special::erfc(-$x);
+
+        // Then values match the reference to a tight relative tolerance
+        $this->assertEqualsWithDelta($erf, $erf_pos, \abs($erf) * 1e-12 + 1e-15);
+        $this->assertEqualsWithDelta($erfc, $erfc_pos, \abs($erfc) * 1e-12 + 1e-300);
+
+        // And the odd (erf(-x) = -erf(x)) and reflection (erfc(-x) = 2 - erfc(x)) identities hold
+        $this->assertEqualsWithDelta(-$erf, $erf_neg, \abs($erf) * 1e-12 + 1e-15);
+        $this->assertEqualsWithDelta(2 - $erfc, $erfc_neg, \abs($erfc) * 1e-12 + 1e-15);
+    }
+
+    /**
+     * Reference erf/erfc values from mpmath (mpmath.mp.dps = 40, cross-checked at dps 35).
+     * Grid spans every dispatch branch, densest across 3.0 ≤ x ≤ 4.5 where the previous
+     * alternating Maclaurin series lost ~11 digits to catastrophic cancellation.
+     * @return array (x, erf, erfc)
+     */
+    public function dataProviderForErfErfcReference(): array
+    {
+        return [
+            [0.005, 0.0056418488200315504, 0.99435815117996845],
+            [0.01, 0.011283415555849617, 0.98871658444415038],
+            [0.05, 0.056371977797016627, 0.94362802220298337],
+            [0.1, 0.11246291601828490, 0.88753708398171510],
+            [0.25, 0.27632639016823693, 0.72367360983176307],
+            [0.5, 0.52049987781304654, 0.47950012218695346],
+            [0.75, 0.71115563365351513, 0.28884436634648487],
+            [1.0, 0.84270079294971487, 0.15729920705028513],
+            [1.5, 0.96610514647531073, 0.033894853524689273],
+            [2.0, 0.99532226501895273, 0.0046777349810472658],
+            [2.5, 0.99959304798255504, 0.00040695201744495894],
+            [3.0, 0.99997790950300141, 2.2090496998585441e-5],
+            [3.3, 0.99999694229020356, 3.0577097964381652e-6],
+            [3.5, 0.99999925690162766, 7.4309837234141275e-7],
+            [3.7, 0.99999983284894209, 1.6715105790914598e-7],
+            [3.9, 0.99999996520775140, 3.4792248597231767e-8],
+            [3.99, 0.99999998326078864, 1.6739211364520814e-8],
+            [4.0, 0.99999998458274210, 1.5417257900280019e-8],
+            [4.1, 0.99999999329997235, 6.7000276540849184e-9],
+            [4.5, 0.99999999980338396, 1.9661604415428875e-10],
+            [5.0, 0.99999999999846254, 1.5374597944280349e-12],
+            [5.5, 0.99999999999999264, 7.3578479179743981e-15],
+            [6.0, 0.99999999999999998, 2.1519736712498913e-17],
+            [7.0, 1.0000000000000000, 4.1838256077794144e-23],
+            [8.0, 1.0000000000000000, 1.1224297172982927e-29],
+        ];
+    }
+
+    /**
+     * @test erf and erfc never leave their mathematical bounds on a dense sweep
+     *       (regression: cancellation near x = 4 produced erf > 1 and erfc < 0)
+     */
+    public function testErfErfcStayWithinBounds()
+    {
+        for ($x = 0.0; $x <= 8.0; $x += 0.01) {
+            // erf(x) ∈ [-1, 1], erfc(x) ∈ [0, 2] for all real x
+            $this->assertLessThanOrEqual(1.0, Special::erf($x), "erf($x) must not exceed 1");
+            $this->assertGreaterThanOrEqual(-1.0, Special::erf(-$x), "erf(-$x) must not be below -1");
+            $this->assertGreaterThanOrEqual(0.0, Special::erfc($x), "erfc($x) must not be negative");
+            $this->assertLessThanOrEqual(2.0, Special::erfc(-$x), "erfc(-$x) must not exceed 2");
+        }
+    }
 }

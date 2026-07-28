@@ -662,4 +662,44 @@ class NormalTest extends \PHPUnit\Framework\TestCase
             }
         }
     }
+
+    /**
+     * @test         upper-tail survival probability 1 - cdf(z) is never negative
+     *               (regression: erf cancellation drove the standard-normal tail below zero for z ≈ 5-5.7)
+     * @dataProvider dataProviderForUpperTailSurvival
+     * @param        float $z
+     * @param        float $expectedSurvival reference 1 - Φ(z) from mpmath (dps 40)
+     */
+    public function testUpperTailSurvivalIsNonNegative(float $z, float $expectedSurvival)
+    {
+        // Given
+        $normal = new Normal(0, 1);
+
+        // When
+        $survival = 1 - $normal->cdf($z);
+
+        // Then a survival probability can never be negative
+        $this->assertGreaterThanOrEqual(0.0, $survival, "survival 1 - cdf($z) must be >= 0");
+
+        // And it matches the reference magnitude. 1 - cdf(z) subtracts a value near 1, so its own
+        // rounding caps the deep tail at ~1e-16 absolute; the floor accounts for that, not for erf.
+        $this->assertEqualsWithDelta($expectedSurvival, $survival, $expectedSurvival * 1e-6 + 2e-15);
+    }
+
+    /**
+     * Reference standard-normal survival 1 - Φ(z) = erfc(z/√2)/2 from mpmath (dps 40).
+     * @return array (z, survival)
+     */
+    public function dataProviderForUpperTailSurvival(): array
+    {
+        return [
+            [4.5, 3.3976731247300604e-6],
+            [5.0, 2.8665157187919391e-7],
+            [5.6, 1.0717590258310929e-8],
+            [5.643, 8.355617331197473e-9],
+            [6.0, 9.8658764503769814e-10],
+            [6.5, 4.0160005838591178e-11],
+            [7.0, 1.279812543885835e-12],
+        ];
+    }
 }
