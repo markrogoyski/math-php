@@ -1526,7 +1526,9 @@ class Special
             $product *= $a_sum * $z / $b_sum / $n;
             $n++;
             $iteration++;
-        } while (\abs($product / $sum) > $tol && $iteration < self::MAX_ITERATIONS);
+        // Compare term magnitude to tolerance × |sum| by multiplying, never dividing
+        // by $sum: the running partial sum passes through 0 for alternating series.
+        } while (\abs($product) > $tol * \abs($sum) && $iteration < self::MAX_ITERATIONS);
 
         if ($iteration >= self::MAX_ITERATIONS) {
             throw new Exception\FunctionFailedToConvergeException(

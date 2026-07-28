@@ -551,4 +551,119 @@ class HypergeometricTest extends \PHPUnit\Framework\TestCase
         // When
         Special::generalizedHypergeometric(2, 1, ...[6.464756838, 0.509199496, 0.241379523]);
     }
+
+    /**
+     * @test         confluentHypergeometric returns the finite value for alternating series
+     *               whose running partial sum passes through exactly zero
+     * @dataProvider dataProviderForConfluentHypergeometricZeroCrossingPartialSum
+     * @param        float $a
+     * @param        float $b
+     * @param        float $z
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testConfluentHypergeometricZeroCrossingPartialSum(float $a, float $b, float $z, float $expected)
+    {
+        // When
+        $actual = Special::confluentHypergeometric($a, $b, $z);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $actual, \abs($expected) * 1e-7 + 1e-12);
+    }
+
+    /**
+     * Alternating ₁F₁ series whose running partial sum crosses exactly 0 (mostly z < 0).
+     * These previously raised DivisionByZeroError from the |product / sum| convergence test.
+     * Expected values from mpmath hyp1f1 (dps 45 and 50 agree). The a == b rows are also
+     * the identity ₁F₁(a;a;z) = eᶻ, e.g. e⁻¹ = 0.36787944117144232.
+     * @return array
+     */
+    public function dataProviderForConfluentHypergeometricZeroCrossingPartialSum(): array
+    {
+        return [
+            [0.5, 0.5, -1, 0.36787944117144232],
+            [0.5, 1, -2, 0.46575960759364044],
+            [0.5, 1.5, -3, 0.50434356023143881],
+            [1, 1, -1, 0.36787944117144232],
+            [1, 2, -2, 0.43233235838169365],
+            [1, 3, -3, 0.45550823741508088],
+            [1.5, 1.5, -1, 0.36787944117144232],
+            [1.5, 3, -2, 0.4158208306994169],
+            [2, 2, -1, 0.36787944117144232],
+            [3, 3, -1, 0.36787944117144232],
+            [-0.5, 0.5, 1, -0.20702166335531798],
+            [-0.5, 1, 2, -0.36900042398339947],
+            [-0.5, 1.5, 3, -0.5127615206274459],
+            [-0.5, 2, 4, -0.64892791423406108],
+        ];
+    }
+
+    /**
+     * @test         hypergeometric returns the finite value for an alternating series
+     *               whose running partial sum passes through exactly zero
+     * @dataProvider dataProviderForHypergeometricZeroCrossingPartialSum
+     * @param        float $a
+     * @param        float $b
+     * @param        float $c
+     * @param        float $z
+     * @param        float $expected
+     * @throws       \Exception
+     */
+    public function testHypergeometricZeroCrossingPartialSum(float $a, float $b, float $c, float $z, float $expected)
+    {
+        // When
+        $actual = Special::hypergeometric($a, $b, $c, $z);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $actual, \abs($expected) * 1e-6 + 1e-12);
+    }
+
+    /**
+     * ₂F₁ whose running partial sum crosses exactly 0, previously DivisionByZeroError.
+     * ₂F₁(2,2,2,z) = (1 - z)⁻²; expected from mpmath hyp2f1 (dps 45 and 50 agree).
+     * @return array
+     */
+    public function dataProviderForHypergeometricZeroCrossingPartialSum(): array
+    {
+        return [
+            [2, 2, 2, -0.5, 0.44444444444444444],
+        ];
+    }
+
+    /**
+     * @test         confluentHypergeometric satisfies ₁F₁(a;a;z) = eᶻ across the sign of z,
+     *               including the z < 0 region that formerly raised DivisionByZeroError
+     * @dataProvider dataProviderForConfluentHypergeometricEqualParamsIsExp
+     * @param        float $a
+     * @param        float $z
+     * @throws       \Exception
+     */
+    public function testConfluentHypergeometricEqualParamsEqualsExp(float $a, float $z)
+    {
+        // Given
+        $expected = \exp($z);
+
+        // When
+        $actual = Special::confluentHypergeometric($a, $a, $z);
+
+        // Then
+        $this->assertEqualsWithDelta($expected, $actual, \abs($expected) * 1e-7 + 1e-12);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderForConfluentHypergeometricEqualParamsIsExp(): array
+    {
+        return [
+            [1, -1],
+            [2, -1],
+            [0.5, -1],
+            [1.5, -1],
+            [3, -1],
+            [1, -0.5],
+            [2, 0.5],
+            [0.5, 1],
+        ];
+    }
 }
